@@ -1,0 +1,1741 @@
+/* label */
+.label {
+    &-group {
+        display: flex;
+        + .label-group {
+            margin-top: 1rem;
+        }
+        .label-half + .label-half,
+        .label-rounded + .label-rounded,
+        .label-user + .label-user,
+        .label-release + .label-release,
+        .label-release + .label-select.k-dropdown,
+        .label-select.k-dropdown + .label-select.k-dropdown,
+        .label-info + .label-info,
+        .customer-icon + .customer-icon,
+        .square-label + .square-label,
+        .square-label + .square-input,
+        .square-input + .square-label,
+        .push-notice + .push-notice {
+            margin-left: .7rem;
+        }
+    }
+    &-half {
+        display: flex;
+        border-width: .1rem;
+        border-style: solid;
+        border-radius: .2rem;
+        box-sizing: border-box;
+        .label-con {
+            text-align: center;
+            height: 100%;
+        }
+
+        //가로형 세로형
+        &.horizontal {
+            width: 8rem;
+            height: 2.4rem;
+            .label-con {
+                flex: 1;
+                line-height: 2.2rem;
+            }
+        }
+        &.vertical {
+            flex-direction: column;
+            width: 4rem;
+            height: 4rem;
+            .label-con {
+                height: 2rem;
+                &:first-child {
+                    line-height: 1.9rem;
+                }
+                &:last-child {
+                    line-height: 1.9rem;
+                }
+            }
+        }
+        &.vertical2 {
+            flex-direction: column;
+            width: 6.2rem;
+            height: 4rem;
+            .label-con {
+                height: 2rem;
+                &:first-child {
+                    line-height: 1.9rem;
+                }
+                &:last-child {
+                    line-height: 1.9rem;
+                }
+            }
+        }
+
+        // 색상
+        &.color1 {
+            border-color: $point;
+            .label-con {
+                &:first-child {
+                    background: $point;
+                    color: $white;
+                }
+                &:last-child {
+                    background: $white;
+                    color: $point;
+                }
+            }
+        }
+        &.color2 {
+            border-color: $label-blue2;
+            .label-con {
+                &:first-child {
+                    background: $label-blue2;
+                    color: $white;
+                }
+                &:last-child {
+                    background: $white;
+                    color: $label-blue2;
+                }
+            }
+        }
+        &.color3 {
+            border-color: $label-purple2;
+            .label-con {
+                &:first-child {
+                    background: $label-purple2;
+                    color: $white;
+                }
+                &:last-child {
+                    background: $white;
+                    color: $label-purple2;
+                }
+            }
+        }
+        &.color4 {
+            border-color: $label-gray;
+            .label-con {
+                &:first-child {
+                    background: $label-gray;
+                    color: $white;
+                }
+                &:last-child {
+                    background: $white;
+                    color: $label-gray;
+                }
+            }
+        }
+        &.color5 {
+            border-color: $label-teal;
+            .label-con {
+                &:first-child {
+                    background: $label-teal;
+                    color: $white;
+                }
+                &:last-child {
+                    background: $white;
+                    color: $label-teal;
+                }
+            }
+        }
+        &.color6 {
+            border-color: $label-orange;
+            .label-con {
+                &:first-child {
+                    background: $label-orange;
+                    color: $white;
+                }
+                &:last-child {
+                    background: $white;
+                    color: $label-orange;
+                }
+            }
+        }
+        &.color7 {
+            border-color: $label-ocher;
+            .label-con {
+                &:first-child {
+                    background: $label-ocher;
+                    color: $white;
+                }
+                &:last-child {
+                    background: $white;
+                    color: $label-ocher;
+                }
+            }
+        }
+        &.red {
+            .label-con {
+                &:last-child {  
+                    color: $error;
+                }
+            }
+        }
+    }
+
+    &-con {
+        display: block;
+    }
+
+    &-rounded {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // tablet
+        width: 3.2rem;
+        height: 3.2rem;
+        border-radius: 100%;
+        line-height: 1.1rem;
+        color: $white;
+        &.color1 {
+            background: $point;
+        }
+        &.color2 {
+            background: $label-purple1;
+        }
+        &.color3 {
+            background: $label-gray;
+        }
+        &.color4 {
+            background: $label-teal;
+        }
+        &.color5 {
+            background: $label-pink;
+        }
+        &.color6 {
+            background: $label-orange;
+        }
+    }
+
+    &-user {
+        display: flex;
+        align-items: center;
+        height: 1.6rem;
+        font-weight: $font-regular;
+        font-size: 1.2rem;
+        color: $text-black;
+        line-height: 2rem;
+
+        &.user4::before, &.user4:before {
+            content: "";
+            display: block;
+            width: 1.6rem;
+            height: 1.6rem;
+            margin-right: .2rem;
+            background: url('#{$img-path}/common/icon/icon_16_avatar_teal.png') no-repeat top right / 1.6rem auto;
+        }
+        &.user2::before, &.user2:before {
+            content: "";
+            display: block;
+            width: 1.6rem;
+            height: 1.6rem;
+            margin-right: .2rem;
+            background: url('#{$img-path}/common/icon/icon_16_avatar_purple.png') no-repeat top right / 1.6rem auto;
+        }
+        &.user1::before, &.user1:before {
+            content: "";
+            display: block;
+            width: 1.6rem;
+            height: 1.6rem;
+            margin-right: .2rem;
+            background: url('#{$img-path}/common/icon/icon_16_avatar_blue.png') no-repeat top right / 1.6rem auto;
+        }
+        &.user3::before, &.user3:before {
+            content: "";
+            display: block;
+            width: 1.6rem;
+            height: 1.6rem;
+            margin-right: .2rem;
+            background: url('#{$img-path}/common/icon/icon_16_avatar_gray.png') no-repeat top right / 1.6rem auto;
+        }
+        &.user5::before, &.user5:before {
+            content: "";
+            display: block;
+            width: 1.6rem;
+            height: 1.6rem;
+            margin-right: .2rem;
+            background: url('#{$img-path}/common/icon/icon_16_avatar_pink.png') no-repeat top right / 1.6rem auto;
+        }
+        &.user6::before, &.user6:before {
+            content: "";
+            display: block;
+            width: 1.6rem;
+            height: 1.6rem;
+            margin-right: .2rem;
+            background: url('#{$img-path}/common/icon/icon_16_avatar_orange.png') no-repeat top right / 1.6rem auto;
+        }
+    }
+
+    &-release {
+        display: inline-block;
+        width: 7.15rem;
+        padding: 0 0.2rem;
+        border-radius: .2rem;
+        color: $white;
+        &.color1 {
+            background: $point;
+        }
+        &.color2 {
+            background: $label-purple1;
+        }
+        &.color3 {
+            background: $label-gray;
+        }
+        &.color4 {
+            background: $line-gray2;
+            span {
+                text-align: center;
+                min-width: 7.15rem;
+                padding: 0;
+            }
+        }
+        &.color5 {
+            background: $label-blue2;
+        }
+        &.color6 {
+            background: $label-purple2;
+        }
+        &.color7 {
+            background: $label-teal;
+        }
+        &.color8 {
+            background: $label-orange;
+        }
+        span {
+            display: block;
+            height: 2.4rem;
+            line-height: 2.4rem;
+            text-align: center;
+        }
+
+        // width 작은 사이즈
+        &.small {
+            width: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            &.color4 {
+                width: 4.5rem;
+                padding-left: 0;
+                padding-right: 0;
+                span {
+                    min-width: auto;
+                }
+            }
+        }
+    }
+
+    &-tag {
+        padding: .25rem 0.6rem;
+        border: .1rem solid $line-gray2;
+        border-radius: .2rem;
+        +.label-tag {
+            margin-left: 0.4rem;
+        }
+        &.color1 {
+            color: $black;
+        }
+        &.color2 {
+            color: $text-gray2;
+        }
+    }
+
+    &-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 4rem;
+        height: 4rem;
+        border-radius: .2rem;
+        line-height: 1.4rem;
+        color: $white;
+        text-align: center;
+        span {
+            padding: 0.2rem 0.8rem; 
+        }
+        &.color1 {
+            background: $label-blue1;
+        }
+        &.color2 {
+            background: $label-purple2;
+        }
+    }
+
+    // 폰트
+    &-text1 {
+        font-size: 1.2rem;
+        font-weight: $font-regular;
+        &.bold {
+            font-weight: $font-bold;
+        }
+    }
+    &-text2 {
+        font-size: 1.45rem;
+        font-weight: $font-regular;
+    }
+    &-text3 {
+        font-size: 1.2rem;
+        font-weight: $font-regular;
+        line-height: 1.1rem;
+    }
+}
+.label-tag-list {
+    display: flex;
+    li {
+        padding: 0.6rem 1.6rem;
+        color: $text-black;
+        font-size: 1.2rem;
+        background-color: $bg-default;
+        border-radius: 1.6rem;
+        + li {
+            margin-left: 0.6rem;
+        }
+    }
+}
+// Label-Select (Kendo Dropdown)
+.label-select {
+    &.k-dropdown {
+        width: auto;
+        .k-dropdown-wrap {
+            width: 11.3rem;
+            height: 2.4rem;
+            padding-right: 0;
+            line-height: 2.4rem;
+            border-radius: .2rem;
+            background: $point;
+            color: $white;
+            border-width: 0;
+            border-style: none;
+            .k-input {
+                font-size: 1.45rem;
+                font-weight: $font-regular;
+                padding: 0;
+            }
+            .k-select {
+                height: 2.4rem;
+                line-height: 2rem;
+            }
+        }
+        // 완료 (select 아이콘 X)
+        &.done {
+            .k-state-disabled {
+                width: 11.3rem;
+                opacity: 1;
+                .k-select {
+                    display: none;
+                    .k-dropdown {
+                        cursor: default;
+                    }
+                }
+                .k-input {
+                    text-align: left;
+                }
+            }
+        }
+    }
+    // - (badge)
+    &.none {
+        width: 11.3rem;
+        height: 2.4rem;
+        line-height: 2.4rem;
+        border-radius: .2rem;
+        background: $line-gray2;
+        color: $white;
+        text-align: center;
+    }
+    //버튼
+    &.k-button {
+        width: 11.3rem;
+        height: 2.4rem;
+        line-height: 2.4rem;
+        border-radius: .2rem;
+        background: $label-gray;
+        color: $white;
+    }
+}
+// label-select 의 input
+.square-title {
+    + .square-input {
+        padding-top: 1.1rem;
+    }
+}
+.square-input {
+    &.none {
+        display: none;
+    }
+    .form-field {
+        .label-select {
+            width: 11.3rem;
+            height: 3.2rem;
+            box-sizing: border-box;
+            &.k-input {
+                padding: .7rem 1.2rem .9rem 1.2rem;
+            }
+            &.k-input[type=text] {
+                font-size: 1.2rem;
+                font-weight: $font-regular;
+                border-color: $line-gray2;
+                border-radius: .3rem;
+            }
+        }
+    }
+}
+// 차량정보 아이콘
+.customer {
+    &-box {
+        display: flex;
+        align-items: center;
+    }
+    &-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 1.5rem;
+        background-color: $tooltip-customer;
+        + .customer-name {
+            margin-left: .8rem;
+        }
+        &.car-info::after,  &.car-info:after {
+            content: "";
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            background: url('#{$img-path}/common/icon/icon_20_car_info.png') no-repeat top right / 2rem auto;
+            opacity: .7;
+        }
+        &.car-service::after, &.car-service:after {
+            content: "";
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            background: url('#{$img-path}/common/icon/icon_20_car_service.png') no-repeat top right / 2rem auto;
+            opacity: .7;
+        }
+        &.car-contract::after, &.car-contract:after {
+            content: "";
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            background: url('#{$img-path}/common/icon/icon_20_car_contract.png') no-repeat top right / 2rem auto;
+            opacity: .7;
+        }
+        &.car-care::after, &.car-care:after {
+            content: "";
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            background: url('#{$img-path}/common/icon/icon_20_car_care.png') no-repeat top right / 2rem auto;
+            opacity: .7;
+        }
+        &.car-user::after, &.car-user:after {
+            content: "";
+            display: block;
+            width: 2rem;
+            height: 2rem;
+            background: url('#{$img-path}/common/icon/icon_20_car_user.png') no-repeat top right / 2rem auto;
+            opacity: .7;
+        }
+    }
+    &-name {
+        font-weight: $font-bold;
+        font-size: 1.45rem;
+        line-height: 1.9rem;
+        color: $black;
+        + .tooltip {
+            margin-left: .3rem;
+        }
+    }
+}
+
+
+
+/* push-notice */
+.push {
+    &-notice {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 1.6rem;
+        border-radius: .8rem;
+        background: $primary2;
+    }
+    &-number {
+        font-weight: $font-regular;
+        font-size: 1rem;
+        color: $white;
+        text-align: center;
+        input {
+            padding: 0 .3rem;
+            background-color: transparent;
+            border: 0;
+            outline: 0;
+            font-weight: $font-regular;
+            font-size: 1rem;
+            color: $white;
+            text-align: center;
+        }
+    }
+}
+
+
+
+/* tooltip */
+.tooltip {
+    // position: relative;
+    + .tooltip-title.car-info,
+    + .tooltip-title.user {
+        margin-left: .4rem;
+    }
+    &-group {
+        display: flex;
+        align-items: center;
+        .tooltip + .tooltip {
+            margin-left: 1rem;
+        }
+    }
+    &-title {
+        display: inline-block;
+        font-weight: $font-regular;
+        font-size: 1.5rem;
+        letter-spacing: .011rem;
+        color: $text-black;
+        + .tooltip {
+            margin-left: .6rem;
+        }
+        &.car-info {
+            font-size: 1.2rem;
+            color: $primary2;
+            line-height: 2rem;
+        }
+        &.user {
+            font-size: 1.2rem;
+            color: $text-gray2;
+            line-height: 1.6rem;
+        }
+    }
+    &-btn { /* a */
+        display: block;
+        &.default {
+            width: 1.6rem;
+            height: 1.6rem;
+            background: url('#{$img-path}/common/icon/icon_16_question.png') no-repeat top right / 1.6rem auto;
+        }
+        &.vip {
+            width: 2.4rem;
+            height: 2.4rem;
+            background: url('#{$img-path}/common/icon/icon_tooltip_excellence.png') no-repeat top right / 2.4rem auto;
+        }
+        &.urgent {
+            width: 2.4rem;
+            height: 2.4rem;
+            background: url('#{$img-path}/common/icon/icon_tooltip_urgent.png') no-repeat top right / 2.4rem auto;
+        }
+        &.phone {
+            width: 1.6rem;
+            height: 1.6rem;
+            background: url('#{$img-path}/common/icon/icon_16_phone.png') no-repeat top right / 1.6rem auto;
+        }
+        &.car-info {
+            width: 1.6rem;
+            height: 1.6rem;
+            background: url('#{$img-path}/common/icon/icon_16_tooltip_car_info.png') no-repeat top right / 1.6rem auto;
+        }
+        &.exclamation {
+            width: 1.6rem;
+            height: 1.6rem;
+            background: url('#{$img-path}/common/icon/icon_16_exclamation.png') no-repeat top right / 1.6rem auto;
+            &.black {
+                background: url('#{$img-path}/common/icon/icon_16_exclamation_black.png') no-repeat top right / 1.6rem auto;
+            }
+            &-20 {
+                width: 2rem;
+                height: 2rem;
+                background: url('#{$img-path}/common/icon/icon_20_exclamation.png') no-repeat top right / 2rem auto;
+            }
+        }
+        &.lemon {
+            width: 2rem;
+            height: 2rem;
+            background: url('#{$img-path}/common/icon/icon_tooltip_lemon.png') no-repeat top right / 2rem auto;
+        }
+        &.recall {
+            width: 2rem;
+            height: 2rem;
+            background: url('#{$img-path}/common/icon/icon_tooltip_recall.png') no-repeat top right / 2rem auto;
+        }
+        &.robinson {
+            width: 2rem;
+            height: 2rem;
+            background: url('#{$img-path}/common/icon/icon_tooltip_robinson.png') no-repeat top right / 2rem auto;
+        }
+    }
+}
+// template 디자인
+.k-tooltip-content {
+    .vertical-group.tooltip {
+        .label-user {
+            color: $white;
+            font-size: 1.2rem;
+            font-weight: $font-regular;
+            line-height: 2rem;
+            + .label-user {
+                padding-top: .8rem;
+            }
+        }
+    }
+    .tooltip-content {
+        // SL08020200 인증서 파일관리
+        &.list {
+            text-align: left;
+            line-height: 1.6rem;
+            p {
+                color: $tooltip-text;
+                font-size: 1.2rem;
+                font-weight: $font-regular;
+                &::before, &:before {
+                    content: "";
+                    display: inline-block;
+                    width: .8rem;
+                    height: .8rem;
+                    padding-right: .2rem;
+                    background: url('#{$img-path}/common/icon/icon_8_bullet_white.png') no-repeat center center / .8rem auto;
+                }
+                + p { 
+                    padding-top: .6rem;
+                }
+            }
+        }
+    }
+}
+// kendo tootip
+.k-tooltip {
+    padding: 1.1rem 1.4rem;
+    background: $primary2;
+    border-radius: .4rem;
+    font-size: 1.45rem;
+    line-height: 1.6rem;
+    color: $tooltip-text;
+
+    .k-tooltip-content {
+        font-size: 1.45rem;
+        line-height: 1.6rem;
+        color: $tooltip-text;
+        white-space: nowrap;
+    }
+    .k-callout {
+        display: block;
+        width: 0;
+        height: 0;
+    }
+
+    // bottom
+    .k-callout-n {
+        border-top: .6rem solid none;
+        border-bottom: .6rem solid $primary2;
+        border-right: .6rem solid transparent;
+        border-left: .6rem solid transparent;
+    }
+
+    // top
+    .k-callout-s {
+        border-top: .6rem solid $primary2;
+        border-bottom: .6rem solid transparent;
+        border-right: .6rem solid transparent;
+        border-left: .6rem solid transparent;
+    }
+
+    // left
+    .k-callout-e {
+        border-top: .6rem solid transparent;
+        border-bottom: .6rem solid transparent;
+        border-right: .6rem solid transparent;
+        border-left: .6rem solid $primary2;
+    }
+
+    // left
+    .k-callout-w{
+        border-top: .6rem solid transparent;
+        border-bottom: .6rem solid transparent;
+        border-right: .6rem solid $primary2;
+        border-left: .6rem solid transparent;
+    }
+
+    // validation
+    &.k-tooltip-validation {
+        .k-i-warning {
+            margin-top: 0.2rem;
+            margin-right: 0.6rem;
+            &::before {
+                content: "";
+                width: 1.6rem;
+                height: 1.6rem;
+                background: url('#{$img-path}/common/icon/icon_16_tooltip_validation.png') no-repeat 0 0 / 1.6rem auto;
+            }
+        }
+    }
+}
+.tooltip-nodata {
+    font-size: 1.2rem;
+    opacity: 0.6;
+}
+// SL08020200 인증서 파일관리
+.layout-grid-item {
+    .item-header {
+        .tooltip-group {
+            .title + .tooltip {
+                padding-top: 1.6rem;
+                margin-left: .8rem;
+                .tooltip-btn {
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
+// SL08020201 제원 및 인증서 파일 업로드
+.notice-content {
+    width: 100%;
+    &.list {
+        padding-top: 2rem;
+        p {
+            line-height: 1.6rem;
+            font-size: 1.2rem;
+            color: $black;
+            + p {
+                padding-top: .6rem;
+            }
+            &::before, &::before {
+                content: "";
+                display: inline-block;
+                width: .8rem;
+                height: .8rem;
+                padding-right: .2rem;
+                background: url('#{$img-path}/common/icon/icon_8_bullet_dark.png') no-repeat center center / .8rem auto;
+            }
+        }
+    }
+
+    
+    li {
+        list-style: disc;
+        color: $text-gray1;
+        font-size: 1.45rem;
+        font-weight: $text-gray1;
+    }
+}
+
+
+
+/* stepper */
+.stepper {
+    position: relative;
+    min-height: 5.2rem;
+    overflow: hidden; //
+    
+    &:before, &::before {
+        content:"";
+        position: absolute;
+        display: block;
+        top: .5rem;
+        z-index: 7; //modal:100, tooltip:90, stepper:10
+        width: 100%;
+        height: 0.6rem;
+        background: $stepper-line;
+        border-radius: .3rem;
+    }
+    .line {
+        position: absolute;
+        display: block;
+        top: .5rem;
+        z-index: 8; //modal:100, tooltip:90, stepper:10
+        width: 0;
+        height: 0.6rem;
+        background: $stepper-line;
+        border-radius: .3rem;
+        background: $primary1;
+    }
+    &-group {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;  
+        position: relative;      
+        &:first-child {
+            .stepper-textbox {
+                left: 0%;
+                transform: translateX(0);
+                .stepper-text {
+                    text-align: left;
+                }
+            }
+        }
+        &:last-child {
+            .stepper-textbox {
+                left: 100%;
+                transform: translateX(-100%);
+                .stepper-text {
+                    text-align: right;
+                }
+            }
+        }
+
+        &.completed {
+            .stepper-circle {
+                position: relative;
+                z-index: 10;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 1.6rem;
+                height: 1.6rem;
+                border-radius: .8rem ;
+                background-color: $primary1;
+                &::after, &:after {
+                    content: "";
+                    display: block;
+                    width: 1.4rem;
+                    height: 1.4rem;
+                    background: url('#{$img-path}/common/icon/icon_stepper_check.png') no-repeat center center / 1.4rem auto;
+                }
+            }
+            .stepper-textbox {
+                span {
+                    font-weight: $font-bold;
+                    color: $black;
+                }
+            }
+
+            // completed 뒤에 오면 흰색 동그라미
+            ~ .stepper-list {
+                .stepper-circle {
+                    position: relative;
+                    z-index: 9;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    border-radius: .8rem ;
+                    border: solid .2rem $stepper-line;
+                    box-sizing: border-box;
+                    background-color: $white;
+                }
+            }
+        }
+    }
+
+    &-textbox {
+        position: absolute;
+        top: 2.2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        white-space: nowrap;
+    }
+    &-text {
+        display: block;
+        font-weight: $font-regular;
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        color: $text-gray1;
+        + .stepper-text {
+            padding-top: .2rem;
+        }
+    }
+}
+
+/* treeview */
+.treeview-header {
+    display: flex;
+    padding-bottom: 0.8rem;
+    +.treeview {
+        padding-top: 1.2rem;
+    }
+    .treeview-title {
+        padding-top: 0.4rem;
+        color: $text-black;
+        font-weight: $font-bold;
+        font-size: 1.6rem;
+        align-self: end;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .treeview-header-right {
+        margin-left: auto;
+    }
+}
+.treeview {
+    overflow: hidden !important;
+    .k-item {
+        padding: 0;
+        > div {
+            display: flex;
+        }
+        + .k-item {
+            margin-top: 1.3rem;
+        }
+        .k-group {
+            padding-left: 2.2rem; 
+            margin-top: 1.3rem;
+        }
+
+        // +, - 버튼
+        .k-icon {
+            display: block;
+            margin-top: 0;
+            margin-left: 0;
+            text-indent: 0;
+            overflow: visible;
+            &::before {
+                content: '';
+                // position: static;
+                display: block;
+                // flex: 0 0 auto;
+                width: 1.6rem;
+                height: 1.6rem;
+                line-height: 1.6rem;
+                margin: 0;
+            }
+
+            // .k-in {
+            //     padding-left: 0.6rem;
+            // }
+            +.k-checkbox-wrapper {
+                padding-left: 0.7rem;
+                // + .k-in {
+                //     font-size: 1.45rem;
+                //     .k-sprite {
+                //         font-size: 1.45rem;
+                //     }
+                // }
+            }
+        }
+        .k-i-expand {
+            &::before {
+                background: url('#{$img-path}/common/icon/icon_16_tree_open.png') no-repeat 0 0 / 1.6rem auto;
+            }
+        }
+        .k-i-collapse {
+            &::before {
+                background: url('#{$img-path}/common/icon/icon_16_tree_close.png') no-repeat 0 0 / 1.6rem auto;
+            }
+        }
+
+        // checkbox 
+        .k-checkbox-wrapper {
+            display: block;
+            width: 1.6rem;
+            + .k-in {
+                padding-left: 0.6rem;
+            }
+        }
+        .k-checkbox-label {
+            padding-left: 2.2rem;
+        }
+
+        // text 
+        .k-in {
+            display: block;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            text-align: left;
+            line-height: 2rem;
+            font-family:'BMWTypeNext','Noto Sans Korean', sans-serif;
+            font-weight: 400;
+            font-size: 1.2rem;
+            line-height: 1.6rem;
+            color: $black;
+            .k-sprite {
+                width: auto;
+                margin-right: 0;
+                text-align: left;
+                font-size: 1.45rem;
+                line-height: 1.6rem;
+                &.item, &.pdf, &.html, &.image {
+                    &::before {
+                        content: '';
+                        display: inline-block;
+                        vertical-align: top;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                        margin-right: 0.4rem;
+                        background: url('#{$img-path}/common/icon/icon_16_tree_doc.png') no-repeat 0 0 / 1.6rem auto;
+                    }
+                }
+                &.btn {
+                    &::before {
+                        content: '';
+                        display: inline-block;
+                        vertical-align: top;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                        margin-right: 0.4rem;
+                        background: url('#{$img-path}/common/icon/icon_16_tree_set.png') no-repeat 0 0 / 1.6rem auto;
+                    }
+                }
+            }
+        }
+
+        // depth 상위 폰트 크기
+        .k-icon {
+            +.k-in {
+                font-size: 1.45rem;
+                .k-sprite {
+                    font-size: 1.45rem;
+                }
+            }
+            +.k-checkbox-wrapper {
+                +.k-in {
+                    font-size: 1.45rem;
+                    .k-sprite {
+                        font-size: 1.45rem;
+                    }
+                }
+            }
+        }
+    }
+
+    // folder type
+    &.tree-folder {
+        .k-i-expand {
+            &::before {
+                background: url('#{$img-path}/common/icon/icon_16_tree_folder_open.png') no-repeat 0 0 / 1.6rem auto;
+            }
+        }
+        .k-i-collapse {
+            &::before {
+                background: url('#{$img-path}/common/icon/icon_16_tree_folder_close.png') no-repeat 0 0 / 1.6rem auto;
+            }
+        }
+
+        // .k-i-collapse, .k-i-expand {
+        //     >.k-in {
+        //         >.k-sprite {
+        //             font-size: 1.45rem;
+        //             line-height: 1.8rem;
+        //         }
+        //     }
+        // }
+
+        // .k-in {
+        //     >.k-sprite {
+        //         font-size: 1.2rem;
+        //         line-height: 1.6rem;
+        //     }
+        // }
+    }
+
+    // tab tree type
+    &.tree-tab {
+        div {
+            align-items: center;
+            padding: 0.5rem 0.4rem;
+        }
+
+        // 공통
+        .k-item {
+            // selected
+            &[aria-selected="true"] {
+                > div {
+                    background-color: $bg-default;
+                    .k-in {
+                        color: $black;
+                        .k-sprite {
+                            color: $black;
+                        }
+                    }
+                }
+            }
+
+            .k-icon {
+                +.k-in {
+                    margin-left: 0.4rem;
+                    font-size: 1.45rem;
+                    color: $black;
+                }
+            }
+            .k-group {
+                margin-top: 0.3rem;
+                padding-left: 2rem;
+                >.k-item {
+                    div {
+                        .k-icon {
+                            >.k-in {
+                                padding: 0 0 0 0.4rem;
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+            }
+            +.k-item {
+                margin-top: 0.3rem;
+            }
+            .k-in {
+                display: block;
+                color: $text-gray1;
+                font-size: 1.2rem;
+                line-height: 1.6rem;
+            }
+        }
+    }
+}
+
+// ST03030000 모델 선정
+.tree-grid-area {
+    // tree header
+    .tree-grid-header {
+        display: table;
+        width: 100%;
+        margin-bottom: 0.4rem;
+        background-color: $bg-default;
+        border-radius: 0.4rem;
+        box-sizing: border-box;
+        .header-item {
+            display: table-cell;   
+            height: 2.4rem;
+            padding: 0.8rem 0.4rem;
+            text-align: center;
+            font-size: 1.45rem;
+            line-height: 2rem;
+            color: rgba(0, 0, 0, 0.6);
+            vertical-align: middle;
+            &:first-child {
+                padding-left: 1.6rem;
+            }
+            &:last-child {
+                padding-right: 1.6rem;
+            }
+        }
+    }
+    // tree body
+    .tree-grid-body {
+        overflow: overlay;
+    }
+    .tree-grid {
+        .k-group {
+            .k-item {
+                >div {
+                    position: relative;
+                    padding: 1rem 1.6rem;
+                    border-radius: 0.4rem;
+                    border: 0.1rem solid $line-table;
+                }
+            }
+        }
+        .k-item {
+            .k-group {
+                margin-top: 0.2rem;
+                padding-left: 0rem;
+            }
+            +.k-item {
+                margin-top: 0.2rem;
+            }
+
+            .k-icon {
+                flex: 0 0 auto;
+            }
+        }
+        .k-in {
+            box-sizing: border-box;
+        }
+
+        .tree-grid-item {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1.45rem;
+
+            .tree-grid-no {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                padding-left: 1.6rem;
+                padding-right: 0.4rem;
+                box-sizing: border-box;
+                text-align: center;
+                transform: translateY(-50%);
+            }
+            .tree-grid-total {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                padding-right: 1.6rem;
+                padding-left: 0.4rem;
+                box-sizing: border-box;
+                text-align: center;
+                transform: translateY(-50%);
+            }
+        }
+    }
+
+    // tree footer
+    .tree-grid-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+        padding: 0.9rem 2.4rem;
+        margin-top: 0.4rem;
+        box-sizing: border-box;
+        border-radius: 0.4rem;
+        box-shadow: 0 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.15);
+        border: solid 1px $black;
+        background-color: $white;
+
+        &-item {
+            font-weight: $font-bold;
+            font-size: 1.45rem;
+            .num {
+                padding-left: 0.8rem;
+                font-weight: $font-regular;
+            }
+            +.tree-grid-footer-item {
+                position: relative;
+                padding-left: 1.6rem;
+                margin-left: 1.6rem;
+                &::before {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    width: 0.1rem;
+                    height: 1.4rem;
+                    transform: translateY(-50%);
+                    background-color:#bbbbbb;
+                }
+            }
+        }
+    }
+}
+
+.k-ie, .k-edge {
+    .tree-grid-area {
+        .tree-grid-header {
+            padding-right: 1.7rem;
+        }
+        .tree-grid-body {
+            overflow-y: scroll;
+        }
+    }
+}
+
+/* scheduler */
+.scheduler {
+    position: relative;
+    .scheduler-btn-area {
+        position: absolute;
+        top: 0.6rem;
+        right: 0;
+        z-index: 1;
+    }
+    .k-scheduler-toolbar {
+        .k-scheduler-refresh {
+            display: none;
+        }
+    }
+    &.none-today {
+        .k-scheduler-toolbar {
+            .k-nav-today {
+                display: none;
+            }
+        }
+    }
+
+
+    &.k-scheduler {
+        border: 0;
+        // scheduler header 
+        .k-scheduler-toolbar {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.4rem 0 1.2rem;
+            border: 0;
+            .k-scheduler-navigation {
+                position: static;
+                // display: flex;
+                // align-items: center;
+                // justify-content: center;
+                // width: 100%;
+            }
+            .k-nav-today {
+                position: absolute;
+                top: 0.6rem;
+                left: 0;
+                height: 3.2rem;
+                border: 0.1rem solid $btn-icon;
+                padding: 0 1rem;
+                // margin-right: 0.8rem;
+                margin-left: 0;
+                border-radius: 0.3rem;
+                color: $btn-primary;
+                font-size: 1.2rem;
+                box-sizing: border-box;
+                .k-link {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    padding: 0;
+                }
+            }
+            .k-nav-prev, .k-nav-next {
+                width: 3.2rem;
+                height: 3.2rem;
+                box-sizing: border-box;
+                border: 0.1rem solid $line-calendar;
+                box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.05);
+                background-color: $white;
+                border-radius: 0.4rem;
+                .k-link {
+                    padding: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+                .k-icon {
+                    width: 3.2rem;
+                    height: 2rem;
+                    vertical-align: middle;
+                    &::before {
+                        content: '';
+                        display: block;
+                        width: 2rem;
+                        height: 2rem;
+                    }
+                    &.k-i-arrow-60-left {
+                        &::before {
+                            background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                            transform: rotate(-270deg);
+                        }
+                    }
+                    &.k-i-arrow-60-right {
+                        &::before {
+                            background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                            transform: rotate(-90deg);
+                        }
+                    }
+                }
+            }
+            .k-nav-prev {
+                // order: 1;
+                position: absolute;
+                top: 0.6rem;
+                left: calc(50% - 14.2rem);
+            }
+            .k-nav-next {
+                // order: 3;
+                position: absolute;
+                top: 0.6rem;
+                right: calc(50% - 14.2rem);
+            }
+            .k-nav-current {
+                // order: 2;
+                line-height: 3.2rem;
+                margin: 0 3.2rem;
+                min-width: 20rem;
+                text-align: center;
+                font-weight: $font-bold;
+                font-size: 2rem;
+                color: $primary2;
+                .k-icon {
+                    display: none;
+                    &.k-i-calendar {
+                        width: 2rem;
+                        height: 2rem;
+                        &::before {
+                            content: '';
+                            width: 2rem;
+                            height: 2rem;
+                            background: url('#{$img-path}/common/icon/icon_20_calendar.png') no-repeat 0 0 / 2rem auto; 
+                        }
+                    }
+                }
+            }
+        }
+        // scheduler body
+        .k-scheduler-layout {
+            box-sizing: border-box;
+            border: 0.1rem solid #efefef;
+            // 요일
+            .k-scheduler-header {
+                .k-scheduler-table {
+                    th {
+                        height: 5.2rem;
+                        padding: 0;
+                        border-bottom: 0.1rem solid #efefef;
+                        border-left: 0;
+                        font-weight: $font-bold;
+                        font-size: 1.45rem;
+                        color: #ddd;
+                    }
+                }
+            }
+            // 날짜
+            .k-scheduler-content {
+                .k-scheduler-table { 
+                    td {
+                        height: 11rem;
+                        padding: 1.6rem 2rem; 
+                        border-color: #efefef;
+                        .k-link  {
+                            &.k-nav-day {
+                                display: block;
+                                // padding-bottom: 0.6rem;
+                                color: $text-gray1;
+                                font-size: 1.2rem;
+                                line-height: 1.6rem;
+                            }
+                        }
+                        &.k-today {
+                            .k-link {
+                                &.k-nav-day {
+                                    font-weight: $font-bold;
+                                    font-size: 1.45rem;
+                                    color: $point;
+                                }
+                            }
+                        }
+                        &.k-other-month {
+                            background-color:#f8f7f8;
+                            .k-link {
+                                &.k-nav-day {
+                                    color: #8a888a;
+                                    opacity: 0.49;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // event 내용 출력
+                .k-event {
+                    display: block;
+                    height: 2.5rem !important;
+                    border: 0;
+                    font-size: 1.2rem;
+                    line-height: 2.5rem;
+                    .scheduler-template-container {
+                        display: flex;
+                        align-items: center;
+                        // margin: 0 1.3rem;
+                        padding: 0 1.3rem;
+                        font-size: 1.2rem;
+                        line-height: 1.6rem;
+                        height: 100%;
+                        box-sizing: border-box;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        .template-date {
+                            flex: 0 0 auto;
+                            font-weight: $font-bold;
+                            color: $text-black;
+                            +.template-title {
+                                margin-left: 0.4rem;
+                            }
+                        }
+                        .template-category {
+                            flex: 0 0 auto;
+                            color: $text-black;
+                            +.template-title {
+                                margin-left: 0.4rem;
+                            }
+                        }
+                        .template-title {
+                            flex: 1;
+                            color: $text-black;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+
+                        // 색상 
+                        &.color-blue {
+                            border-radius: 2px;
+                            border: solid 1px #0084f4;
+                            background-color: rgba(0, 132, 244, 0.15);
+                        }
+                        &.color-orange {
+                            border-radius: 2px;
+                            border: solid 1px #ffa26b;
+                            background-color: rgba(255, 162, 107, 0.15);
+                        }
+                        &.color-gray {
+                            border-radius: 2px;
+                            border: solid 1px #999999;
+                            background-color: rgba(153, 153, 153, 0.15);
+                        }
+                        &.color-purple {
+                            border-radius: 2px;
+                            border: solid 1px #6979f8;
+                            background-color: rgba(105, 121, 248, 0.15);
+                        }
+                        &.color-green {
+                            border-radius: 2px;
+                            border: solid 1px #1cb5ad;
+                            background-color: rgba(28, 181, 173, 0.15);
+                        }
+                    }
+                    .k-event-actions {
+                        top: 0;
+                        right: 0;
+                        margin: 0;
+                        line-height: 1.4rem;
+                        &:empty {
+                            +.color-blue, +.color-orange, +.color-purple, +.color-gray, +.color-green {
+                                padding: 0 1.3rem 0 0.9rem;
+                                border-left-width: 0.4rem;
+                            }
+                        }
+                        .k-event-delete {
+                            line-height: 2.2rem;
+                        }
+                        .k-icon {
+                            font-size: 1.2rem;
+                            &.k-i-close {
+                                font-size: 1.6rem;
+                            }
+                            &.k-i-arrow-60-right, &.k-i-arrow-60-left {
+                                display: none;
+                            }
+                        }
+                    }
+                    +.k-more-events {
+                        border: 0;
+                        text-align: right;
+                        height: 2.5rem;
+                        >.k-icon {
+                            display: block;
+                            width: 100%;
+                            height: 1.4rem;
+                            margin-top: 0;
+                            text-align: right;
+                            color: $primary2;
+                            &::before {
+                                display: block;
+                                width: auto;
+                                height: 1.4rem;
+                                margin-right: 1rem;
+                                font-size: 1.2rem;
+                                content: "+더보기";
+                                // font-weight: $font-bold;
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+}
+
+/* toggle */
+.user-phone-number {
+    display: inline-block;
+    // gird 안에 있을때 왼쪽으로 치우치게 나와서 위의 내용으로 변경
+    // display: flex;
+    // align-items: center;
+}
+.phone-number {
+    &-text {
+        display: inline-block;
+        min-width: 10.5rem;
+        font-size: 1.45rem;
+        font-weight: $font-regular;
+        color: $black;
+        .hide-text {
+            min-width: 3.5rem;
+            display: inline-block;
+        }
+    }
+    &-icon {
+        display: inline-block;
+        width: 1.6rem;
+        height: 1.6rem;
+        margin-left: 0.2rem;
+        vertical-align: middle;
+        background: url('#{$img-path}/common/icon/icon_16_lock_close.png') no-repeat top right / 1.6rem 1.6rem;
+        &.active {
+            background: url('#{$img-path}/common/icon/icon_16_lock_open.png') no-repeat top right / 1.6rem 1.6rem;
+        }
+    }
+}
+
+
+/* notification */
+.k-notification {
+    height: auto;
+    background-color: transparent;
+    .k-notification-wrap {
+        height: auto;
+        max-width: 96rem;
+        padding: 1.5rem 4.8rem;
+        margin: 0.6rem 0;
+        border-radius: 3.8rem;
+        color: $white;
+        font-size: 1.6rem;
+        line-height: 2rem;
+        box-sizing: border-box;
+        .notification_title {
+            display: none;
+        }
+        .notification_msgBox {
+            height: auto;
+            box-sizing: border-box;
+            p {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+        .k-icon {
+            position: absolute;
+            top: 50%;
+            right: 2rem;
+            margin-left: 0.8rem;
+            margin-top: -0.8rem;
+            text-indent: -9999rem;
+            cursor: pointer;
+            &.k-i-close {
+                content: "";
+                display: block;
+                width: 1.6rem;
+                height: 1.6rem;
+                background: url('#{$img-path}/common/icon/icon_16_close_white.png') no-repeat 0 0 / 1.6rem auto;
+            }
+        }
+    }
+
+    &-info {
+        .k-notification-wrap {
+            background: $noti-info url('#{$img-path}/common/icon/icon_20_notification_info.png') no-repeat left 2rem top 50% / 2rem auto;
+        }
+    }
+    &-success {
+        .k-notification-wrap {
+            background: $noti-success url('#{$img-path}/common/icon/icon_20_notification_success.png') no-repeat left 2rem top 50% / 2rem auto;
+        }
+    }
+    &-error {
+        .k-notification-wrap {
+            background: $noti-error url('#{$img-path}/common/icon/icon_20_notification_error.png') no-repeat left 2rem top 50% / 2rem auto;
+        }
+    }
+    &-warning {
+        .k-notification-wrap {
+            background: $noti-warning url('#{$img-path}/common/icon/icon_20_notification_warning.png') no-repeat left 2rem top 50% / 2rem auto;
+        }
+    }
+
+}

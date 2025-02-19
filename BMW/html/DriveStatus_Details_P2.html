@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">-->
+        <meta name="viewport" content="user-scalable=no,width=375">
+        <title>My DMS STG</title>
+     <!-- css -->
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/css/libs/slick.css">
+        <!-- js -->
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.fileDownload.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/pub-ui.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/crm/crm.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/sal/sal.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/slick.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+        <script src="../../resources/mob/js/jquery-ui.min.js"></script>
+        <script>
+            var _contextPath = "";
+            $(function() {
+                $("button.btn.btn-util.back").not(".btn-close-gnb").on("click", function() {
+                    // window.history.back();
+                    window.location.replace("/selectHome.do");
+                });
+            });
+        </script>
+    </head>
+
+<body>
+    <!-- modal -->
+    <div class="modal show">
+        <div class="modal-content bg scroll-hidden">
+            <div class="modal-header dark">
+                <div class="header-left">
+                    <button class="btn btn-util close btn-close-modal" onclick="btnCancel()"
+                        data-role="button">
+                        <span class="sr-only km-text">닫기</span>
+                    </button>
+                </div>
+                <h1 class="header-title">예약 정보 변경</h1>
+            </div>
+            <div class="modal-body mo-body type2">
+                <div class="info-wrap">
+                    <div class="user-info-area info-content">
+                        <div class="list-header">
+                            <div class="list-header-left">
+                                <p class="title">예약 정보 변경</p> 
+                            </div>
+                        </div>
+                        <div class="user-info-detail">
+                            <p class="title ft18 bb1">
+                                <span class="font-bold">396버 6105</span>
+                                <span class="font-regular">320i LCI</span>
+                            </p>
+                            <form>
+                                <div class="form-group">
+                                    <div class="form-item">
+                                        <label class="form-label">시승 예약시작 일시</label>
+                                        <div class="form-item-inner">
+                                            <div class="form-input-unit">
+                                                <input class="form-input" type="text" id="datepicker2" name="datepicker2" value="" readonly="">
+                                                <span class="unit-icon date"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label class="form-label">시승 예약종료 일시</label>
+                                        <div class="form-item-inner">
+                                            <div class="form-input-unit">
+                                                <input class="form-input" type="text" id="datepicker2" name="datepicker2" value="" readonly="">
+                                                <span class="unit-icon date"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!--//form-group-->
+                            </form>
+                        </div><!--user-info-detail-->
+                    </div>
+                </div>
+            </div>
+            <!--하단버튼 영역-->
+            <div class="modal-footer">
+                <div class="footer-btn">
+                    <button type="button" class="btn btn-primary">변경하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--midal2-->
+    <div class="modal-confirm info-form show">
+        <div class="modal-content" style="width:30rem;">
+            <form>
+                <div class="modal-body mo-body">
+                    <div class="title-area">
+                        <p class="title">운행을 종료하시겠습니까?</p>
+                    </div>
+                    <div class="info-wrap">
+                        <div class="user-info-area">
+                            <div class="info-sec">
+                                <div class="time-se">
+                                    <p>
+                                        <span>2024-04-01 (월)</span>
+                                        <span>08:30</span>
+                                    </p>
+                                    <p>~</p>
+                                    <p>
+                                        <span>2024-04-01 (월)</span>
+                                        <span>08:30</span>
+                                    </p>
+                                </div>
+                                <div class="info-dl box-type">
+                                    <dl class="info-dl-item">
+                                        <dt>운행거리</dt>
+                                        <dd id=""><em>0.0</em>km</dd>
+                                    </dl>
+                                    <dl class="info-dl-item">
+                                        <dt>누적주행거리</dt>
+                                        <dd id=""><em>2332</em>km</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-item">
+                                    <ul class="form-checkbox-group sm">
+                                        <li>
+                                            <input type="checkbox" id="checkboxBtn1" class="k-checkbox" checked="">
+                                            <label class="k-checkbox-label" for="checkboxBtn1">차량반납 시 체크</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="form-item selectbox">
+                                    <label class="form-label">이상여부 확인</label>
+                                    <select id="selectInput"></select>
+                                <script>
+                                    // select
+                                    $("#selectInput").kendoExtDropDownList({
+                                        optionLabel: "이상여부 확인",
+                                        autoBind: false,
+                                        dataTextField: "text",
+                                        dataValueField: "value",
+                                        dataSource: [
+                                            { text: "이상없음", value: "1" },
+                                            { text: "item2", value: "2" },
+                                        ]
+                                    });
+                                </script>
+                                </div>
+                                <div class="form-item">
+                                    <label class="form-label">비고</label>
+                                    <div class="form-item-inner box">
+                                        <input class="form-input" type="text" placeholder="제목을 입력해주세요.">
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <label class="form-label">첨부파일</label>
+                                    <div class="form-upload-area box">
+                                        <input type="text" id="uploadInput" class="form-upload-text" value="" placeholder="파일을 첨부하세요" disabled>
+                                        <label class=form-upload-label>
+                                            <input class="form-upload" name="files" id="files" type="file" aria-label="files" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="footer-btn half">
+                        <button type="button" class="btn btn-primary confirmButton">운행/반납 완료</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+         // 파일업로드
+         $("#files").getKendoUpload();
+            var fileTarget = $('.form-upload-area .form-upload');
+            fileTarget.on('change', function () {
+                if (window.FileReader) {
+                    var filename = $(this)[0].files[0].name;
+                } else {
+                    var filename = $(this).val().split('/').pop().split('\\').pop();
+                }
+                $(this).parent('.form-upload-label').siblings('.form-upload-text').val(filename);
+                $(this).parent('.form-upload-label').addClass('up');
+            });
+            $('.uploadInput').on('click', function () {
+                $('.form-upload').click();
+            });
+
+        $(document).ready(function() {
+            $("#mButton").click(function() {
+                $(".modal-confirm").addClass("show");
+            });
+            $(".cancelButton").click(function() {
+                $(".modal-confirm").removeClass("show");
+            });
+            $("#confirmButton").click(function() {
+                alert("지문 등록 확인 버튼이 클릭되었습니다.");
+                $(".modal-confirm").removeClass("show");
+            });
+        });
+    </script>
+</body>
+
+</html>

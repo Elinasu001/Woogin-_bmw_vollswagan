@@ -1,0 +1,80 @@
+/* 변수 값 정리 */
+
+/* images url */
+$img-path : "../images"; // css background
+$img-src : "../../images";
+
+/* color */ 
+$primary1: #1C69D4;
+$primary2: #1F263E;
+$black: #000;
+$white: #fff;
+$point: #2680EB;
+
+$text-black: #222; 
+$text-gray1: #666; //102 102 102
+$text-gray2: #999; //153 153 153
+$text-gray3: #646464;
+$text-placeholder: #ccc;
+$text-lnb: #333;
+
+$line-gray1 : #666;
+$line-gray2 : #ddd;
+$line-gray3 : #eee;
+$line-blue-gray: #DEE2E6;
+$line-panel: #D7DADE; 
+$line-input: #e2e2e2;
+$line-table: #e2e2e2;
+$line-calendar: #e8e9ec;
+$line-list: #999;
+$line-list2: #c7c7c7;
+
+$bg-default: #F2F4F8;
+$bg-select: #f4f4f4;
+
+$btn-primary: $primary2;
+$btn-icon : rgba(31, 38, 62, 0.2);
+$btn-gray : #A5A8B1;
+
+$tab-gray: #d6d6d6;
+
+$label-blue1: #1c69d4;
+$label-blue2: #053981;
+$label-purple1: #5b6df5;
+$label-purple2: #30229f;
+$label-gray: #515c76;
+$label-teal: #00b5ad;
+$label-pink: #f55b8a;
+$label-orange: #f57f5b;
+$label-ocher: #c48b0a;
+
+$tooltip-customer: #e9ebef;
+$tooltip-text: #fbfbfb;
+
+$stepper-line: #dee0e5;
+
+$error: #ee3c57;
+
+$noti-info: #2678e0;
+$noti-success: #00b5ad;
+$noti-error: #ee3c57;
+$noti-warning: #f57f5b;
+
+$reserve-red: #e64f22;
+$reserve-orange: #f57f5b;
+$reserve-yellow: #f5c65b;
+$reserve-green: #1cb5ad;
+$reserve-blue: #4497f8;
+$reserve-navy: #133cc4;
+$reserve-purple: #6122d6;
+
+$sign-gray: #e8e8e8;
+
+$table-bg: #f2f4f8;
+$table-line1: #d7dade;
+$table-line2: #efefef;
+
+/* font */
+$font-bold: 700;
+$font-regular: 400;
+$font-light: 300;

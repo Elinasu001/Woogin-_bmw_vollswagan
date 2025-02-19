@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60seconds">
+	<!-- aplication.yml에 정의한 dir 데이터를 정의합니다 -->
+    <springProperty scope="context" name="LOG_DIR" source="logging.file.path"/>
+
+	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+    <!--콘솔에 로그를 남깁니다.-->
+    <appender name="consoleStdOut" class="ch.qos.logback.core.ConsoleAppender">
+    	<filter class="ch.qos.logback.classic.filter.LevelFilter">
+    		<level>WARN</level>
+    		<onMatch>DENY</onMatch>
+    		<onMismatch>ACCEPT</onMismatch>
+    	</filter>
+        <encoder>
+            <Pattern>
+                ${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}) %clr([${LOG_LEVEL_PATTERN:-%p}]) %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}
+            </Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="consoleStdErr" class="ch.qos.logback.core.ConsoleAppender">
+    	<filter class="ch.qos.logback.classic.filter.LevelFilter">
+    		<level>ERROR</level>
+    		<onMatch>ACCEPT</onMatch>
+    		<onMismatch>DENY</onMismatch>
+     	</filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%level] : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--파일에 로그를 남깁니다.-->
+    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/wdms-mobile.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %logger{36} - %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/wdms-mobile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+	<!--파일에 로그를 남깁니다. (Roling)-->
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/archived/wdms-mobile_roling.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] %logger{36} - %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <!-- 10MB가 넘어가면 새로운 압축파일이 생성 -->
+        <triggeringPolicy
+            class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+
+        <!-- 파일을 덮어쓰는 정책 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>${LOG_DIR}/archived/wdms-mobile_roling.%i.log.zip</FileNamePattern>
+            <!--
+                10MB단위로 로그 압축 파일이 생성된다. (1 ~ 10)
+                10개가 넘어가면 오래된순으로 덮어쓰기 됩니다.
+            -->
+            <MinIndex>1</MinIndex>
+            <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+    </appender>
+
+    <!--에러 일 경우 파일에 로그를 남깁니다-->
+    <appender name="Error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${LOG_DIR}/wdms-mobile_error.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%level] %logger{36} - %msg%n
+            </Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/error/wdms-mobile_error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!--통계 관련 파일에 로그를 남깁니다.-->
+    <springProperty scope="context" name="STATS_FILE_PATH" source="logging.statsFile.path"/>
+
+    <appender name="FileStatsAOP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${STATS_FILE_PATH}/cmm_aop_in_out.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>2</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!--
+        org.springframework.web 패키지 아래에서 발생하는 INFO 레벨 로그를 Console, File에 남깁니다.
+        root의 속성을 상속받지 않습니다.
+    -->
+    <logger name="org.mybatis" level="ERROR" additivity="false">
+    	<appender-ref ref="consoleStdOut" />
+    </logger>
+    <logger name="org.apache.activemq" level="ERROR" additivity="false">
+        <appender-ref ref="consoleStdOut" />
+    </logger>
+    <!-- Hikari CP -->
+    <logger name="com.zaxxer.hikari.pool.HikariPool" level="OFF" additivity="false">
+        <appender-ref ref="consoleStdOut" />
+    </logger>
+    <logger name="jdbc.sqltiming" level="ERROR" additivity="false">
+        <appender-ref ref="consoleStdOut" />
+    </logger>
+    <logger name="jdbc.resultset" level="ERROR" additivity="false">
+        <appender-ref ref="consoleStdOut" />
+    </logger>
+    <logger name="jdbc.resultsettable" level="ERROR" additivity="false">
+        <appender-ref ref="consoleStdOut" />
+    </logger>
+    <logger name="jdbc.connection" level="ERROR" additivity="false">
+        <appender-ref ref="consoleStdOut" />
+    </logger>
+    <logger name="jdbc.audit" level="ERROR" additivity="false">
+        <appender-ref ref="consoleStdOut" />
+    </logger>
+
+	<!-- local env -->
+    <springProfile name="local">
+	    <logger name="com.wdms" level="DEBUG" additivity="false">
+	    	<appender-ref ref="consoleStdOut" />
+	    	<appender-ref ref="consoleStdErr"/>
+	    </logger>
+	    <logger name="org.springframework" level="ERROR" additivity="false">
+	    	<appender-ref ref="consoleStdOut" />
+	    	<appender-ref ref="consoleStdErr"/>
+	    </logger>
+		<!-- log4jdbc remix 셋팅 -->
+	    <logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
+	        <appender-ref ref="consoleStdOut"/>
+	        <appender-ref ref="consoleStdErr"/>
+	    </logger>
+		<logger name="log4jdbc.log4j2" level="DEBUG" additivity="false">
+	        <appender-ref ref="consoleStdOut"/>
+	        <appender-ref ref="consoleStdErr"/>
+		</logger>
+		<logger name="com.wdms.dms.rest.sal.ifDlr.service.IfDlrFeignService" level="DEBUG" additivity="false">
+			<appender-ref ref="consoleStdOut"/>
+			<appender-ref ref="consoleStdErr"/>
+		</logger>
+		<logger name="com.wdms.dms.rest.sal.ifDlr.service.IfDlrContractService" level="DEBUG" additivity="false">
+			<appender-ref ref="consoleStdOut"/>
+			<appender-ref ref="consoleStdErr"/>
+		</logger>
+        <logger name="FileStatsAOP" level="INFO" additivity="false">
+            <appender-ref ref="FileStatsAOP" />
+        </logger>
+
+    </springProfile>
+
+    <!-- dev env -->
+    <springProfile name="dev">
+	    <logger name="org.springframework" level="ERROR" additivity="false">
+	    	<appender-ref ref="consoleStdOut" />
+	    	<appender-ref ref="consoleStdErr"/>
+			<appender-ref ref="Error"/>
+			<appender-ref ref="File"/>
+        	<!-- <appender-ref ref="RollingFile"/> -->
+	    </logger>
+		<!-- log4jdbc remix 셋팅 -->
+	    <logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
+	        <appender-ref ref="consoleStdOut" />
+			<appender-ref ref="consoleStdErr"/>
+	    </logger>
+		<logger name="log4jdbc.log4j2" level="DEBUG" additivity="false">
+			<appender-ref ref="consoleStdOut" />
+			<appender-ref ref="consoleStdErr"/>
+		</logger>
+		<logger name="com.wdms.dms.rest.sal.ifDlr.service.IfDlrFeignService" level="DEBUG" additivity="false">
+			<appender-ref ref="consoleStdOut"/>
+			<appender-ref ref="consoleStdErr"/>
+		</logger>
+		<logger name="com.wdms.dms.rest.sal.ifDlr.service.IfDlrContractService" level="DEBUG" additivity="false">
+			<appender-ref ref="consoleStdOut"/>
+			<appender-ref ref="consoleStdErr"/>
+		</logger>
+        <logger name="FileStatsAOP" level="INFO" additivity="false">
+            <appender-ref ref="FileStatsAOP" />
+        </logger>
+
+    </springProfile>
+
+    <!-- prod env -->
+    <springProfile name="prd">
+	    <logger name="org.springframework" level="INFO" additivity="false">
+	    	<appender-ref ref="consoleStdOut" />
+	    	<appender-ref ref="consoleStdErr"/>
+			<appender-ref ref="Error"/>
+			<appender-ref ref="File"/>
+        	<!-- <appender-ref ref="RollingFile"/> -->
+	    </logger>
+		<!-- log4jdbc remix 셋팅 -->
+	    <logger name="jdbc.sqlonly" level="ERROR" additivity="false">
+	        <appender-ref ref="consoleStdOut" />
+			<appender-ref ref="consoleStdErr"/>
+	    </logger>
+		<logger name="log4jdbc.log4j2" level="ERROR" additivity="false">
+			<appender-ref ref="consoleStdOut" />
+			<appender-ref ref="consoleStdErr"/>
+		</logger>
+        <logger name="FileStatsAOP" level="INFO" additivity="false">
+            <appender-ref ref="FileStatsAOP" />
+        </logger>
+
+    </springProfile>
+
+	<root level="INFO">
+    	<appender-ref ref="consoleStdOut" />
+    	<appender-ref ref="consoleStdErr"/>
+		<appender-ref ref="Error"/>
+		<appender-ref ref="File"/>
+       	<!-- <appender-ref ref="RollingFile"/> -->
+   	</root>
+</configuration>

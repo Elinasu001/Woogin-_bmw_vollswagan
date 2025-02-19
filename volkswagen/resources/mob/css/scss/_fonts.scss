@@ -1,0 +1,65 @@
+$font-path-bmw: "../fonts/bmw";
+$font-path-noto: "../fonts/noto";
+
+/*******************************************************
+
+	100	:	Thin
+	200	:	Extra Light (Ultra Light)
+	300	:	Light
+	400	:	Regular
+	500	:	Medium
+	600	:	Semi Bold (Demi Bold)
+	700	:	Bold
+	800	:	Extra Bold (Ultra Bold)
+	900	:	Black (Heavy)	
+
+*******************************************************/
+
+// bmw
+@font-face {
+  font-family: 'BMWTypeNext';
+  font-style: normal;
+  font-weight: 300;
+  src: url('#{$font-path-bmw}/BMWTypeNextTT-Light.eot'); /* IE9 Compat Modes */
+  src: url('#{$font-path-bmw}/BMWTypeNextTT-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('#{$font-path-bmw}/BMWTypeNext-Light.woff2') format('woff2'), /* Super Modern Browsers */
+       url('#{$font-path-bmw}/BMWTypeNextTT-Light.woff') format('woff'); /* Modern Browsers */
+}
+
+@font-face {
+  font-family: 'BMWTypeNext';
+  font-style: normal;
+  font-weight: 400;
+  src: url('#{$font-path-bmw}/BMWTypeNextTT-Regular.eot'); /* IE9 Compat Modes */
+  src: url('#{$font-path-bmw}/BMWTypeNextTT-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('#{$font-path-bmw}/BMWTypeNext-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('#{$font-path-bmw}/BMWTypeNextTT-Regular.woff') format('woff'); /* Modern Browsers */
+}
+
+@font-face {
+  font-family: 'BMWTypeNext';
+  font-style: normal;
+  font-weight: 700;
+  src: url('#{$font-path-bmw}/BMWTypeNextTT-Bold.eot'); /* IE9 Compat Modes */
+  src: url('#{$font-path-bmw}/BMWTypeNextTT-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('#{$font-path-bmw}/BMWTypeNext-Bold.woff2') format('woff2'), /* Super Modern Browsers */
+       url('#{$font-path-bmw}/BMWTypeNextTT-Bold.woff') format('woff'); /* Modern Browsers */
+}
+
+// noto
+@font-face {
+  font-family: 'Noto Sans Korean';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Noto Sans Regular'), local('NotoSans-Regular'),
+       url('#{$font-path-noto}/NotoSansKR-Regular-Hestia.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Noto Sans Korean';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Noto Sans Bold'), local('NotoSans-Bold'),
+       url('#{$font-path-noto}/NotoSansKR-Bold-Hestia.woff') format('woff');
+}

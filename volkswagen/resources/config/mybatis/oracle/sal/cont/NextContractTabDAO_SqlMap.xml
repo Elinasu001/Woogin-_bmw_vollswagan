@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wdms.dms.sal.cont.service.dao.NextContractTabDAO">
+
+<!-- 계약서관리 신차(Tablet) 화면 검색조건 -->
+<sql id="selectContractSearchTab">
+	<if test='sContStatCd != null and sContStatCd != ""'>
+		AND T1.CONT_STAT_CD = #{sContStatCd}
+	</if>
+	<if test='sBizAreaCd != null and sBizAreaCd != ""'>
+		AND T1.BIZ_AREA_CD = #{sBizAreaCd}
+	</if>
+	<if test='sBrchCd != null and sBrchCd != ""'>
+		AND T1.BRCH_CD = #{sBrchCd}
+	</if>
+	<if test='sPurcTp != null and sPurcTp != ""'>
+		AND T1.PURC_TP = #{sPurcTp}
+	</if>
+	<if test='sContNo != null and sContNo != ""'>
+		AND T1.CONT_NO = #{sContNo}
+	</if>
+	<if test='sBrandCd != null and sBrandCd != ""'>
+		AND T1.BRAND_CD = #{sBrandCd}
+	</if>
+	<if test='sModelCd != null and sModelCd != ""'>
+		AND T1.MODEL_CD = #{sModelCd}
+	</if>
+	<if test='sSeries1Cd != null and sSeries1Cd != ""'>
+		AND T1.SERIES_CD = #{sSeries1Cd}
+	</if>
+	<if test='sPkgGrpCd != null and sPkgGrpCd != ""'>
+		AND T1.PKG_GRP_CD = #{sPkgGrpCd}
+	</if>
+	<if test='sIntColorCd != null and sIntColorCd != ""'>
+		AND T1.INT_COLOR_CD = #{sIntColorCd}
+	</if>
+	<if test='sExColorCd != null and sExColorCd != ""'>
+		AND T1.EX_COLOR_CD = #{sExColorCd}
+	</if>
+	<if test='sCustNo != null and sCustNo != ""'>
+		AND T1.CUST_NO = #{sCustNo}
+	</if>
+	<if test='sSaleOptyId != null and sSaleOptyId != ""'>
+		AND T1.SALE_OPTY_ID = #{sSaleOptyId}
+	</if>
+	<if test='sCustNm != null and sCustNm != ""'>
+		AND T7.CUST_NM LIKE '%'||#{sCustNm}||'%'
+	</if>
+	<if test='sContDtFrom != null'>
+		AND T1.CONT_DT <![CDATA[ >= ]]> #{sContDtFrom}
+	</if>
+	<if test='sContDtTo != null'>
+		AND T1.CONT_DT <![CDATA[ <= ]]> #{sContDtTo} + 0.99999
+	</if>
+	<if test='sContDt != null'>
+		AND T1.CONT_DT = #{sContDt}
+	</if>
+</sql>
+
+	<!-- 계약서관리(Tablet) 리스트 -->
+	<select id="selectContractListTab" parameterType="NextContractSearchVO" resultType="NextContractVO">
+	/* [ com.wdms.dms.sal.cont.service.dao.NextContractTabDAO.selectContractListTab ] */
+		<include refid="common.pagingPre" />
+		SELECT
+			T1.DLR_CD				/* 딜러코드 */
+			,T1.BIZ_AREA_CD				/* 사업소코드 */
+			,T1.BRCH_CD				/* 대리점코드 */
+			,T1.CONT_NO				/* 계약번호(내부 사용key) */
+			,T1.CONT_TP				/* 계약유형(SAL055) */
+			,T1.PURC_TP				/* 구매유형(SAL025) */
+			,FN_CMM_CD('SAL025',T1.PURC_TP,'N') AS PURC_TP_NM
+			,T1.BRAND_CD				/* 브랜드코드 */
+			,T1.SERIES_CD				/* 시리즈코드 */
+			,T1.MODEL_CD				/* 모델코드 */
+			,T1.MODEL_YEAR				/* 모델년도 */
+			,T1.PKG_GRP_CD				/* 패키지그룹코드 */
+			,T1.EX_COLOR_CD				/* 외장색상코드 */
+			,T1.INT_COLOR_CD				/* 내장색상코드 */
+			,T1.DIVI_CD				/* 사업부코드 */
+			,T1.DEPT_CD				/* 조직코드 */
+			,T1.SC_ID				/* 영업담당자ID */
+			,T1.CUST_NO				/* 고객번호 */
+			,T1.EST_NO				/* 견적번호 */
+			,T1.SALE_OPTY_ID				/* 판매기회번호 */
+			,T1.CONT_STAT_CD				/* 계약상태(SAL006) */
+			,FN_CMM_CD('SAL006',T1.CONT_STAT_CD,'N') AS CONT_STAT_NM
+			,T1.CONT_STEP_CD				/* 계약진행상태(SAL063) */
+			,NVL(FN_CMM_CD('SAL063',T1.CONT_STEP_CD,'N'),'-')  AS CONT_STEP_NM		/* 계약진행상태(SAL063) */
+			,T1.CONT_DT				/* 계약일자 */
+			,TO_CHAR(T1.CONT_DT,'YYYY.MM.DD')	AS TAB_CONT_DT			/* 계약일자 */
+			,T1.VIN_NO				/* 차대번호 */
+			,T1.REMARK				/* 비고 */
+			,T1.CONT_PMNT_TP				/* 계약금지불유형 */
+			,T1.DEPOSIT_NM				/* 계약입금자명 */
+			,T1.CONT_AMT				/* 계약금액 */
+			,T1.VIRTL_ACCT_MNG_NO				/* 가상계좌관리번호(화면의 계약번호로 사용) */
+			,T1.VIRTL_ACCT_NO				/* 가상계좌번호 */
+			,T1.RETL_PRC				/* 리테일가격 */
+			,T1.RETL_PRC_VAT				/* 리테일가격부가세 */
+			,T1.DC_TOT_AMT				/* 할인총금액 */
+			,T1.SALE_PRC				/* 판매가격 */
+			,T1.SALE_PRC_VAT				/* 판매가격부가세 */
+			,T1.CONS_AMT				/* 탁송금액(고객부담) */
+			,T1.TOT_AMT				/* 총금액 */
+			,T1.DEL_YN				/* 삭제여부 */
+			,T1.CNCL_DT				/* 취소일자 */
+			,T1.CNCL_TP				/* 취소유형 */
+			,T1.CNCL_RSN				/* 취소사유 */
+			,T1.LAST_BRAND_CD				/* 최종브랜드코드 */
+			,T1.LAST_SERIES_CD				/* 최종시리즈코드 */
+			,T1.LAST_MODEL_CD				/* 최종모델코드 */
+			,T1.LAST_MODEL_YEAR				/* 최종모델년도 */
+			,T1.LAST_PKG_GRP_CD				/* 최종패키지그룹코드 */
+			,T1.LAST_EX_COLOR_CD				/* 최종외장색상코드 */
+			,T1.LAST_INT_COLOR_CD				/* 최종내장색상코드 */
+			,T1.FIRST_FILE_DOC_NO				/* 최초파일문서번호 */
+			,T1.LAST_FILE_DOC_NO				/* 최종파일문서번호 */
+			,T1.NON_AGRE_YN				/* 비대면동의여부 */
+			,T1.NON_AGRE_PROC_YN				/* 비대면동의처리여부 */
+			,T1.NON_AGRE_PROC_DT				/* 비대면동의처리일자 */
+			,T1.IF_SEND_YN				/* 인터페이스송신여부 */
+			,T1.REG_USR_ID				/* 등록자ID */
+			,T1.REG_DT				/* 등록일자 */
+			,T1.UPDT_USR_ID				/* 수정자ID */
+			,T1.UPDT_DT				/* 수정일자 */
+			,T7.CUST_TP 			/* 고객유형 (CRM038) */
+			,NVL(FN_GET_ONE_CUST_TP(T1.DLR_CD,(SELECT ONE_CUST_NO FROM CRM_CUST WHERE DLR_CD = T1.DLR_CD AND CUST_NO = T1.CUST_NO),#{sLoginBrandCd},#{sNcarDstinCd}),'01') AS CUST_DSTIN_TP
+			,T7.CUST_NM 			/* 고객이름 */
+			,T7.HP_NO 			/* 휴대전화 */
+			,NVL(T3.MODEL_DISP_NM,T3.MODEL_NM) AS MODEL_NM	/* 모델명 */
+			,T5.FILE_DOC_NO							/* 파일문서번호 */
+			,T5.FILE_NO								/* 파일번호 */
+			,T5.REMARK AS FILE_REMARK				/* 파일비고 */
+			,(SELECT PURC_TP FROM SAL_CONT_APPR WHERE DLR_CD = T1.DLR_CD
+												AND BIZ_AREA_CD = T1.BIZ_AREA_CD
+												AND BRCH_CD = T1.BRCH_CD
+												AND CONT_NO = T1.CONT_NO) AS CONT_APPR_PURC_TP		/* 품의서 - 구매유형(SAL009) */
+			,FN_CMM_CD('SAL009',(SELECT PURC_TP FROM SAL_CONT_APPR WHERE DLR_CD = T1.DLR_CD
+												AND BIZ_AREA_CD = T1.BIZ_AREA_CD
+												AND BRCH_CD = T1.BRCH_CD
+												AND CONT_NO = T1.CONT_NO),'N') AS CONT_APPR_PURC_TP_NM		/* 품의서  - 구매유형명칭(SAL009) */
+			,(SELECT BP_NM FROM CRM_PARTNER WHERE DLR_CD = T7.DLR_CD AND BP_CD = T7.BP_CD)	AS BP_NM /* 거래처 명칭 */
+		FROM
+			SAL_CONT T1
+			INNER JOIN SAL_MODEL T3
+				ON T1.BRAND_CD = T3.BRAND_CD
+				AND T1.SERIES_CD = T3.SERIES1_CD
+				AND T1.MODEL_CD = T3.MODEL_CD
+			LEFT OUTER JOIN SAL_SPEC_IMG T4
+				ON T1.BRAND_CD = T4.BRAND_CD
+				AND T1.SERIES_CD = T4.SERIES_CD
+				AND T3.BODY_CD = T4.BODY_CD
+			LEFT OUTER JOIN CMM_FILE_ATTC_DTL T5
+				ON T4.THUMB_FILE_DOC_NO = T5.FILE_DOC_NO
+				AND T5.DEL_YN = 'N'
+			INNER JOIN SAL_CONT_CUST T7
+				ON T1.DLR_CD = T7.DLR_CD
+				AND T1.BIZ_AREA_CD = T7.BIZ_AREA_CD
+				AND T1.BRCH_CD = T7.BRCH_CD
+				AND T1.CONT_NO = T7.CONT_NO
+				AND T7.CUST_DSTIN_TP = '01'
+		WHERE 1=1
+			AND	T1.DLR_CD = #{sDlrCd}
+			AND	T1.SC_ID  = #{sScId}
+			AND T1.CONT_TP = '01'
+			<include refid="selectContractSearchTab" />
+<!-- 		ORDER BY T1.CONT_DT DESC -->
+		ORDER BY
+ 			<choose>
+				<when test='sort != null'>
+				<foreach item="item" index="index" collection="sort" open="" separator="," close="">
+					<choose>
+						<when test='item.field == "custNm"'>T7.CUST_NM</when>
+						<when test='item.field == "custNo"'>T7.CUST_NO</when>
+						<when test='item.field == "bpNm"'>T1.BP_NM</when>
+						<when test='item.field == "hpNo"'>T1.HP_NO</when>
+						<when test='item.field == "regDt"'>T1.REG_DT</when>
+						<otherwise>
+							T1.CONT_DT
+						</otherwise>
+					</choose>
+					${item.dir}
+			  	</foreach>
+			  	</when>
+			  	<otherwise>
+			  		T1.CONT_DT DESC
+			  	</otherwise>
+			</choose>
+		<include refid="common.pagingSuf" />
+	</select>
+
+	<!-- 계약서관리(Tablet) 리스트 -->
+	<select id="selectContractListTabCnt" parameterType="NextContractSearchVO" resultType="long">
+	/* [ com.wdms.dms.sal.cont.service.dao.NextContractTabDAO.selectContractListTabCnt ] */
+		SELECT
+			COUNT(*)
+		FROM
+			SAL_CONT T1
+			INNER JOIN SAL_MODEL T3
+				ON T1.BRAND_CD = T3.BRAND_CD
+				AND T1.SERIES_CD = T3.SERIES1_CD
+				AND T1.MODEL_CD = T3.MODEL_CD
+			LEFT OUTER JOIN SAL_SPEC_IMG T4
+				ON T1.BRAND_CD = T4.BRAND_CD
+				AND T1.SERIES_CD = T4.SERIES_CD
+				AND T3.BODY_CD = T4.BODY_CD
+			LEFT OUTER JOIN CMM_FILE_ATTC_DTL T5
+				ON T4.THUMB_FILE_DOC_NO = T5.FILE_DOC_NO
+				AND T5.DEL_YN = 'N'
+			INNER JOIN SAL_CONT_CUST T7
+				ON T1.DLR_CD = T7.DLR_CD
+				AND T1.BIZ_AREA_CD = T7.BIZ_AREA_CD
+				AND T1.BRCH_CD = T7.BRCH_CD
+				AND T1.CONT_NO = T7.CONT_NO
+				AND T7.CUST_DSTIN_TP = '01'
+		WHERE 1=1
+			AND	T1.DLR_CD = #{sDlrCd}
+			AND	T1.SC_ID = #{sScId}
+			AND T1.CONT_TP = '01'
+			<include refid="selectContractSearchTab" />
+	</select>
+
+
+</mapper>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">-->
+        <meta name="viewport" content="user-scalable=no,width=375">
+        <title>My DMS STG</title>
+     <!-- css -->
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/css/libs/slick.css">
+        <!-- js -->
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.fileDownload.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/pub-ui.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/crm/crm.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/sal/sal.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/slick.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+        <script src="../../resources/mob/js/jquery-ui.min.js"></script>
+        <script>
+            var _contextPath = "";
+            $(function() {
+                $("button.btn.btn-util.back").not(".btn-close-gnb").on("click", function() {
+                    // window.history.back();
+                    window.location.replace("/selectHome.do");
+                });
+            });
+        </script>
+    </head>
+<body>
+    <!--MO07030100-->
+    <div id="wrap">
+        <header id="header" class="header">
+            <div class="header-left">
+                <button class="btn btn-util back">
+                    <span class="sr-only">뒤로가기</span>
+                </button>
+            </div>
+            <h1 class="header-title">시승신청</h1>
+            <div class="header-right">
+                <button class="btn btn-util menu">
+                    <span class="sr-only">메뉴</span>
+                </button>
+            </div>
+        </header>
+        <div id="content" class="bg scroll-hidden">
+            <div class="cont-body mo-body">
+                <div id="tab1" class="info-wrap tab grid">
+                    <!-- tab button -->
+                    <div class="tab-nav">
+                        <ul class="col02">
+                            <li><a href="javascript:;" class="tab-btn">신청내역</a></li>
+                            <li><a href="javascript:;" class="tab-btn">반납/취소내역</a></li>
+                        </ul>
+                    </div>
+                    <!-- tab content --> 
+                    <div class="tab-content">
+                        <!-- 시승차량선택 -->
+                        <div class="tab-panel">
+                            <div class="card-list">
+                                <div class="list-header">
+                                    <div class="list-header-left">
+                                        <p class="title">시승 내역을 선택해주세요</p>
+                                    </div>
+                                    <div class="list-header-right">
+                                        <div class="item-icon-group">
+                                            <a href="javascript:;" class="item-icon icon-search">
+                                                <span class="sr-only">검색</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-wrap">
+                                    <ul id="listview" class="list-group telnum" data-role="listview"></ul>
+                                </div>
+                            </div><!--//card-list-->
+                        </div>
+                        <!-- 스케쥴선택 -->
+                        <div class="tab-panel">
+                            <div class="card-list">
+                                <div class="list-header">
+                                    <div class="list-header-left">
+                                        <p class="title">시승 내역을 선택해주세요</p>
+                                    </div>
+                                    <div class="list-header-right">
+                                        <div class="item-icon-group">
+                                            <a href="javascript:;" class="item-icon icon-search">
+                                                <span class="sr-only">검색</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-wrap">
+                                    <ul id="listview2" class="list-group telnum" data-role="listview"></ul>
+                                </div>
+                            </div><!--//card-list-->
+                        </div>
+                    </div>
+                    <!-- tab content -->
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+    <script id="tmp" type="text/x-kendo-template">
+        <div class="item-area vertical">
+            <div class="item-area-con item-flex">
+                <div class="item-left">
+                    <!--
+                        라벨컬러값 
+                          - [상태] 일반시승:drive , 대차:change , 마케팅:marketing , 관리:manage
+                          - [운행상태] 승인대기중:Waiting, 시승중:driveing , 시승종료:driveend, 승인거절:refusal
+                     -->
+                    <div class="label-half horizontal">
+                        <span class="label-con label-text1 #: label.color1 #"">#: label.text1 #</span>
+                        <span class="label-con label-text1 #: label.color2 #"">#: label.text2 #</span>
+                    </div>
+                </div>
+            </div>
+            <div class="item-area-con">
+                <div class="item-user-text">
+                    <p class="item-text bold">#: name #</p>
+                    <p class="item-text">#: carNum1 #</p>
+                </div>
+                
+            </div>
+            <div class="item-area-con item-flex flex-end">
+                <div class="item-left">
+                    <div class="item-text-group">
+                        <p class="item-text">#: info.text1 #</p>
+                        <p class="item-text">#: info.text2 #</p>
+                    </div>
+                </div>
+                <div class="item-left">
+                    <div class="item-text-group">
+                        <p class="item-text date ft11">2024.01.01 10:30 ~ 2024.01.01 12:30</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- nodata 일 때 -->
+        <!-- <div class="item-area">
+            <p class="nodata">조회된 데이터가 없습니다.</p>
+        </div> -->
+        <!-- nodata 일 때 -->
+    </script>
+   <!--
+       라벨컬러값 
+         - [상태] 일반시승:drive , 대차:change , 마케팅:marketing , 관리:manage
+         - [운행상태] 승인대기중:Waiting, 시승중:driveing , 시승종료:driveend, 승인거절:refusal
+    -->
+    <script>
+         var groupedData = [
+            {
+                name: "홍길동", 
+                carNum1: "0974",
+                label: { color1: "drive", text1: "일반시승", text2: "승인대기중", color2: "Waiting"},
+                info: { text1: "320i LCI",  text2: "12가 4567"}
+            },
+            {
+                name: "김동현",
+                carNum1: "0974",
+                label: { color1: "change", text1: "대차", text2: "승인대기중", color2: "Waiting"},
+                info: { text1: "320i LCI",  text2: "12가 4567"}
+            },
+            {
+                name: "정예진", 
+                carNum1: "0974",
+                label: { color1: "drive", text1: "일반시승", text2: "시승종료", color2: "driveend"},
+                info: { text1: "320i LCI", text2: "12가 4567"}
+            },
+            {
+                name: "김윤우", 
+                carNum1: "0974",
+                label: { color1: "manage", text1: "관리", text2: "시승중", color2: "driveing"},
+                info: { text1: "320i LCI",  text2: "12가 4567"}
+            },
+            {
+                name: "김윤우",
+                carNum1: "0974",
+                label: { color1: "manage", text1: "관리", text2: "승인거절", color2: "refusal"},
+                info: { text1: "320i LCI",  text2: "12가 4567"}
+            }
+        ];
+
+        var groupedData2 = [
+            {
+                name: "홍길동", 
+                carNum1: "0974",
+                label: { color1: "drive", text1: "일반시승", text2: "승인대기중", color2: "Waiting"},
+                info: { text1: "320i LCI",  text2: "12가 4567"}
+            }
+        ];
+
+        $(document).ready(function () { 
+            // listview
+            $("#listview").kendoMobileListView({
+                dataSource: kendo.data.DataSource.create({data: groupedData}),
+                template: kendo.template($("#tmp").html()),
+            });
+
+            $("#listview2").kendoMobileListView({
+                dataSource: kendo.data.DataSource.create({data: groupedData2}),
+                template: kendo.template($("#tmp").html()),
+            });
+
+        });
+
+       var tab = document.querySelector("#tab1");
+        tabEvent(tab, 0);
+    </script>
+
+
+</body>
+</html>
+

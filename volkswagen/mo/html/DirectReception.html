@@ -1,0 +1,3011 @@
+<html lang="ko" class="k-webkit k-webkit128 k-mobile">
+
+<head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+    <title>WDMS LOCAL</title>
+
+    <!-- css -->
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="/resources/mob/css/libs/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+    <link rel="stylesheet" type="text/css" href="/resources/mob/css/libs/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="/resources/mob/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/libs/slick.css">
+    <!-- js -->
+
+    <script type="text/javascript" src="/resources/mob/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/resources/js/jquery.fileDownload.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+
+    <script type="text/javascript" src="/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+    <script type="text/javascript" src="/cmm/sci/js/selectCultureSettings.do"></script>
+
+    <script type="text/javascript" src="/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+
+    <script type="text/javascript" src="/resources/mob/js/pub-ui.js"></script>
+    <script type="text/javascript" src="/resources/js/dms/crm/crm.common.js"></script>
+    <script type="text/javascript" src="/resources/js/dms/sal/sal.common.js"></script>
+    <script type="text/javascript" src="/resources/js/slick.min.js"></script>
+
+<script>
+    var baseUrl = window.location.origin;
+
+    function convertToRelative(elements, attr) {
+        elements.forEach(function(element) {
+            var url = element[attr];
+            if (url.startsWith(baseUrl)) {
+                element[attr] = url.replace(baseUrl, "../..");
+            }
+        });
+    }
+
+    convertToRelative(document.querySelectorAll('link[rel="stylesheet"]'), 'href');
+    convertToRelative(document.querySelectorAll('script[type="text/javascript"]'), 'src');
+</script>
+
+
+</head>
+
+<body>
+    <!-- modal -->
+    <div class="modal show">
+
+        <div class="modal-content bg scroll-hidden" id="vwBody">
+            <div class="modal-header">
+                <h1 class="header-title">Direct Reception</h1><!-- Direct Reception -->
+                <div class="header-left">
+                    <button class="btn btn-util close btn-close-modal km-widget km-button" onclick="btnCancel()"
+                        data-role="button">
+                        <span class="sr-only km-text"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body mo-body type2">
+                <div class="info-wrap">
+                    <div class="user-info-area">
+                        <!--N : info-sec -> user-info-detail pd14 클래스 변경 span p클래스 변경 및 제목부분 span으로 감싸기 -->
+                        <div class="user-info-detail pd14">
+                            <div class="info-dl">
+                                <dl class="info-dl-item">
+                                    <dt>RO번호</dt>
+                                    <dd>RO2409000023</dd>
+                                </dl>
+                                <dl class="info-dl-item">
+                                    <dt>예약번호</dt>
+                                    <dd>SB2409000022</dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <div class="info-sec">
+                            <!--N : footer-btn -> content-btn 클래스 변경 -->
+                            <div class="content-btn" id="svcTpCdBtn">
+                                <button id="06" type="button" class="btn-secondary btn-Selected">더블 체크</button>
+                                <button id="07" type="button" class="btn-secondary">플러스 더블 체크</button>
+                                <button id="08" type="button" class="btn-secondary">ID 더블 체크</button>
+                                <button id="99" type="button" class="btn-secondary">점검생략</button>
+                            </div>
+                        </div>
+                        <!--주행거리-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">주행거리</p>
+                                </div>
+                            </div>
+                            <div class="search-body-title">
+                                <div class="input-area">
+                                    <input type="text" class="basic-input" id="mileAge">
+                                    <span>km</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 작업내용 -->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">작업내용</p>
+                                </div>
+                            </div>
+                            <div class="card-list">
+                                <!--N : 켄도 하단 확인 -->
+                                <!--<div class="km-listview-wrapper">
+                                    <ul id="listview0" class="list-group km-widget km-listview km-list"
+                                        data-role="listview">
+                                        <li data-uid="c7f6487a-12e6-45d2-8d0d-2be9cf3d9b24">
+                                            <div class="item-area">
+                                                <div class="item-left item-flex"
+                                                    style="width:15%;display: flex; align-items: center; justify-content: center; text-align: center;">
+                                                    <p class="item-md-text">20000</p>
+                                                </div>
+                                                <div class="item-text-group">
+                                                    <p class="item-text"></p>
+                                                    <p class="item-text" style="padding-left: 10px;">&nbsp; 공임작업 </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li data-uid="bfc30358-fe22-4794-a27b-a2e524e69949">
+                                            <div class="item-area">
+                                                <div class="item-left item-flex"
+                                                    style="width:15%;display: flex; align-items: center; justify-content: center; text-align: center;">
+                                                    <p class="item-md-text">30000</p>
+                                                </div>
+                                                <div class="item-text-group">
+                                                    <p class="item-text"></p>
+                                                    <p class="item-text" style="padding-left: 10px;">&nbsp; 워런티 </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>-->
+                                <ul id="listview" class="list-group" data-role="listview"></ul>
+                                <script id="tmp" type="text/x-kendo-template">
+                                    <div class="item-area">
+                                        <div class="item-left w100p">
+                                            <div class="item-text-group">
+                                                <p class="item-text">#: roNum #</p>
+                                                <p class="item-text">#: name #</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </script>
+                                
+                                <script>
+                                    var groupedData = [
+                                        {
+                                            roNum: "10000" ,
+                                            name: "작업내용입 입니다", 
+                                        },
+                                        {
+                                            roNum: "20000" ,
+                                            name: "작업내용입 입니다", 
+                                        },
+                                    ];
+                                    $(document).ready(function () { 
+                                        // listview
+                                        $("#listview").kendoMobileListView({
+                                            dataSource: kendo.data.DataSource.create({data: groupedData}),
+                                            template: kendo.template($("#tmp").html()),
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <!-- 내부의견 -->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">내부의견</p>
+                                </div>
+                                <div class="title-right" id="internalCont">
+                                    <div class="btn-group">
+                                        <button id="btnAddInternalCont" class="btn btn-icon icon-add km-widget km-button" data-role="button">
+                                            <span class="sr-only km-text">추가</span>
+                                        </button>
+                                        <button id="btnDelInternalCont" class="btn btn-icon icon-del km-widget km-button" data-role="button">
+                                            <span class="sr-only km-text">삭제</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search-body-title" id="dlrOpinionMtr">
+                                <div class="input-area"><input type="text" class="basic-input"></div>
+                            </div>
+                          
+                        </div>
+
+                        <div class="info-sec" name="is99" style="display: none;">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">점검생략 사유</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-item">
+                                    <div class="form-item-inner">
+                                        <textarea class="form-textarea" id="chkSkipRsn"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-sec" name="non99">
+							<div class="title-area">
+								<div class="title-left">
+									<p class="title">차량점검 항목</p><!-- 차량점검 항목 -->
+								</div>
+							</div>
+
+							<div class="km-listview-wrapper">
+                                <!--N : div id="listMst" -> ul로 변경-->
+								<ul id="listMst" data-role="listview" class="km-widget km-listview km-list">
+									<li data-uid="a8214e09-6ddd-45eb-8fe3-a2817807aa3f">
+										<div class="card-list">
+											<ul class="accordion" id="accordion06_01">
+												<li class="accordion-item">
+													<div class="accordion-header active">
+														<div class="accordion-title">
+															<p class="title">접수점검</p>
+														</div>
+                                                        <!--N : item-text-group 부분 위치 이동 (accordion-panel 안으로) 및 텍스트추가 -->
+														<div class="item-area">
+															<button class="accordion-btn">
+																<span class="sr-only"></span>
+															</button>
+														</div>
+													</div>
+													<div class="accordion-panel" style="max-height:2000px;">
+                                                        <!--N : item-text-group 부분 위치 이동 (accordion-panel 안으로) 및 텍스트추가 -->
+                                                        <div class="item-text-group chk-list-tit">
+															<div class="tit">접수점검 리스트</div>
+															<div>
+																<p class="item-text">OK</p>
+																<p class="item-text">N.OK</p>
+															</div>
+														</div>
+														<!--N : km-listview-wrapper 중복요소 발생 없애기-->
+                                                        <div class="km-listview-wrapper">
+                                                            <!--N : chk02 클래스 추가-->
+                                                            <ul id="listview06_01" class="list-group km-widget km-listview km-list chk02" data-role="listview">
+                                                                <li data-uid="a77d214c-5b19-414c-88e2-4e9fcad0f088">
+                                                                    <div class="item-area" data-carsvctpatccd="06_01_001">
+                                                                        <div class="item-left item-flex">
+                                                                            <div class="item-left">
+                                                                                <!-- tit stxt 클래스 추가, ※경우 rfrnc 클래스 추가  -->
+                                                                                <p class="item-text tit">외장 손상</p>
+                                                                                <p class="item-text">(전면유리, 차체손상 및 도장 손상 포함)</p>
+                                                                                <p class="item-text stxt rfrnc">손상 부위는 문진표에서 확인하실 수 있습니다.<p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="item-right">
+                                                                            <!--N : &nbsp; 공백제거 태그 변경 -->
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox" name="chk_06_01_001" id="06_01_001_Y" class="k-checkbox" data-check-row="06_01_001_Y" onclick="fnChkSet(this, '06_01_001', 'Y');" checked="">
+                                                                                    <label class="k-checkbox-label" for="06_01_001_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox" name="chk_06_01_001" id="06_01_001_N" class="k-checkbox" data-check-row="06_01_001_N" onclick="fnChkSet(this, '06_01_001', 'N');">
+                                                                                    <label class="k-checkbox-label" for="06_01_001_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_001"
+                                                                                    placeholder="상세내역 및 권장사항"> test </textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="f50e2daa-d5ba-41cf-96fc-01a347a7dba0">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_002">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">오일류 교체시기 - 엔진오일</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                        <input type="checkbox"
+                                                                                            name="chk_06_01_002"
+                                                                                            id="06_01_002_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_002_Y"
+                                                                                            onclick="fnChkSet(this, '06_01_002', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="06_01_002_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_002"
+                                                                                    id="06_01_002_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_002_N"
+                                                                                    onclick="fnChkSet(this, '06_01_002', 'N');">
+                                                                                <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_002_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_002"
+                                                                                    placeholder="상세내역 및 권장사항" readonly></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+
+                                                                <li
+                                                                    data-uid="addb1697-7733-44da-be66-eae60db6cdf0">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_003">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">오일류 교체시기</p>
+                                                                            <p class="item-text">미션오일 교체 타입이 아닐 경우 생략</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_003"
+                                                                                    id="06_01_003_Y"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_003_Y"
+                                                                                    onclick="fnChkSet(this, '06_01_003', 'Y');">
+                                                                                    <label
+                                                                                        class="k-checkbox-label"
+                                                                                        for="06_01_003_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_003"
+                                                                                    id="06_01_003_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_003_N"
+                                                                                    onclick="fnChkSet(this, '06_01_003', 'N');">
+                                                                                <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_003_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_003"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="cc8d5a8a-e75e-487f-9ace-1c6c2ed84f5d">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_004">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">필터류 교체시기 - 에어크리너</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="chk_06_01_004"
+                                                                                            id="06_01_004_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_004_Y"
+                                                                                            onclick="fnChkSet(this, '06_01_004', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="06_01_004_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_004"
+                                                                                    id="06_01_004_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_004_N"
+                                                                                    onclick="fnChkSet(this, '06_01_004', 'N');">
+                                                                                <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_004_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_004"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="f9b1f579-aed2-4725-be9a-c2056e060b77">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_005">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">필터류 교체시기 -
+                                                                                에어컨필터</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="chk_06_01_005"
+                                                                                            id="06_01_005_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_005_Y"
+                                                                                            onclick="fnChkSet(this, '06_01_005', 'Y');">
+                                                                                        <label class="k-checkbox-label">
+                                                                                        
+                                                                                        </label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="chk_06_01_005"
+                                                                                            id="06_01_005_N"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_005_N"
+                                                                                            onclick="fnChkSet(this, '06_01_005', 'N');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="06_01_005_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_005"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="ff22f909-7afb-4ba4-9380-147575f09e24">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_006">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">필터류 교체시기 - 연료필터
+                                                                            </p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_006"
+                                                                                    id="06_01_006_Y"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_006_Y"
+                                                                                    onclick="fnChkSet(this, '06_01_006', 'Y');">
+                                                                                    <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_006_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_006"
+                                                                                    id="06_01_006_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_006_N"
+                                                                                    onclick="fnChkSet(this, '06_01_006', 'N');">
+                                                                                    <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_006_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_006"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="bf934506-f98a-47e6-a104-1ebccb8f54f4">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_007">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">타이밍벨트 교체시기</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_007"
+                                                                                    id="06_01_007_Y"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_007_Y"
+                                                                                    onclick="fnChkSet(this, '06_01_007', 'Y');">
+                                                                                    <label
+                                                                                        class="k-checkbox-label"
+                                                                                        for="06_01_007_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_007"
+                                                                                    id="06_01_007_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_007_N"
+                                                                                    onclick="fnChkSet(this, '06_01_007', 'N');">
+                                                                                <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_007_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_007"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="bf947fe9-ed97-4f68-be05-7192f1eee2d4">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_008">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">미 실시 리콜 또는
+                                                                                필드캠페인 정보</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_008"
+                                                                                    id="06_01_008_Y"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_008_Y"
+                                                                                    onclick="fnChkSet(this, '06_01_008', 'Y');">
+                                                                                    <label
+                                                                                        class="k-checkbox-label"
+                                                                                        for="06_01_008_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="chk_06_01_008"
+                                                                                            id="06_01_008_N"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_008_N"
+                                                                                            onclick="fnChkSet(this, '06_01_008', 'N');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="06_01_008_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_008"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="c6bb1276-5f53-4e9c-ab20-bcff839b94bb">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_009">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">계기판 경고등 점등</p>
+                                                                            <p class="item-text">
+                                                                                (엔진오일, 브레이크, 에어백, 냉각수, 워셔액, 타이어,
+                                                                                램프류 등 포함) </p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_009"
+                                                                                    id="06_01_009_Y"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_009_Y"
+                                                                                    onclick="fnChkSet(this, '06_01_009', 'Y');">
+                                                                                    <label
+                                                                                        class="k-checkbox-label"
+                                                                                        for="06_01_009_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_009"
+                                                                                    id="06_01_009_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_009_N"
+                                                                                    onclick="fnChkSet(this, '06_01_009', 'N');">
+                                                                                    <label
+                                                                                        class="k-checkbox-label"
+                                                                                        for="06_01_009_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_009"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="a3371925-332f-4b84-aef7-a1a18f322102">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_010">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">앞/뒤 와이퍼 기능 육안
+                                                                                점검 </p>
+                                                                            <p class="item-text">
+                                                                                점검 (고무마모 및 손상, 워셔액 분사기능, 암 작동각도)
+                                                                            </p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_010"
+                                                                                    id="06_01_010_Y"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_010_Y"
+                                                                                    onclick="fnChkSet(this, '06_01_010', 'Y');">
+                                                                                    <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_010_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_010"
+                                                                                    id="06_01_010_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_010_N"
+                                                                                    onclick="fnChkSet(this, '06_01_010', 'N');">
+                                                                                    <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_010_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_010"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="d6163876-ac89-4ef1-8c13-39da32d842a5">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_011">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">브레이크 패드 손상 및
+                                                                                마모, 잔량 상태 육안 점검</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="chk_06_01_011"
+                                                                                            id="06_01_011_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_011_Y"
+                                                                                            onclick="fnChkSet(this, '06_01_011', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="06_01_011_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_011"
+                                                                                    id="06_01_011_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_011_N"
+                                                                                    onclick="fnChkSet(this, '06_01_011', 'N');">
+                                                                                <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="06_01_011_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_011"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="c3dd0137-0867-42bd-96ee-1cc4e61435e3">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_012">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">브레이크 디스크 손상 및
+                                                                                마모, 잔량 상태 육안 점검</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="chk_06_01_012"
+                                                                                            id="06_01_012_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_012_Y"
+                                                                                            onclick="fnChkSet(this, '06_01_012', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="06_01_012_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="chk_06_01_012"
+                                                                                            id="06_01_012_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_012_Y"
+                                                                                            onclick="fnChkSet(this, '06_01_012', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="06_01_012_Y"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_012"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="ac3e94cf-c60b-4ec8-bcef-406e1e4a3587">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="06_01_013">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text tit">타이어 상태 육안 점검
+                                                                            </p>
+                                                                            <p class="item-text">
+                                                                            (마모한계, 편마모, 사이드월 균열/손상 포함) </p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="chk_06_01_013"
+                                                                                    id="06_01_013_Y"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="06_01_013_Y"
+                                                                                    onclick="fnChkSet(this, '06_01_013', 'Y');">
+                                                                                    <label
+                                                                                        class="k-checkbox-label"
+                                                                                        for="06_01_013_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="chk_06_01_013"
+                                                                                            id="06_01_013_N"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="06_01_013_N"
+                                                                                            onclick="fnChkSet(this, '06_01_013', 'N');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="06_01_013_N"
+                                                                                            ></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-item">
+                                                                            <div class="form-item-inner">
+                                                                                <textarea class="form-textarea"
+                                                                                    id="cont_06_01_013"
+                                                                                    placeholder="상세내역 및 권장사항"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <!---->
+													</div>
+												</li>
+											</ul>
+										</div>
+									</li>
+									<li data-uid="de143002-1693-46bc-8e4c-2b2af3634d36">
+										<div class="card-list">
+											<ul class="accordion" id="accordion01_01">
+												<li class="accordion-item">
+													<div class="accordion-header active">
+														<div class="accordion-title">
+															<p class="title">고객확인사항</p>
+														</div>
+														<div class="item-area">
+															<button class="accordion-btn">
+																<span class="sr-only"></span>
+															</button>
+														</div>
+													</div>
+													<div class="accordion-panel" style="max-height: 450px;">
+                                                        <div class="item-text-group chk-list-tit">
+															<div class="tit">점검 리스트</div>
+															<div>
+																<p class="item-text">OK</p>
+																<p class="item-text">N.OK</p>
+															</div>
+														</div>
+														<div class="km-listview-wrapper">
+															<ul id="listview01_01"
+                                                                class="list-group km-widget km-listview km-list"
+                                                                data-role="listview">
+                                                                <li
+                                                                    data-uid="cc082910-5ff9-4649-8e00-26197678a9a3">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="01_01_001">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text">서비스센터에 처음
+                                                                                입고하셨습니까 ?</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="01_01_001"
+                                                                                            id="01_01_001_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="01_01_001_Y"
+                                                                                            onclick="fnChkSet(this, '01_01_001', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="01_01_001_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="01_01_001"
+                                                                                    id="01_01_001_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="01_01_001_N"
+                                                                                    onclick="fnChkSet(this, '01_01_001', 'N');">
+                                                                                <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="01_01_001_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="db3b8bf1-41a3-4b82-b02a-6b3d16547c95">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="01_01_002">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text">이전 수리가 완벽하지 않아
+                                                                                재입고하셨습니까 ?</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="01_01_002"
+                                                                                            id="01_01_002_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="01_01_002_Y"
+                                                                                            onclick="fnChkSet(this, '01_01_002', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="01_01_002_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="01_01_002"
+                                                                                    id="01_01_002_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="01_01_002_N"
+                                                                                    onclick="fnChkSet(this, '01_01_002', 'N');">
+                                                                                <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="01_01_002_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="d79c5a77-e319-4658-82e4-80b293b8e0cd">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="01_01_003">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text">차량에 귀중품이 보관되어
+                                                                                있습니까 ?</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="01_01_003"
+                                                                                            id="01_01_003_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="01_01_003_Y"
+                                                                                            onclick="fnChkSet(this, '01_01_003', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="01_01_003_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                    name="01_01_003"
+                                                                                    id="01_01_003_N"
+                                                                                    class="k-checkbox"
+                                                                                    data-check-row="01_01_003_N"
+                                                                                    onclick="fnChkSet(this, '01_01_003', 'N');">
+                                                                                <label
+                                                                                    class="k-checkbox-label"
+                                                                                    for="01_01_003_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="e3ab383c-5cca-4c38-b003-bdb0d5488b37">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="01_01_004">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text">필요 시, 점검 목적의 주행
+                                                                                테스트에 동의하십니까?</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="01_01_004"
+                                                                                            id="01_01_004_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="01_01_004_Y"
+                                                                                            onclick="fnChkSet(this, '01_01_004', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="01_01_004_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="01_01_004"
+                                                                                            id="01_01_004_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="01_01_004_Y"
+                                                                                            onclick="fnChkSet(this, '01_01_004', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="01_01_004_Y"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li
+                                                                    data-uid="a7acf286-e759-46b5-96f4-7fe5ecf363e3">
+                                                                    <div class="item-area"
+                                                                        data-carsvctpatccd="01_01_005">
+                                                                        <div class="item-left item-flex">
+                                                                            <p class="item-text">예상 서비스 비용에 대해
+                                                                                안내를 받으셨습니까 ?</p>
+                                                                        </div>
+
+                                                                        <div class="item-right">
+                                                                            <ul class="form-checkbox-group">
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="01_01_005"
+                                                                                            id="01_01_005_Y"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="01_01_005_Y"
+                                                                                            onclick="fnChkSet(this, '01_01_005', 'Y');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="01_01_005_Y"></label>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <input type="checkbox"
+                                                                                            name="01_01_005"
+                                                                                            id="01_01_005_N"
+                                                                                            class="k-checkbox"
+                                                                                            data-check-row="01_01_005_N"
+                                                                                            onclick="fnChkSet(this, '01_01_005', 'N');">
+                                                                                        <label
+                                                                                            class="k-checkbox-label"
+                                                                                            for="01_01_005_N"></label>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</div>
+
+						</div>
+
+						<div class="info-sec" name="non99">
+							<div class="title-area">
+								<div class="title-left">
+									<p class="title">차량점검 항목</p><!-- 차량점검 항목 -->
+									<!--<h6 class="title-sm">* 점검완료 : 체크, 관련없음 : 미체크</h6>--><!-- * 점검완료 : 체크, 관련없음 : 미체크 -->
+								</div>
+							</div>
+							<div class="card-list">
+								<ul id="listview1" class="list-group check-list" data-role="listview"></ul>
+							</div>
+							<div class="user-info-detail">
+								<div class="title-area">
+									<div class="title-left">
+										<p class="title">차량점검 표시</p><!-- 차량점검 표시 -->
+									</div>
+								</div>
+								<!-- 21.01.13 수정 : 도면 이미지 추가 -->
+								<div class="ro-car-plan" id="div_capture">
+									<div id="div_checkCarGrid" class="w100p pos-abs">
+										<table id="tab_drawCarGrid" style="width:100%;height:100%">
+											<tr>
+												<td id="td_1_1"><input name="inp_carCheck" value="1_1" type="checkbox"
+														serial="inp_carCheck_serial1_1" idx="inp_carCheck_idx_1_1"></td>
+												<td id="td_1_2"><input name="inp_carCheck" value="1_2" type="checkbox"
+														serial="inp_carCheck_serial1_2" idx="inp_carCheck_idx_1_2"></td>
+												<td id="td_1_3"><input name="inp_carCheck" value="1_3" type="checkbox"
+														serial="inp_carCheck_serial1_3" idx="inp_carCheck_idx_1_3"></td>
+												<td id="td_1_4"><input name="inp_carCheck" value="1_4" type="checkbox"
+														serial="inp_carCheck_serial1_4" idx="inp_carCheck_idx_1_4"></td>
+												<td id="td_1_5"><input name="inp_carCheck" value="1_5" type="checkbox"
+														serial="inp_carCheck_serial1_5" idx="inp_carCheck_idx_1_5"></td>
+												<td id="td_1_6"><input name="inp_carCheck" value="1_6" type="checkbox"
+														serial="inp_carCheck_serial1_6" idx="inp_carCheck_idx_1_6"></td>
+												<td id="td_1_7"><input name="inp_carCheck" value="1_7" type="checkbox"
+														serial="inp_carCheck_serial1_7" idx="inp_carCheck_idx_1_7"></td>
+											</tr>
+											<tr>
+												<td id="td_2_1"><input name="inp_carCheck" value="2_1" type="checkbox"
+														serial="inp_carCheck_serial2_1" idx="inp_carCheck_idx_2_1"></td>
+												<td id="td_2_2"><input name="inp_carCheck" value="2_2" type="checkbox"
+														serial="inp_carCheck_serial2_2" idx="inp_carCheck_idx_2_2"></td>
+												<td id="td_2_3"><input name="inp_carCheck" value="2_3" type="checkbox"
+														serial="inp_carCheck_serial2_3" idx="inp_carCheck_idx_2_3"></td>
+												<td id="td_2_4"><input name="inp_carCheck" value="2_4" type="checkbox"
+														serial="inp_carCheck_serial2_4" idx="inp_carCheck_idx_2_4"></td>
+												<td id="td_2_5"><input name="inp_carCheck" value="2_5" type="checkbox"
+														serial="inp_carCheck_serial2_5" idx="inp_carCheck_idx_2_5"></td>
+												<td id="td_2_6"><input name="inp_carCheck" value="2_6" type="checkbox"
+														serial="inp_carCheck_serial2_6" idx="inp_carCheck_idx_2_6"></td>
+												<td id="td_2_7"><input name="inp_carCheck" value="2_7" type="checkbox"
+														serial="inp_carCheck_serial2_7" idx="inp_carCheck_idx_2_7"></td>
+											</tr>
+											<tr>
+												<td id="td_3_1"><input name="inp_carCheck" value="3_1" type="checkbox"
+														serial="inp_carCheck_serial3_1" idx="inp_carCheck_idx_3_1"></td>
+												<td id="td_3_2"><input name="inp_carCheck" value="3_2" type="checkbox"
+														serial="inp_carCheck_serial3_2" idx="inp_carCheck_idx_3_2"></td>
+												<td id="td_3_3"><input name="inp_carCheck" value="3_3" type="checkbox"
+														serial="inp_carCheck_serial3_3" idx="inp_carCheck_idx_3_3"></td>
+												<td id="td_3_4"><input name="inp_carCheck" value="3_4" type="checkbox"
+														serial="inp_carCheck_serial3_4" idx="inp_carCheck_idx_3_4"></td>
+												<td id="td_3_5"><input name="inp_carCheck" value="3_5" type="checkbox"
+														serial="inp_carCheck_serial3_5" idx="inp_carCheck_idx_3_5"></td>
+												<td id="td_3_6"><input name="inp_carCheck" value="3_6" type="checkbox"
+														serial="inp_carCheck_serial3_6" idx="inp_carCheck_idx_3_6"></td>
+												<td id="td_3_7"><input name="inp_carCheck" value="3_7" type="checkbox"
+														serial="inp_carCheck_serial3_7" idx="inp_carCheck_idx_3_7"></td>
+											</tr>
+											<tr>
+												<td id="td_4_1"><input name="inp_carCheck" value="4_1" type="checkbox"
+														serial="inp_carCheck_serial4_1" idx="inp_carCheck_idx_4_1"></td>
+												<td id="td_4_2"><input name="inp_carCheck" value="4_2" type="checkbox"
+														serial="inp_carCheck_serial4_2" idx="inp_carCheck_idx_4_2"></td>
+												<td id="td_4_3"><input name="inp_carCheck" value="4_3" type="checkbox"
+														serial="inp_carCheck_serial4_3" idx="inp_carCheck_idx_4_3"></td>
+												<td id="td_4_4"><input name="inp_carCheck" value="4_4" type="checkbox"
+														serial="inp_carCheck_serial4_4" idx="inp_carCheck_idx_4_4"></td>
+												<td id="td_4_5"><input name="inp_carCheck" value="4_5" type="checkbox"
+														serial="inp_carCheck_serial4_5" idx="inp_carCheck_idx_4_5"></td>
+												<td id="td_4_6"><input name="inp_carCheck" value="4_6" type="checkbox"
+														serial="inp_carCheck_serial4_6" idx="inp_carCheck_idx_4_6"></td>
+												<td id="td_4_7"><input name="inp_carCheck" value="4_7" type="checkbox"
+														serial="inp_carCheck_serial4_7" idx="inp_carCheck_idx_4_7"></td>
+											</tr>
+											<tr>
+												<td id="td_5_1"><input name="inp_carCheck" value="5_1" type="checkbox"
+														serial="inp_carCheck_serial5_1" idx="inp_carCheck_idx_5_1"></td>
+												<td id="td_5_2"><input name="inp_carCheck" value="5_2" type="checkbox"
+														serial="inp_carCheck_serial5_2" idx="inp_carCheck_idx_5_2"></td>
+												<td id="td_5_3"><input name="inp_carCheck" value="5_3" type="checkbox"
+														serial="inp_carCheck_serial5_3" idx="inp_carCheck_idx_5_3"></td>
+												<td id="td_5_4"><input name="inp_carCheck" value="5_4" type="checkbox"
+														serial="inp_carCheck_serial5_4" idx="inp_carCheck_idx_5_4"></td>
+												<td id="td_5_5" class="background-dr_icon_4"
+													style="background-size: contain; background-position: center center; background-repeat: no-repeat;">
+													<input name="inp_carCheck" value="5_5_4" type="checkbox"
+														serial="inp_carCheck_serial5_5" idx="inp_carCheck_idx_5_5"
+														checked="checked"></td>
+												<td id="td_5_6"><input name="inp_carCheck" value="5_6" type="checkbox"
+														serial="inp_carCheck_serial5_6" idx="inp_carCheck_idx_5_6"></td>
+												<td id="td_5_7"><input name="inp_carCheck" value="5_7" type="checkbox"
+														serial="inp_carCheck_serial5_7" idx="inp_carCheck_idx_5_7"></td>
+											</tr>
+											<tr>
+												<td id="td_6_1"><input name="inp_carCheck" value="6_1" type="checkbox"
+														serial="inp_carCheck_serial6_1" idx="inp_carCheck_idx_6_1"></td>
+												<td id="td_6_2"><input name="inp_carCheck" value="6_2" type="checkbox"
+														serial="inp_carCheck_serial6_2" idx="inp_carCheck_idx_6_2"></td>
+												<td id="td_6_3"><input name="inp_carCheck" value="6_3" type="checkbox"
+														serial="inp_carCheck_serial6_3" idx="inp_carCheck_idx_6_3"></td>
+												<td id="td_6_4" class="background-dr_icon_1"
+													style="background-size: contain; background-position: center center; background-repeat: no-repeat;">
+													<input name="inp_carCheck" value="6_4_1" type="checkbox"
+														serial="inp_carCheck_serial6_4" idx="inp_carCheck_idx_6_4"
+														checked="checked"></td>
+												<td id="td_6_5"><input name="inp_carCheck" value="6_5" type="checkbox"
+														serial="inp_carCheck_serial6_5" idx="inp_carCheck_idx_6_5"></td>
+												<td id="td_6_6"><input name="inp_carCheck" value="6_6" type="checkbox"
+														serial="inp_carCheck_serial6_6" idx="inp_carCheck_idx_6_6"></td>
+												<td id="td_6_7"><input name="inp_carCheck" value="6_7" type="checkbox"
+														serial="inp_carCheck_serial6_7" idx="inp_carCheck_idx_6_7"></td>
+											</tr>
+											<tr>
+												<td id="td_7_1"><input name="inp_carCheck" value="7_1" type="checkbox"
+														serial="inp_carCheck_serial7_1" idx="inp_carCheck_idx_7_1"></td>
+												<td id="td_7_2"><input name="inp_carCheck" value="7_2" type="checkbox"
+														serial="inp_carCheck_serial7_2" idx="inp_carCheck_idx_7_2"></td>
+												<td id="td_7_3"><input name="inp_carCheck" value="7_3" type="checkbox"
+														serial="inp_carCheck_serial7_3" idx="inp_carCheck_idx_7_3"></td>
+												<td id="td_7_4"><input name="inp_carCheck" value="7_4" type="checkbox"
+														serial="inp_carCheck_serial7_4" idx="inp_carCheck_idx_7_4"></td>
+												<td id="td_7_5"><input name="inp_carCheck" value="7_5" type="checkbox"
+														serial="inp_carCheck_serial7_5" idx="inp_carCheck_idx_7_5"></td>
+												<td id="td_7_6"><input name="inp_carCheck" value="7_6" type="checkbox"
+														serial="inp_carCheck_serial7_6" idx="inp_carCheck_idx_7_6"></td>
+												<td id="td_7_7"><input name="inp_carCheck" value="7_7" type="checkbox"
+														serial="inp_carCheck_serial7_7" idx="inp_carCheck_idx_7_7"></td>
+											</tr>
+											<tr>
+												<td id="td_8_1"><input name="inp_carCheck" value="8_1" type="checkbox"
+														serial="inp_carCheck_serial8_1" idx="inp_carCheck_idx_8_1"></td>
+												<td id="td_8_2"><input name="inp_carCheck" value="8_2" type="checkbox"
+														serial="inp_carCheck_serial8_2" idx="inp_carCheck_idx_8_2"></td>
+												<td id="td_8_3"><input name="inp_carCheck" value="8_3" type="checkbox"
+														serial="inp_carCheck_serial8_3" idx="inp_carCheck_idx_8_3"></td>
+												<td id="td_8_4"><input name="inp_carCheck" value="8_4" type="checkbox"
+														serial="inp_carCheck_serial8_4" idx="inp_carCheck_idx_8_4"></td>
+												<td id="td_8_5"><input name="inp_carCheck" value="8_5" type="checkbox"
+														serial="inp_carCheck_serial8_5" idx="inp_carCheck_idx_8_5"></td>
+												<td id="td_8_6"><input name="inp_carCheck" value="8_6" type="checkbox"
+														serial="inp_carCheck_serial8_6" idx="inp_carCheck_idx_8_6"></td>
+												<td id="td_8_7"><input name="inp_carCheck" value="8_7" type="checkbox"
+														serial="inp_carCheck_serial8_7" idx="inp_carCheck_idx_8_7"></td>
+											</tr>
+											<tr>
+												<td id="td_9_1"><input name="inp_carCheck" value="9_1" type="checkbox"
+														serial="inp_carCheck_serial9_1" idx="inp_carCheck_idx_9_1"></td>
+												<td id="td_9_2"><input name="inp_carCheck" value="9_2" type="checkbox"
+														serial="inp_carCheck_serial9_2" idx="inp_carCheck_idx_9_2"></td>
+												<td id="td_9_3"><input name="inp_carCheck" value="9_3" type="checkbox"
+														serial="inp_carCheck_serial9_3" idx="inp_carCheck_idx_9_3"></td>
+												<td id="td_9_4"><input name="inp_carCheck" value="9_4" type="checkbox"
+														serial="inp_carCheck_serial9_4" idx="inp_carCheck_idx_9_4"></td>
+												<td id="td_9_5" class="background-dr_icon_2"
+													style="background-size: contain; background-position: center center; background-repeat: no-repeat;">
+													<input name="inp_carCheck" value="9_5_2" type="checkbox"
+														serial="inp_carCheck_serial9_5" idx="inp_carCheck_idx_9_5"
+														checked="checked"></td>
+												<td id="td_9_6"><input name="inp_carCheck" value="9_6" type="checkbox"
+														serial="inp_carCheck_serial9_6" idx="inp_carCheck_idx_9_6"></td>
+												<td id="td_9_7"><input name="inp_carCheck" value="9_7" type="checkbox"
+														serial="inp_carCheck_serial9_7" idx="inp_carCheck_idx_9_7"></td>
+											</tr>
+											<tr>
+												<td id="td_10_1"><input name="inp_carCheck" value="10_1" type="checkbox"
+														serial="inp_carCheck_serial10_1" idx="inp_carCheck_idx_10_1">
+												</td>
+												<td id="td_10_2"><input name="inp_carCheck" value="10_2" type="checkbox"
+														serial="inp_carCheck_serial10_2" idx="inp_carCheck_idx_10_2">
+												</td>
+												<td id="td_10_3"><input name="inp_carCheck" value="10_3" type="checkbox"
+														serial="inp_carCheck_serial10_3" idx="inp_carCheck_idx_10_3">
+												</td>
+												<td id="td_10_4"><input name="inp_carCheck" value="10_4" type="checkbox"
+														serial="inp_carCheck_serial10_4" idx="inp_carCheck_idx_10_4">
+												</td>
+												<td id="td_10_5"><input name="inp_carCheck" value="10_5" type="checkbox"
+														serial="inp_carCheck_serial10_5" idx="inp_carCheck_idx_10_5">
+												</td>
+												<td id="td_10_6"><input name="inp_carCheck" value="10_6" type="checkbox"
+														serial="inp_carCheck_serial10_6" idx="inp_carCheck_idx_10_6">
+												</td>
+												<td id="td_10_7"><input name="inp_carCheck" value="10_7" type="checkbox"
+														serial="inp_carCheck_serial10_7" idx="inp_carCheck_idx_10_7">
+												</td>
+											</tr>
+										</table>
+									</div>
+									<img src="/resources/mob/images/visual/VW_planar figure.png" alt="폭스바겐" style="display:none;">
+                                    <img src="/resources/mob/images/visual/audi_planar figure.png" alt="아우디">
+								</div>
+								<!-- // 21.01.13 수정 : 도면 이미지 추가 -->
+							</div>
+						</div>
+						<div class="info-sec" name="non99">
+							<div class="title-area">
+								<div class="title-left">
+									<p class="title">사진촬영</p><!-- 사진촬영 -->
+								</div>
+							</div>
+							<div class="card-list">
+								<div class="km-listview-wrapper">
+									<ul id="listview2" class="list-group km-widget km-listview km-list"
+										data-role="listview">
+										<li data-uid="c05f7c39-896a-4e9a-8ec4-ee902cdc695a">
+											<div class="item-area takePicDtime1">
+												<div class="item-left">
+													<p class="item-text bold">차량외관</p>
+												</div>
+												<div class="item-right item-flex">
+													<p class="item-md-text black">2024-09-11 17:26:28</p>
+													<div class="item-icon-group">
+														<a href="javascript:btnCamera('takePicDtime1');"
+															class="btn-util photo">
+															<span class="sr-only">사진촬영</span>
+														</a>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li data-uid="fec16b08-50fb-47f9-9bef-fb7c2e73260b">
+											<div class="item-area takePicDtime2">
+												<div class="item-left">
+													<p class="item-text bold">사고부위</p>
+												</div>
+												<div class="item-right item-flex">
+													<p class="item-md-text black">2024-09-11 17:26:28</p>
+													<div class="item-icon-group">
+														<a href="javascript:btnCamera('takePicDtime2');"
+															class="btn-util photo">
+															<span class="sr-only">사진촬영</span>
+														</a>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li data-uid="d5f63934-d991-4322-a95f-78a8b769231d">
+											<div class="item-area takePicDtime3">
+												<div class="item-left">
+													<p class="item-text bold">실내 및 트렁크</p>
+												</div>
+												<div class="item-right item-flex">
+													<p class="item-md-text black"></p>
+													<div class="item-icon-group">
+														<a href="javascript:btnCamera('takePicDtime3');"
+															class="btn-util photo">
+															<span class="sr-only">사진촬영</span>
+														</a>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li data-uid="f2263528-217b-4edc-9cf9-c9dd7e13a2bf">
+											<div class="item-area takePicDtime4">
+												<div class="item-left">
+													<p class="item-text bold">휠 및 타이어</p>
+												</div>
+												<div class="item-right item-flex">
+													<p class="item-md-text black"></p>
+													<div class="item-icon-group">
+														<a href="javascript:btnCamera('takePicDtime4');"
+															class="btn-util photo">
+															<span class="sr-only">사진촬영</span>
+														</a>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li data-uid="b973569d-ec87-48e6-9f1f-779bbb6d0cc7">
+											<div class="item-area takePicDtime5">
+												<div class="item-left">
+													<p class="item-text bold">기타1</p>
+												</div>
+												<div class="item-right item-flex">
+													<p class="item-md-text black"></p>
+													<div class="item-icon-group">
+														<a href="javascript:btnCamera('takePicDtime5');"
+															class="btn-util photo">
+															<span class="sr-only">사진촬영</span>
+														</a>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li data-uid="b494e923-b13e-499f-8c2d-b456febff06b">
+											<div class="item-area takePicDtime6">
+												<div class="item-left">
+													<p class="item-text bold">기타2</p>
+												</div>
+												<div class="item-right item-flex">
+													<p class="item-md-text black"></p>
+													<div class="item-icon-group">
+														<a href="javascript:btnCamera('takePicDtime6');"
+															class="btn-util photo">
+															<span class="sr-only">사진촬영</span>
+														</a>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div class="info-sec" name="non99">
+							<div class="title-area">
+								<div class="title-left">
+									<p class="title">고객 완료 후 출고 방법 선택</p>
+								</div>
+							</div>
+							<div>
+								<div class="form-group">
+									<div class="form-item">
+										<label class="form-label">예상 작업완료 시간</label>
+										<input class="form-input" type="text" id="resvEndDtime" value="2024-09-25 11:00" readonly="">
+									</div>
+                                    <!-- 출고완료시간 - 시간 분 쪼개기 -->
+                                    
+									<div class="form-item">
+										<label class="form-label">출고예정 시간</label>
+										<div class="form-item-inner daterange">
+											<div class="form-input-unit">
+												<input class="form-input" type="text" value="" id="dlvExptDtime" value="2024-09-25"
+													name="dlvExptDtime">
+												<span class="unit-icon date"></span>
+											</div>
+                                            <div class="form-input-unit before-non">
+                                                <select id="selectInput"></select>
+                                                <script>
+                                                    // select
+                                                    $("#selectInput").kendoExtDropDownList({
+                                                        optionLabel: "시간 선택",
+                                                        autoBind: false,
+                                                        dataTextField: "text",
+                                                        dataValueField: "value",
+                                                        dataSource: [
+                                                            { text: "09:00", value: "1" },
+                                                            { text: "09:30", value: "2" },
+                                                            { text: "10:00", value: "3" },
+                                                            { text: "10:30", value: "3" },
+                                                            { text: "11:00", value: "1" },
+                                                            { text: "11:30", value: "2" },
+                                                            { text: "12:30", value: "3" },
+                                                            { text: "13:00", value: "3" },
+                                                            { text: "13:30", value: "1" },
+                                                            { text: "14:00", value: "2" },
+                                                            { text: "14:30", value: "3" },
+                                                            { text: "15:00", value: "3" },
+                                                            { text: "15:30", value: "1" },
+                                                            { text: "16:00", value: "2" },
+                                                            { text: "16:30", value: "3" },
+                                                            { text: "17:00", value: "3" },
+                                                            { text: "17:30", value: "3" },
+                                                            { text: "18:00", value: "3" },
+                                                            { text: "18:30", value: "1" },
+                                                            { text: "19:00", value: "2" },
+                                                            { text: "19:30", value: "3" },
+                                                        ]
+                                                    });
+                                                </script>
+											</div>
+										</div>
+									</div>
+								</div>
+                                <div class="content-btn mt10" id="svcTpCdBtn">
+                                    <button id="06" type="button" class="btn-secondary btn-Selected">고객 라운지 대기</button>
+                                    <button id="07" type="button" class="btn-secondary">고객확인 시간 출고</button>
+                                </div>
+							</div>
+						</div>
+
+						<div class="info-sec" name="non99">
+							<div class="title-area">
+								<div class="title-left">
+									<p class="title">점검자 서명</p><!-- 점검자 서명 -->
+								</div>
+							</div>
+							<div class="agreement-area-wrap">
+								<div class="agreement-area">
+									<div class="agreement-body">
+										<div class="customer-sign">
+											<a href="javascript:;" class="sign-area sign_popup" id="sign2">
+												<div class="sign-img-con"><img
+														src="/cmm/sci/fileUpload/link.do?fileDocNo=73c25c0f7f554f908a9257c5bfcdd253&amp;fileNo=1&amp;inline=true&amp;docNoYn=true&amp;downloadDocType=crm">
+												</div>
+												<div class="sign-info-group">
+													<p class="sign-info-dtime">
+														<span class="sign-name" id="chkSaDtime"
+															name="chkSaDtime">2024.09.12.</span><!-- 서명일자 -->
+													</p>
+													<p class="sign-info-name">
+														<span class="sign-title">이름</span> <span class="sign-name"
+															id="chkSaNm" name="chkSaNm">SA_TEST</span><!-- 이름 -->
+													</p>
+												</div>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                    </div>
+                </div>
+                <div id="divView" style="top: 51px; position: absolute; display: none; right: 142px;"><button
+                        class="btn btn-util close btn-close-modal km-widget km-button" onclick="scroll_off()"
+                        data-role="button" style="float: right;"><span class="sr-only km-text"></span></button>
+                    <div class="icon-more-sub">
+                        <ul>
+                            <li style="display: flex;" serial="inp_carCheck_serial5_5" idx="inp_carCheck_idx_5_5"
+                                data="dr_icon_1" onclick="fnSet(this,1);"><img
+                                    src="/resources/mob/images/visual/dr_icon_1.png"
+                                    style="width:20px;vertical-middle: bottom; margin: 5px;"><label
+                                    style="margin-left: 5px;line-height: 32px;">스크래치</label></li>
+                            <li style="display: flex;" serial="inp_carCheck_serial5_5" idx="inp_carCheck_idx_5_5"
+                                data="dr_icon_2" onclick="fnSet(this,2);"><img
+                                    src="/resources/mob/images/visual/dr_icon_2.png"
+                                    style="width:20px;vertical-middle: bottom; margin: 5px;"><label
+                                    style="margin-left: 5px;line-height: 32px;">칠까짐</label></li>
+                            <li style="display: flex;" serial="inp_carCheck_serial5_5" idx="inp_carCheck_idx_5_5"
+                                data="dr_icon_3" onclick="fnSet(this,3);"><img
+                                    src="/resources/mob/images/visual/dr_icon_3.png"
+                                    style="width:20px;vertical-middle: bottom; margin: 5px;"><label
+                                    style="margin-left: 5px;line-height: 32px;">덴트</label></li>
+                            <li style="display: flex;" serial="inp_carCheck_serial5_5" idx="inp_carCheck_idx_5_5"
+                                data="dr_icon_4" onclick="fnSet(this,4);"><img
+                                    src="/resources/mob/images/visual/dr_icon_4.png"
+                                    style="width:20px;vertical-middle: bottom; margin: 5px;"><label
+                                    style="margin-left: 5px;line-height: 32px;">갈라짐</label></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="footer-btn">
+                    <button type="button" class="btn btn-primary km-widget km-button" id="btn_save"
+                        data-role="button"><span class="km-text">저장</span></button><!-- 저장 -->
+                </div>
+            </div>
+        </div>
+
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+
+        <div class="modal-confirm" id="div_confirm1" style="z-index: 999;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="header-title">고객 서명</h1><!-- 고객서명 -->
+                    <div class="header-right">
+                        <button class="btn btn-util close white btn-close-modal-confirm km-widget km-button"
+                            data-role="button">
+                            <span class="sr-only km-text"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="sign-panel-area" id="signature-pad1" style="position: relative">
+                        <p class="sign-placeholder" style="position: absolute">고객 서명</p><!-- 이곳에 서명을 하세요. -->
+                        <canvas id="canvasSign1" style="z-index: 1; touch-action: none;"></canvas>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary btn-sm km-widget km-button" data-action="clear1"
+                            data-role="button"><span class="km-text">초기화</span></button><!-- 초기화 -->
+                        <button type="button" class="btn btn-primary btn-sm km-widget km-button" data-action="save1"
+                            data-role="button"><span class="km-text">확인</span></button><!-- 확인 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-confirm" id="div_confirm2" style="z-index: 999;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="header-title">점검자 서명</h1><!-- 점검자서명 -->
+                    <div class="header-right">
+                        <button class="btn btn-util close white btn-close-modal-confirm km-widget km-button"
+                            data-role="button">
+                            <span class="sr-only km-text"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="sign-panel-area" id="signature-pad2" style="position: relative">
+                        <p class="sign-placeholder" style="position: absolute">점검자 서명</p><!-- 이곳에 서명을 하세요. -->
+                        <canvas id="canvasSign2" style="z-index: 1; touch-action: none;"></canvas>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary btn-sm km-widget km-button" data-action="clear2"
+                            data-role="button"><span class="km-text">초기화</span></button><!-- 초기화 -->
+                        <button type="button" class="btn btn-primary btn-sm km-widget km-button" data-action="save2"
+                            data-role="button"><span class="km-text">확인</span></button><!-- 확인 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="/resources/js/dms/crm/crm.common.js"></script>
+
+        <script id="tmp0" type="text/x-kendo-template">
+        <div class="item-area">
+            <div class="item-left item-flex" style="width:15%;display: flex; align-items: center; justify-content: center; text-align: center;">
+                <p class="item-md-text">#:wrkGrpCd#</p>
+            </div>
+            <div class="item-text-group">
+                <p class="item-text"></p>
+                <p class="item-text" style="padding-left: 10px;">&nbsp; #:wrkConts# </p>
+            </div>
+        </div>
+    </script>
+
+        <script id="tmp1" type="text/x-kendo-template">
+        <input type="checkbox" id="#= carChkAtcDetlCd #" class="list-checkbox"  #= (atcCieYn == 'Y' ? 'checked' : '') #>
+        <label for="#: carChkAtcDetlCd #" class="list-checkbox-label">
+            <div class="item-area">
+                <div class="item-left break">
+                    <p class="item-text bold">#: carChkAtcNm #</p>
+                    <p class="item-md-text">#: carChkAtcDetlNm #</p>
+                </div>
+            </div>
+        </label>
+    </script>
+
+        <script id="tmp2" type="text/x-kendo-template">
+        <div class="item-area #: id #">
+            <div class="item-left">
+                <p class="item-text bold">#: title #</p>
+            </div>
+            <div class="item-right item-flex">
+                <p class="item-md-text black">#: date #</p>
+                <div class="item-icon-group">
+                    <a href="javascript:btnCamera('#: id #');" class="btn-util photo">
+                        <span class="sr-only">사진촬영</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </script>
+
+        <script type="text/x-kendo-tmpl" id="listMst_template">
+    <div class="card-list">
+        <ul class="accordion" id="accordion#:carSvcTpCd#_#:carChkAtcCd#">
+            <li class="accordion-item">
+                <div class="accordion-header">
+                    <div class="accordion-title">
+                        <p class="title">#:carChkAtcNm#</p>
+                    </div>
+                    <div class="item-area" >
+                        <div class="item-text-group" >
+                            <p class="item-text" >OK</p>
+                            <p class="item-text" style="margin-left:7px">&nbsp;N.OK</p>
+                        </div>
+                        <button class="accordion-btn" >
+                            <span class="sr-only"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="accordion-panel">
+                    <div class="km-listview-wrapper">
+                        <ul id="listview#:carSvcTpCd#_#:carChkAtcCd#" class="list-group km-widget km-listview km-list" data-role="listview"></ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </script>
+
+        <script type="text/x-kendo-tmpl" id="listview_template_01">
+    <div class="item-area" data-carSvcTpAtcCd="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" style="padding:10px;margin-bottom:10px">
+        <div class="item-left item-flex" >
+            <p class="item-text">#:carChkAtcDetlNm#</p>
+        </div>
+    
+        <div class="item-right">
+            <div class="item-icon-group" style="margin-right: 25px;">
+                <div class="item-area-con item-flex flex-end">
+                    <div class="item-area-con item-flex">
+    # if (atcCieYn == "Y") { #
+                        <input type="checkbox" name="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'Y');" checked>
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" style="padding-top: 1.4rem;"></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'N');" >
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" style="padding-top: 1.4rem;"></label>
+    # } else if (atcCieYn == "N") { #
+                        <input type="checkbox" name="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'Y');" >
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" style="padding-top: 1.4rem;"></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'N');" checked>
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" style="padding-top: 1.4rem;"></label>
+    # } else { #
+                        <input type="checkbox" name="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'Y');" >
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" style="padding-top: 1.4rem;"></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'N');" >
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" style="padding-top: 1.4rem;"></label>
+    # } #
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </script>
+
+        <script type="text/x-kendo-tmpl" id="listview_template_default">
+    <div class="item-area" data-carSvcTpAtcCd="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" style="padding:10px;margin-bottom:1px">
+        <div class="item-left item-flex" style="flex-direction:column">
+            <p class="item-text">#:carChkAtcDetlNm#</p>
+            <p class="item-text" style="opacity:0.6;font-size:1.2rem"># if (remark && remark !== 'null' && remark.trim() !== '') { # #: remark # # } #</p>
+        </div>
+    
+        <div class="item-right">
+            <div class="item-icon-group" style="margin-right: 25px;">
+                <div class="item-area-con item-flex flex-end">
+                    <div class="item-area-con item-flex">
+    # if (atcCieYn == "Y") { #
+                        <input type="checkbox" name="chk_#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'Y');" checked>
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" style="padding-top: 1.4rem;"></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="chk_#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'N');" >
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" style="padding-top: 1.4rem;"></label>
+    # } else if (atcCieYn == "N") { #
+                        <input type="checkbox" name="chk_#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'Y');" >
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" style="padding-top: 1.4rem;"></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="chk_#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'N');" checked>
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" style="padding-top: 1.4rem;"></label>
+    # } else { #
+                        <input type="checkbox" name="chk_#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'Y');" >
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_Y" style="padding-top: 1.4rem;"></label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" name="chk_#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" id="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" class="k-checkbox" data-check-row="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" onclick="fnChkSet(this, '#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#', 'N');" >
+                        <label class="k-checkbox-label" for="#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#_N" style="padding-top: 1.4rem;"></label>
+    # } #
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" style="margin:0 1.6rem;height:4rem;margin-bottom:10px">
+        <div class="form-item">
+            <div class="form-item-inner">
+                <textarea class="form-textarea" id="cont_#:carSvcTpCd#_#:carChkAtcCd#_#:carChkAtcDetlCd#" placeholder="상세내역 및 권장사항" style="height:4rem;padding:0.6rem;font-size: 1.2rem;overflow: hidden;"># if (chkConts && chkConts !== 'null' && chkConts.trim() !== '') { # #: chkConts # # } #</textarea>
+            </div>
+        </div>
+    </div>
+    </script>
+
+        <link rel="stylesheet" type="text/css" href="/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+
+        <script type="text/javascript" src="/resources/mob/js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/resources/mob/js/pub-ui.js"></script>
+
+        <!-- modal -->
+        <div class="modal-confirm" style="z-index: 999;">
+            <div class="modal-content">
+                <!-- modal-header -->
+                <div class="modal-header">
+                    <h1 class="header-title">날짜 선택</h1> <!-- 날짜 선택 -->
+                    <div class="header-right" style="top:1rem; right:1rem;">
+                        <button class="btn btn-util close btn-close-modal-confirm km-widget km-button"
+                            data-role="button">
+                            <span class="sr-only km-text">닫기</span> <!-- 닫기 -->
+                        </button>
+                    </div>
+                </div>
+                <!-- modal-header// -->
+                <!-- modal-body -->
+                <div class="modal-body modal-datepicker-area">
+                    <div id="datepicker" class="modal-datepicker hasDatepicker">
+                        <div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"
+                            style="display: block;">
+                            <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a
+                                    class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click"
+                                    title="Prev"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a><a
+                                    class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click"
+                                    title="Next"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a>
+                                <div class="ui-datepicker-title"><span
+                                        class="ui-datepicker-month">September</span>&nbsp;<span
+                                        class="ui-datepicker-year">2024</span></div>
+                            </div>
+                            <table class="ui-datepicker-calendar">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="ui-datepicker-week-end"><span title="Sunday">Su</span>
+                                        </th>
+                                        <th scope="col"><span title="Monday">Mo</span></th>
+                                        <th scope="col"><span title="Tuesday">Tu</span></th>
+                                        <th scope="col"><span title="Wednesday">We</span></th>
+                                        <th scope="col"><span title="Thursday">Th</span></th>
+                                        <th scope="col"><span title="Friday">Fr</span></th>
+                                        <th scope="col" class="ui-datepicker-week-end"><span title="Saturday">Sa</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">1</a>
+                                        </td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">2</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">3</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">4</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">5</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">6</a></td>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">7</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">8</a>
+                                        </td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">9</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">10</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">11</a></td>
+                                        <td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today"
+                                            data-handler="selectDay" data-event="click" data-month="8" data-year="2024">
+                                            <a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover"
+                                                href="#">12</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">13</a></td>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">14</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">15</a>
+                                        </td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">16</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">17</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">18</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">19</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">20</a></td>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">21</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">22</a>
+                                        </td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">23</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">24</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">25</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">26</a></td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">27</a></td>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">28</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click"
+                                            data-month="8" data-year="2024"><a class="ui-state-default" href="#">29</a>
+                                        </td>
+                                        <td class=" " data-handler="selectDay" data-event="click" data-month="8"
+                                            data-year="2024"><a class="ui-state-default" href="#">30</a></td>
+                                        <td
+                                            class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                            &nbsp;</td>
+                                        <td
+                                            class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                            &nbsp;</td>
+                                        <td
+                                            class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                            &nbsp;</td>
+                                        <td
+                                            class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                            &nbsp;</td>
+                                        <td
+                                            class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">
+                                            &nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="ui-datepicker-buttonpane ui-widget-content"><button type="button"
+                                    class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all"
+                                    data-handler="today" data-event="click">오늘</button></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- modal-body// -->
+            </div>
+        </div>
+
+        <!-- modal// -->
+        <script>
+            var id;
+
+            $(function () {
+
+                $(".modal-confirm").css("z-index", "999");
+
+                var calendar = $("#datepicker").datepicker({
+                    currentText: "오늘", // 오늘
+                    defaultDate: 'now',
+                    showButtonPanel: true,
+                    format: "yyyy-mm-dd",
+                    onSelect: function (date) {
+                        $("#" + id).val(formatDate(date));
+                        $(".modal-confirm").removeClass("show");
+                    }
+                });
+
+                $.datepicker._gotoToday = function () {
+                    var date = new Date();
+                    $("#" + id).val(formatDate(date));
+                    $(".modal-confirm").removeClass("show");
+                }
+            });
+
+            function formatDate(date) {
+                var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
+                if (month.length < 2)
+                    month = '0' + month;
+                if (day.length < 2)
+                    day = '0' + day;
+                return [year, month, day].join('-');
+            }
+
+            function fn_calendar(_this) {
+                $(".modal-confirm").addClass("show");
+                id = $(_this).prev("input").attr("id");
+            }
+        </script>
+        <script>
+
+            var carSvcTpCdList = [];
+            carSvcTpCdList.push({ 'cmmCd': '06', 'cmmCdNm': '더블 체크 차량점검', 'useYn': 'Y', 'remark1': 'O', 'remark2': 'null', 'remark3': 'null', 'remark4': 'null', 'remark5': 'null', 'remark6': 'null', 'remark7': 'null', 'remark8': 'null', 'remark9': 'null', 'remark10': 'null' });
+            carSvcTpCdList.push({ 'cmmCd': '07', 'cmmCdNm': '플러스 더블 체크 차량점검', 'useYn': 'Y', 'remark1': 'O', 'remark2': 'null', 'remark3': 'null', 'remark4': 'null', 'remark5': 'null', 'remark6': 'null', 'remark7': 'null', 'remark8': 'null', 'remark9': 'null', 'remark10': 'null' });
+            carSvcTpCdList.push({ 'cmmCd': '08', 'cmmCdNm': 'ID 더블 체크 차량점검', 'useYn': 'Y', 'remark1': 'O', 'remark2': 'null', 'remark3': 'null', 'remark4': 'null', 'remark5': 'null', 'remark6': 'null', 'remark7': 'null', 'remark8': 'null', 'remark9': 'null', 'remark10': 'null' });
+            carSvcTpCdList.push({ 'cmmCd': '99', 'cmmCdNm': '점검생략', 'useYn': 'Y', 'remark1': 'O', 'remark2': 'null', 'remark3': 'null', 'remark4': 'null', 'remark5': 'null', 'remark6': 'null', 'remark7': 'null', 'remark8': 'null', 'remark9': 'null', 'remark10': 'null' });
+
+
+
+            var options = parent.selectDirectReceptionDetlViewPopupWin.options.content.data;
+            var sDlrCd = options.sDlrCd;
+            var sBizAreaCd = options.sBizAreaCd;
+            var sBrchCd = options.sBrchCd;
+            var sRoNo = options.sRoNo;
+            var sResvNo = options.sResvNo;
+            var sCustNm = options.sCustNm;
+            var userId = 'vavsa_test1';
+            var userNm = 'SA_TEST';
+
+            let windowWidth;
+            let windowHeight;
+
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const formattedToDay = year + '.' + month + '.' + day + '.';
+
+            $('#mileAge').on('input', function () {
+                let value = $(this).val();
+                value = value.replace(/[^0-9]/g, '');
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                $(this).val(value);
+            });
+
+            $("#sToDt").kendoExtMaskedDateTimePicker({
+                format: "yyyy-MM-dd HH:mm"
+            });
+
+            $(document).on("click", ".date", function () {
+                fn_calendar(this);
+            });
+
+
+            $("#svcTpCdBtn").on("click", "button", function () {
+                $("#svcTpCdBtn button").removeClass("btn-Selected");
+                $(this).addClass("btn-Selected");
+
+                listSet($(this).attr('id'));
+            });
+
+
+            $(document).ready(function () {
+
+                const footerBtnContainer = $("#svcTpCdBtn");
+
+                for (let i = 0; i < carSvcTpCdList.length; i++) {
+                    const button = $('<button>', {
+                        text: carSvcTpCdList[i].cmmCdNm,
+                        id: carSvcTpCdList[i].cmmCd,
+                        type: 'button',
+                        class: 'btn-secondary'
+                    });
+                    footerBtnContainer.append(button);
+                }
+
+
+
+                setDisable();
+
+                //작업내용
+                getWorkCont();
+
+                //내부의견
+                getOpinionMtr();
+
+                //차량점검표시
+                carChkInfo();
+
+                //차량점검그림표시
+                fn_drawCarGrid();
+
+                $(document).on('focus', '#dlrOpinionMtr .basic-input', function () {
+                    $('#dlrOpinionMtr .basic-input').removeClass('opinionSelected');
+                    $(this).addClass('opinionSelected');
+                });
+
+                $(document).on('focus', '#carDlvTp .item-area', function () {
+                    $('#carDlvTp .item-area').removeClass('carDlvTpSelected');
+                    $(this).addClass('carDlvTpSelected');
+                });
+
+
+            });
+
+
+
+            //주행거리
+            function setDisable() {
+                if (sRoNo == 'null' || sRoNo == null) {
+                    $('#mileAge').prop('disabled', true);
+                    $('#mileAge').prop('readonly', true);
+                } else {
+                    $("#roNo").text("RO번호 : " + sRoNo);
+                    $('#mileAge').removeAttr('disabled');
+                    $('#mileAge').removeAttr('readonly');
+                }
+                $("#resvNo").text("예약번호 : " + sResvNo);
+            }
+
+            //작업내용
+            function getWorkCont() {
+                $.ajax({
+                    url: "/mob/ser/ro/roMng/popup/selectWorkContList.do",
+                    data: JSON.stringify({
+                        sRoNo: sRoNo,
+                        sResvNo: sResvNo
+                    }),
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    error: function (jqXHR, status, error) {
+                        dms.notification.error(jqXHR.responseJSON.errors);
+                    },
+                    success: function (jqXHR) {
+                        var workContList = [];
+
+                        jqXHR.data.forEach(function (item) {
+                            var newItem = {
+                                wrkGrpCd: item.wrkGrpCd,
+                                wrkConts: item.wrkConts === null ? '' : item.wrkConts
+                            };
+                            workContList.push(newItem);
+                        });
+                        $("#listview0").kendoMobileListView({
+                            dataSource: workContList,
+                            template: kendo.template($("#tmp0").html()),
+                        });
+                    }
+                });
+            }
+
+            //내부의견
+            var dlrOpinionMtrHtml;
+            function getOpinionMtr() {
+                $.ajax({
+                    url: "/mob/ser/ro/roMng/popup/selectOpinionMtrList.do",
+                    data: JSON.stringify({
+                        sRoNo: sRoNo,
+                        sResvNo: sResvNo
+                    }),
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    error: function (jqXHR, status, error) {
+                        dms.notification.error(jqXHR.responseJSON.errors);
+                    },
+                    success: function (jqXHR) {
+
+                        dlrOpinionMtrHtml = "";
+                        jqXHR.data.forEach(function (item) {
+                            var html = '<div class="input-area">'
+                                + '	<input type="text" class="basic-input" value="' + item.dlrOpinionMtr + '">'
+                                + '</div>';
+                            dlrOpinionMtrHtml += html;
+                        });
+
+                        $("#dlrOpinionMtr").html(dlrOpinionMtrHtml);
+                    }
+                });
+            }
+
+            $(document).on("click", "#btnAddInternalCont", function () {
+                var html = "";
+                html = '<div class="input-area">'
+                    + '	<input type="text" class="basic-input">'
+                    + '</div>';
+
+                $("#dlrOpinionMtr").append(html);
+            });
+
+            $(document).on("click", "#btnDelInternalCont", function () {
+                $('.opinionSelected').each(function () {
+                    var contArea = $(this).closest('.input-area');
+                    contArea.remove();
+                });
+
+            });
+
+            var carChkInfoPhoto = [];
+            var beforeCarChkInfo = {};
+            var afterCarChkInfo = {};
+            var signFileDocNo1 = '';
+            var signFileDocNo2 = '';
+            function carChkInfo() {
+                //차량점검표시 불러오기.
+                $.ajax({
+                    url: "/mob/ser/ro/roMng/popup/selectCarChkInfo.do",
+                    data: JSON.stringify({
+                        sResvNo: sResvNo,
+                        sRoNo: sRoNo,
+                        sCarSvcTpCd: selectCarSvcTpCd
+                    }),
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    error: function (jqXHR, status, error) {
+                        dms.notification.error(jqXHR.responseJSON.errors);
+                    },
+                    success: function (jqXHR) {
+                        if (jqXHR.data.length > 0) {
+                            beforeCarChkInfo = jqXHR.data[0];
+                            afterCarChkInfo = beforeCarChkInfo;
+                            // 사진촬영
+                            carChkInfoPhoto = [{
+                                title: "차량외관",	//차량외관
+                                id: "takePicDtime1",
+                                date: beforeCarChkInfo.takePicDtime1 != null && typeof beforeCarChkInfo.takePicDtime1 != 'undefined' ? beforeCarChkInfo.takePicDtime1 : ''
+                            }, {
+                                title: "사고부위",	//사고부위
+                                id: "takePicDtime2",
+                                date: beforeCarChkInfo.takePicDtime2 != null && typeof beforeCarChkInfo.takePicDtime2 != 'undefined' ? beforeCarChkInfo.takePicDtime2 : ''
+                            }, {
+                                title: "실내 및 트렁크",	//실내 및 트렁크
+                                id: "takePicDtime3",
+                                date: beforeCarChkInfo.takePicDtime3 != null && typeof beforeCarChkInfo.takePicDtime3 != 'undefined' ? beforeCarChkInfo.takePicDtime3 : ''
+                            }, {
+                                title: "휠 및 타이어",	//휠 및 타이어
+                                id: "takePicDtime4",
+                                date: beforeCarChkInfo.takePicDtime4 != null && typeof beforeCarChkInfo.takePicDtime4 != 'undefined' ? beforeCarChkInfo.takePicDtime4 : ''
+                            }, {
+                                title: "기타1",	//기타1
+                                id: "takePicDtime5",
+                                date: beforeCarChkInfo.takePicDtime5 != null && typeof beforeCarChkInfo.takePicDtime5 != 'undefined' ? beforeCarChkInfo.takePicDtime5 : ''
+                            }, {
+                                title: "기타2",	//기타2
+                                id: "takePicDtime6",
+                                date: beforeCarChkInfo.takePicDtime6 != null && typeof beforeCarChkInfo.takePicDtime6 != 'undefined' ? beforeCarChkInfo.takePicDtime6 : ''
+                            }];
+
+                            $("#listview2").kendoMobileListView({
+                                dataSource: carChkInfoPhoto,
+                                template: kendo.template($("#tmp2").html()),
+                            });
+
+                            /* $("#chkCustNm").text(beforeCarChkInfo.chkCustNm); // 고객 서명 이름
+                            if(dms.string.isNotEmpty(beforeCarChkInfo.chkCustDtime)){
+                                $("#chkCustDtime").text(formattedDay(beforeCarChkInfo.chkCustDtime)); // 고객 서명 일자
+                            }
+                            signFileDocNo1 = beforeCarChkInfo.chkCustSign; */
+
+                            if (beforeCarChkInfo.chkSaNm == '' || beforeCarChkInfo.chkSaNm == null) {
+                                $("#chkSaNm").text(userNm); // 점검자 서명 이름
+                            } else {
+                                $("#chkSaNm").text(beforeCarChkInfo.chkSaNm); // 점검자 서명 이름
+                            }
+                            if (dms.string.isNotEmpty(beforeCarChkInfo.chkSaDtime)) {
+                                $("#chkSaDtime").text(formattedDay(beforeCarChkInfo.chkSaDtime)); // 점검자 서명 일자
+                            }
+                            signFileDocNo2 = beforeCarChkInfo.chkSaSign;
+
+
+                            // 차량점검 표시
+                            fn_checkCarGrid(beforeCarChkInfo.carChkInfo);
+
+                            /* //서명데이타고객
+                            var content1 = "";
+                            var fileUrl1 = "";
+                            fileUrl = "/cmm/sci/fileUpload/link.do?fileDocNo=" + beforeCarChkInfo.chkCustSign + "&fileNo=1&inline=true&docNoYn=true&downloadDocType=crm";
+                            if(dms.string.isNotEmpty(beforeCarChkInfo.chkCustSign)){
+                                content1 += "<img src=\'"+fileUrl+"\' >";
+                            }
+                            $("#sign1").find(".sign-img-con").html(content1); */
+
+                            //서명데이타점검자
+                            var content2 = "";
+                            var fileUrl2 = "";
+                            fileUrl = "/cmm/sci/fileUpload/link.do?fileDocNo=" + beforeCarChkInfo.chkSaSign + "&fileNo=1&inline=true&docNoYn=true&downloadDocType=crm";
+                            if (dms.string.isNotEmpty(beforeCarChkInfo.chkSaSign)) {
+                                content2 += "<img src=\'" + fileUrl + "\' >";
+                            }
+                            $("#sign2").find(".sign-img-con").html(content2);
+
+                            if (dms.string.isNotEmpty(beforeCarChkInfo.whMilg)) {
+                                let milg = beforeCarChkInfo.whMilg;
+                                milg = milg.toLocaleString();
+
+                                $("#mileAge").val(milg);
+                            }
+
+                            //예상작업완료 시간
+                            const formattedDate = beforeCarChkInfo.resvEndDtime;
+                            if (formattedDate) {
+                                $("#resvEndDtime").val(formattedDate.slice(0, 16));
+                            } else {
+                                $("#resvEndDtime").val('');
+                            }
+
+
+                            //출고방법 선택
+                            if (dms.string.isNotEmpty(beforeCarChkInfo.carDlvTpCd)) {
+                                if (beforeCarChkInfo.carDlvTpCd == '01') {
+                                    $('#carDlvTp .item-area[data-val="01"]').addClass('carDlvTpSelected');
+                                } else if (beforeCarChkInfo.carDlvTpCd == '02') {
+                                    $('#carDlvTp .item-area[data-val="02"]').addClass('carDlvTpSelected');
+                                }
+                            }
+
+                            if (beforeCarChkInfo.doubleChkSvcTp == null) {
+                                $("#svcTpCdBtn > #06").addClass("btn-Selected");
+                                listSet("06");
+                            } else if (beforeCarChkInfo.doubleChkSvcTp == "99") {
+                                $('#chkSkipRsn').val(beforeCarChkInfo.chkSkipRsn);
+
+                            }
+                            //체크박스셋팅
+                            $("#svcTpCdBtn > #" + beforeCarChkInfo.doubleChkSvcTp).addClass("btn-Selected");
+                            listSet(beforeCarChkInfo.doubleChkSvcTp);
+
+                        } else {
+
+                            $("#chkCustNm").text(sCustNm);
+                            $("#chkSaNm").text(userNm); // 점검자 서명 이름
+
+                            $("#svcTpCdBtn > #06").addClass("btn-Selected");
+                            listSet("06");
+
+                        }
+                    }
+                });
+
+            }
+
+            function formattedDay(date) {
+                var today = new Date();
+                var year = today.getFullYear();
+                var month = String(today.getMonth() + 1).padStart(2, '0');
+                var day = String(today.getDate()).padStart(2, '0');
+                var formattedToDay = year + '.' + month + '.' + day + '.';
+                return formattedToDay;
+            }
+
+            $(document).on("click", ".sign_popup", function () {
+                signId = $(this).attr("id");
+                setDetlInfo(signId);
+            });
+
+            $(document).on("click", "#tab_drawCarGrid td", function (e) {
+
+                windowWidth = $(window).width();
+                windowHeight = $(window).height();
+
+                if (!$(this).attr('class')) {
+
+                    var divTop = e.clientY - 40;
+                    var divLeft = e.clientX;
+                    var divRight = 0;
+                    var json = {};
+
+                    if (divLeft + 150 > windowWidth) {
+                        $('#divView').css('left', '');
+                        divRight = windowWidth - divLeft;
+                        json = { "top": divTop, "right": divRight, "position": "absolute" };
+                    } else {
+                        $('#divView').css('right', '');
+                        json = { "top": divTop, "left": divLeft, "position": "absolute" };
+                    }
+
+                    var serial = this.children[0].attributes.serial.value;
+                    var idx = this.children[0].attributes.idx.value;
+
+
+                    var temp = "";
+                    temp += '<button class="btn btn-util close btn-close-modal km-widget km-button" onclick="scroll_off()" data-role="button" style="float: right;">';
+                    temp += '<span class="sr-only km-text"></span>';
+                    temp += '</button>';
+                    temp += '<div class="icon-more-sub">';
+                    temp += '   <ul>';
+                    temp += '	   <li style="display: flex;" serial="' + serial + '" idx="' + idx + '" data="dr_icon_1" onclick="fnSet(this,1);"><img src="/resources/mob/images/visual/dr_icon_1.png" style="width:20px;vertical-middle: bottom; margin: 5px;"/><label style="margin-left: 5px;line-height: 32px;">스크래치</label></li>';
+                    temp += '	   <li style="display: flex;" serial="' + serial + '" idx="' + idx + '" data="dr_icon_2" onclick="fnSet(this,2);"><img src="/resources/mob/images/visual/dr_icon_2.png" style="width:20px;vertical-middle: bottom; margin: 5px;"/><label style="margin-left: 5px;line-height: 32px;">칠까짐</label></li>';
+                    temp += '	   <li style="display: flex;" serial="' + serial + '" idx="' + idx + '" data="dr_icon_3" onclick="fnSet(this,3);"><img src="/resources/mob/images/visual/dr_icon_3.png" style="width:20px;vertical-middle: bottom; margin: 5px;"/><label style="margin-left: 5px;line-height: 32px;">덴트</label></li>';
+                    temp += '	   <li style="display: flex;" serial="' + serial + '" idx="' + idx + '" data="dr_icon_4" onclick="fnSet(this,4);"><img src="/resources/mob/images/visual/dr_icon_4.png" style="width:20px;vertical-middle: bottom; margin: 5px;"/><label style="margin-left: 5px;line-height: 32px;">갈라짐</label></li>';
+                    temp += '   </ul>';
+                    temp += '</div>';
+
+                    $('#divView').empty().append(temp);
+                    $('#divView').css(json).show();
+
+                    scroll_on();
+
+                } else {
+                    $(this).removeClass();
+                    $(this).find("input[type=checkbox][name=inp_carCheck]").attr("checked", false);
+                }
+
+            });
+
+            //저장 이벤트
+            $(document).on("click", "#btn_save", function () {
+                if (confirm('저장하시겠습니까?')) {	//저장하시겠습니까?
+                    if (selectCarSvcTpCd != "99") {
+                        captureAndSave();
+                    } else {
+
+                        var chkSkipRsnValue = $("#chkSkipRsn").val();
+
+                        var dlrOpinionMtrs = [];
+                        $("#dlrOpinionMtr .basic-input").each(function () {
+                            var inputValue = $(this).val();
+                            dlrOpinionMtrs.push(inputValue);
+                        });
+
+                        if (chkSkipRsnValue == null || chkSkipRsnValue.trim() === "") {
+                            alert("점검생략 사유를 입력해주세요.");
+                            return;
+                        } else {
+                            $.ajax({
+                                url: "/mob/ser/ro/roMng/mergeCarChkActCarSkip.do",
+                                data: JSON.stringify({
+                                    dlrOpinionMtrs: dlrOpinionMtrs,
+                                    doubleChkSvcTp: selectCarSvcTpCd,
+                                    chkSkipRsn: chkSkipRsnValue,
+                                    carSvcTpCd: '01',
+                                    roNo: sRoNo,
+                                    resvNo: sResvNo,
+                                    whMilg: parseInt($("#mileAge").val().replace(/,/g, ''), 10)
+                                }),
+                                type: 'POST',
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                error: function (jqXHR, status, error) {
+                                    dms.notification.error(jqXHR.responseJSON.errors);
+                                },
+                                success: function (jqXHR) {
+                                    if (jqXHR) {
+                                        //정상적으로 반영 되었습니다.
+                                        dms.notification.success("정상적으로 반영 되었습니다.");
+                                        parent.selectDirectReceptionDetlViewPopupWin.close();
+                                    } else {
+                                        //입력값을 확인하여 주십시오.
+                                        dms.notification.warning("입력값을 확인하여 주십시오.");
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+
+                }
+            });
+
+            function fn_drawCarGrid() {
+                var $table = $("<table/>", {
+                    id: "tab_drawCarGrid",
+                    style: "width:100%;height:100%"
+                });
+                for (var i = 0; i < 10; i++) {
+                    var $tr = $("<tr/>")
+                    for (var j = 0; j < 7; j++) {
+                        //var $td = $("<td/>");
+                        var $td = $("<td/>", {
+                            id: "td_" + (i + 1) + "_" + (j + 1)
+                        });
+                        var $input = $("<input/>", {
+                            name: "inp_carCheck",
+                            value: (i + 1) + "_" + (j + 1),
+                            type: "checkbox",
+                            serial: "inp_carCheck_serial" + (i + 1) + "_" + (j + 1),
+                            idx: "inp_carCheck_idx_" + (i + 1) + "_" + (j + 1)
+                        });
+                        $tr.append($td.append($input));
+                    }
+                    $table.append($tr);
+                }
+                $("#div_checkCarGrid").append($table);
+            }
+
+            //카메라
+            function btnCamera(id) {
+                var current = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '');
+                ;
+                $("." + id).find("p.item-md-text").text(current);
+                afterCarChkInfo[id] = current;
+
+                openCamera();
+            };
+
+            function openCamera() {
+                var isMobile = {
+                    Android: function () {
+                        return navigator.userAgent.match(/Android/i) == null ? false : true;
+                    },
+                    iOS: function () {
+                        return navigator.userAgent.match(/iPhone|iPad|iPod/i) == null ? false : true;
+                    },
+                    any: function () {
+                        return (isMobile.Android() || isMobile.iOS());
+                    }
+                };
+
+                var sendData = { message: "" };
+
+                if (isMobile.any()) {
+                    if (isMobile.Android()) {
+                        window.Android.openCamera();
+                    } else if (isMobile.iOS()) {
+                        window.webkit.messageHandlers.camera.postMessage(sendData);
+                    }
+                }
+            }
+
+            function getCUDData(dataSource, insertedPropName, updatedPropName, deletedPropName) {
+
+                var i = insertedPropName ? insertedPropName : "_inserted";
+                var u = updatedPropName ? updatedPropName : "_updated";
+                var d = deletedPropName ? deletedPropName : "_deleted";
+
+                var o = {};
+                o[i] = [];
+                o[u] = [];
+                o[d] = [];
+
+                o[d] = dataSource._destroyed;
+                $(dataSource._flatData(dataSource._data)).each(function (idx, value) {
+                    if (this.dirty) {
+                        o[u].push(value);
+                    }
+                });
+
+                return o[u];
+            }
+
+            function fn_checkCarGrid(data) {
+                if (data != null && data != '') {
+                    var checkArr = data.split(";");
+
+                    checkArr.forEach(function (item, index, arr2) {
+                        var arr = item.split("_");
+                        var row = arr[0];
+                        var col = arr[1];
+                        var gbn = arr[2];
+
+                        $("#tab_drawCarGrid").find("input[type=checkbox][name=inp_carCheck][value=" + row + "_" + col + "]").attr("checked", true);
+                        $("#td_" + row + "_" + col).css({ 'background-size': 'contain', 'background-position': 'center', 'background-repeat': 'no-repeat' })
+                        $("#td_" + row + "_" + col).addClass("background-dr_icon_" + gbn);
+                        var ele = $("#td_" + row + "_" + col + " input[type='checkbox']:first");
+                        ele.val(ele.val() + "_" + gbn);
+                        ele.attr("checked", true);
+                    })
+                }
+            }
+
+            function captureAndSave() {
+
+                var captureDiv = document.getElementById('div_capture');
+                var imageURL;
+                html2canvas(captureDiv, {
+                    allowTaint: true,
+                    useCORS: true,
+                    /* 아래 3 속성이 canvas의 크기를 정해준다. */
+                    width: captureDiv.offsetWidth,
+                    height: captureDiv.offsetHeight,
+                    scale: 1
+                }).then(function (canvas) {
+                    imageURL = canvas.toDataURL('image/jpeg');
+
+                    fn_save(imageURL);
+
+                }).catch(function (err) {
+                    console.log(err);
+                }
+                );
+            }
+
+            function changeDateType(str) {
+                var dateString = str;
+                dateString = dateString.slice(0, -1);
+                var dateParts = dateString.split('.');
+                var dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+
+                return dateObj;
+            }
+
+            function getCheckData() {
+                var processedCarSvcTpAtcCd = {};
+                $("#listMst li").each(function () {
+                    var carSvcTpAtcCd = $(this).find(".item-area").attr("data-carsvctpatccd");
+
+                    if (!carSvcTpAtcCd) {
+                        return;
+                    }
+
+                    var idParts = carSvcTpAtcCd.split("_");
+                    if (idParts.length !== 3) {
+                        return;
+                    }
+                    var carSvcTpCd = idParts[0];
+                    var carChkAtcCd = idParts[1];
+                    var carChkAtcDetlCd = idParts[2];
+
+                    if (!processedCarSvcTpAtcCd[carSvcTpAtcCd]) {
+                        processedCarSvcTpAtcCd[carSvcTpAtcCd] = {
+                            carSvcTpCd: carSvcTpCd,
+                            carChkAtcCd: carChkAtcCd,
+                            carChkAtcDetlCd: carChkAtcDetlCd,
+                            atcCieYn: null,
+                            chkCont: ""
+                        };
+                    }
+
+                    var atcCieYn = null;
+                    var textareaContent = "";
+
+                    $(this).find("input[type='checkbox']").each(function () {
+                        if ($(this).is(":checked")) {
+                            var value = $(this).attr("data-check-row");
+                            if (value) {
+                                var valueParts = value.split("_");
+                                var lastPart = valueParts[valueParts.length - 1];
+                                if (lastPart === "Y" || lastPart === "N") {
+                                    atcCieYn = lastPart;
+                                }
+                            }
+                        }
+                    });
+
+                    $(this).find("textarea").each(function () {
+                        var value = $(this).val().trim();
+
+                        if (value !== "") {
+                            textareaContent = value;
+                        }
+                    });
+
+                    if (atcCieYn) {
+                        processedCarSvcTpAtcCd[carSvcTpAtcCd].atcCieYn = atcCieYn;
+                    }
+                    if (textareaContent) {
+                        processedCarSvcTpAtcCd[carSvcTpAtcCd].chkCont = textareaContent;
+                    }
+                });
+
+                var result = [];
+
+                $.each(processedCarSvcTpAtcCd, function (key, value) {
+                    if (value.atcCieYn || value.chkCont) {
+                        result.push({
+                            carSvcTpCd: value.carSvcTpCd,
+                            carChkAtcCd: value.carChkAtcCd,
+                            carChkAtcDetlCd: value.carChkAtcDetlCd,
+                            atcCieYn: value.atcCieYn,
+                            chkConts: value.chkCont
+                        });
+                    }
+                });
+
+                return result;
+            }
+
+            function fn_save(chkImg) {
+                var carChkActInfo = {};
+
+                /* afterCarChkInfo['chkCustDtime'] = changeDateType($("#chkCustDtime").text());
+                afterCarChkInfo['chkCustSign'] = signFileDocNo1; */
+                afterCarChkInfo['chkSaDtime'] = changeDateType($("#chkSaDtime").text());
+                afterCarChkInfo['chkSaSign'] = signFileDocNo2;
+                afterCarChkInfo['chkSaId'] = userId;
+                afterCarChkInfo['chkImg'] = chkImg;
+                afterCarChkInfo['carDlvTpCd'] = $('#carDlvTp .carDlvTpSelected').data('val');
+                afterCarChkInfo['carSvcTpCd'] = '01';
+                afterCarChkInfo['doubleChkSvcTp'] = selectCarSvcTpCd;
+                afterCarChkInfo['resvNo'] = sResvNo;
+
+                var updateArr1 = getCheckData();
+                var updateArr2 = afterCarChkInfo;
+
+                var dlvExptDtime = $("#dlvExptDtime").val();
+
+                var carChkInfo = "";
+                $("#tab_drawCarGrid").find("input[type=checkbox][name=inp_carCheck]:checked").each(function (idx, data) {
+                    if (idx > 0) {
+                        carChkInfo += ";"
+                    }
+                    carChkInfo += $(data).attr("value");
+                });
+
+                updateArr2['carChkInfo'] = carChkInfo;
+
+                var dlrOpinionMtrs = [];
+                $("#dlrOpinionMtr .basic-input").each(function () {
+                    var inputValue = $(this).val();
+                    dlrOpinionMtrs.push(inputValue);
+                });
+
+                $.ajax({
+                    url: "/mob/ser/ro/roMng/mergeCarChkActCar.do",
+                    data: JSON.stringify({
+                        dlrOpinionMtrs: dlrOpinionMtrs,
+                        carChkActRsltList: updateArr1,
+                        carChkActInfo: updateArr2,
+                        doubleChkSvcTp: selectCarSvcTpCd,
+                        dlvExptDtime: dlvExptDtime,
+                        carSvcTpCd: '01',
+                        roNo: sRoNo,
+                        resvNo: sResvNo,
+                        whMilg: parseInt($("#mileAge").val().replace(/,/g, ''), 10)
+                    }),
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    error: function (jqXHR, status, error) {
+                        dms.notification.error(jqXHR.responseJSON.errors);
+                    },
+                    success: function (jqXHR) {
+                        if (jqXHR) {
+                            //정상적으로 반영 되었습니다.
+                            dms.notification.success("정상적으로 반영 되었습니다.");
+                            parent.selectDirectReceptionDetlViewPopupWin.close();
+                        } else {
+                            //입력값을 확인하여 주십시오.
+                            dms.notification.warning("입력값을 확인하여 주십시오.");
+                        }
+                    }
+                });
+
+            }
+
+            //취소버튼
+            function btnCancel() {
+                parent.selectDirectReceptionDetlViewPopupWin.close();
+            }
+
+            //상세 내용 세팅
+            function setDetlInfo(signId) {
+                openModalConfirm(signId);
+                if (signId == "sign1") {
+                    $("#div_confirm1").css("z-index", "999");
+                } else {
+                    $("#div_confirm2").css("z-index", "999");
+                }
+            }
+
+            function openModalConfirm(signSn) {
+                if (signId == "sign1") {
+                    $("#div_confirm1").addClass("show");
+                } else {
+                    $("#div_confirm2").addClass("show");
+                }
+            };
+
+            // confirm창 닫기
+            function closeModalConfirm(no) {
+                $("#div_confirm" + no).removeClass("show");
+            };
+
+            // 정보 초기화
+            function resetModalConfirm() {
+                $("#detlList").empty();
+                $("#title").empty();
+            };
+
+            var canvas1 = $("#signature-pad1 canvas")[0];
+            var sign1 = new SignaturePad(canvas1, {
+                minWidth: 3,
+                maxWidth: 5,
+                penColor: "rgb(0, 0, 0)"
+            });
+
+            var canvas2 = $("#signature-pad2 canvas")[0];
+            var sign2 = new SignaturePad(canvas2, {
+                minWidth: 3,
+                maxWidth: 5,
+                penColor: "rgb(0, 0, 0)"
+            });
+
+            $("[data-action]").on("click", function () {
+                var action = $(this).data("action");
+
+                if (action == "clear1") {
+                    sign1.clear();
+                } else if (action == "save1") {
+                    if (sign1.isEmpty()) {
+                        alert("서명을 해주시기 바랍니다.");	//서명을 해주시기 바랍니다. 
+                    } else {
+                        var myImage = document.getElementById('canvasSign1');
+                        var imgDataUrl = myImage.toDataURL('image/png');
+                        var blobBin = atob(imgDataUrl.split(',')[1]); // base64 데이터 디코딩
+                        var array = [];
+                        for (var i = 0; i < blobBin.length; i++) {
+                            array.push(blobBin.charCodeAt(i));
+                        }
+                        var file = new Blob([new Uint8Array(array)], {
+                            type: 'image/png'
+                        }); // Blob 생성
+                        closeModalConfirm(1);
+                        fn_setSign(file, 1);
+                    }
+                } else if (action == "clear2") {
+                    sign2.clear();
+                } else if (action == "save2") {
+                    if (sign2.isEmpty()) {
+                        alert("서명을 해주시기 바랍니다.");	//서명을 해주시기 바랍니다. 
+                    } else {
+                        var myImage = document.getElementById('canvasSign2');
+                        var imgDataUrl = myImage.toDataURL('image/png');
+                        var blobBin = atob(imgDataUrl.split(',')[1]); // base64 데이터 디코딩
+                        var array = [];
+                        for (var i = 0; i < blobBin.length; i++) {
+                            array.push(blobBin.charCodeAt(i));
+                        }
+                        var file = new Blob([new Uint8Array(array)], {
+                            type: 'image/png'
+                        }); // Blob 생성
+                        closeModalConfirm(2);
+                        fn_setSign(file, 2);
+                    }
+                }
+            });
+
+            function resizeCanvas() {
+                var canvas = $("#signature-pad canvas")[0];
+
+                var ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+            }
+
+            function fn_setSign(data, no) {
+                formdata = crm.signature.formData(data, "crm", "/sign/cust");
+
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "/cmm/sci/fileUpload/selectResumableFileUpload.do",
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                    async: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                    },
+                    error: function (e) {
+                    }
+                });
+
+                var content = "";
+                var fileUrl = "";
+                fileUrl = "/cmm/sci/fileUpload/link.do?fileDocNo=" + formdata.get("resumableSessionId") + "&fileNo=1&inline=true&docNoYn=true&downloadDocType=crm";
+                content += "<img src=\'" + fileUrl + "\' >";
+
+                $("#" + signId).find(".sign-img-con").html(content);
+
+                if (no == 1) {
+                    $("#chkCustDtime").text(formattedToDay);
+                    signFileDocNo1 = formdata.get("resumableSessionId");
+                    sign1.clear();
+                } else {
+                    $("#chkSaDtime").text(formattedToDay);
+                    signFileDocNo2 = formdata.get("resumableSessionId");
+                    sign2.clear();
+                }
+
+            }
+
+            function fnSet(arg, gbn) {
+                var chkTd = $('input[serial="' + arg.attributes.serial.value + '"]')[0].parentNode.id;
+
+                $("#" + chkTd).css({ 'background-size': 'contain', 'background-position': 'center', 'background-repeat': 'no-repeat' })
+                $("#" + chkTd).addClass("background-" + arg.attributes.data.value);
+
+                var arr = chkTd.split("_");
+                var row = arr[1];
+                var col = arr[2];
+
+                var ele = $("#td_" + row + "_" + col + " input[type='checkbox']:first");
+                ele.val(row + "_" + col + "_" + gbn);
+                ele.attr("checked", true);
+
+                scroll_off();
+            }
+
+            function scroll_on() {
+                $('#vwBody').on('scroll touchmove mousewheel', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                });
+            }
+
+            function scroll_off() {
+
+                $('#vwBody').off('scroll touchmove mousewheel');
+
+                document.getElementById('divView').style.display = 'none';
+            }
+
+
+            var selectCarSvcTpCd;
+            function listSet(carSvcTpCd) {
+                selectCarSvcTpCd = carSvcTpCd;
+
+                if (selectCarSvcTpCd != '99') {
+                    $('div[name="non99"]').show();
+                    $('div[name="is99"]').hide();
+
+                    var listMstDs = new kendo.data.DataSource({
+                        transport: {
+                            read: {
+                                url: "/mob/ser/ro/roMng/selectCarChkActMstListVw.do",
+                                dataType: "json",
+                                type: "POST",
+                                contentType: "application/json",
+                                success: function (data) {
+                                    alert(data.total);
+                                },
+                            },
+                            parameterMap: function (options, operation) {
+                                if (operation === "read") {
+                                    var params = {};
+
+                                    params["sCarSvcTpCd"] = selectCarSvcTpCd;
+                                    params["sChkPstnId"] = 'SA';
+
+                                    return kendo.stringify(params)
+                                }
+                            }
+                        },
+                        serverPaging: true,
+                        serverSorting: true,
+                        schema: {
+                            data: "data"
+                        }
+                    });
+
+                    $("#listMst").kendoMobileListView({
+                        dataSource: listMstDs,
+                        dataBound: function (e) { },
+                        template: kendo.template($("#listMst_template").html())
+                    });
+
+                    listMstDs.fetch(function () {
+                        var data = listMstDs.data();
+
+                        var i = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            setDtlList(data[i].carSvcTpCd, data[i].carChkAtcCd);
+                        }
+
+                    });
+
+                    $("#chkCustNm").text(sCustNm);
+
+                    setTimeout(function () {
+                        $('.accordion-btn').trigger('click');
+                    }, 500);
+                } else {
+
+                    $('div[name="non99"]').hide();
+                    $('div[name="is99"]').show();
+                }
+            }
+
+            function setDtlList(carSvcTpCd, carChkAtcCd) {
+                var listDetlDs = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url: "/mob/ser/ro/roMng/selectCarChkActDetlList.do",
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json",
+                            success: function (data) {
+                                alert(data.total);
+                            },
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation === "read") {
+                                var params = {};
+
+                                params["sCarSvcTpCd"] = carSvcTpCd;
+                                params["sCarChkAtcCd"] = carChkAtcCd;
+                                params["sChkPstnId"] = (carSvcTpCd == '01') ? '' : 'SA';
+                                params["sResvNo"] = sResvNo;
+
+                                return kendo.stringify(params)
+                            }
+                        }
+                    },
+                    serverPaging: true,
+                    serverSorting: true,
+                    schema: {
+                        data: "data"
+                    }
+                });
+
+                var template;
+                if (carSvcTpCd == "01") {
+                    template = kendo.template($("#listview_template_01").html());
+                } else {
+                    template = kendo.template($("#listview_template_default").html());
+                }
+
+                // 고객 listView
+                $("#listview" + carSvcTpCd + "_" + carChkAtcCd).kendoMobileListView({
+                    dataSource: listDetlDs,
+                    dataBound: function (e) {
+                        $("#listview" + carChkAtcCd + " > li > div").eq(0).css('padding-top', '14px');
+                    },
+                    template: template
+                });
+
+                var acc = document.querySelector("#accordion" + carSvcTpCd + "_" + carChkAtcCd);
+                accordionMultyEvent(acc);
+
+            }
+
+
+            function fnChkSet(arg, data, Yn) {
+                // Yes, No 체크 반대 풀어주기
+                if (arg.attributes.getNamedItem("data-check-row").value.indexOf("_Y") != -1) { //문자열 포함 시
+                    $("input:checkbox[id=" + data + "_N]").prop("checked", false);
+                } else {
+                    $("input:checkbox[id=" + data + "_Y]").prop("checked", false);
+                }
+            }
+        </script>
+    </div>
+    <!-- modal// -->
+    <script>
+        function fn_setNoCustomer(showYn) {
+            if ($("#p_noCustomer").length == 0) {
+                var $p = $("<p/>", {
+                    "class": "nodata",
+                    "id": "p_noCustomer"
+                }).text("최근 검색한 고객이 없습니다.");
+                $("div.recent-search-area").append($p);
+            }
+            if (showYn) {
+                $("#p_noCustomer").show();
+            } else {
+                $("#p_noCustomer").hide();
+            }
+        }
+
+    </script>
+
+
+    <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+    </div>
+</body>
+
+</html>

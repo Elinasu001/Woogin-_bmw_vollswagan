@@ -1,0 +1,422 @@
+<html lang="ko" class="k-webkit k-webkit128 k-mobile">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <title>WDMS STG</title>
+    
+    <!-- css -->
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css?ver=1.3">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/css/libs/slick.css">
+    <!-- js -->
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.fileDownload.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/crm/crm.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/sal/sal.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/slick.min.js"></script>
+
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+    
+    
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            var viewportMeta = document.querySelector('meta[name="viewport"]');
+
+            if (!viewportMeta) {
+                viewportMeta = document.createElement('meta');
+                viewportMeta.name = 'viewport';
+                document.head.appendChild(viewportMeta);
+            }
+
+            // 화면 너비가 768px 미만일 경우 (모바일)
+            if (window.innerWidth < 768) {
+                viewportMeta.content = 'user-scalable=no,width=375';
+            } else {
+                // 태블릿 및 그 이상일 경우
+                viewportMeta.content = 'user-scalable=no,width=768';
+            }
+        });
+    </script>
+<body>
+    <div id="wrap">
+        <header id="header" class="header">
+            <div class="header-left">
+                <button class="btn btn-util back">
+                    <span class="sr-only">뒤로가기</span>
+                </button>
+            </div>
+            <h1 class="header-title">고객서명</h1>
+            <div class="header-right">
+                <button class="btn btn-util menu">
+                    <span class="sr-only">메뉴</span>
+                </button>
+            </div>
+        </header>
+        <div id="content" class="bg fab-contain">
+            <div class="cont-body mo-body">
+                <!-- 팝업인지 아닌지 확인여부 -->
+                <div class="info-wrap">
+                        <div class="user-info-area">
+                        <!--아코디언-->
+                        <div class="info-sec">
+                            <ul class="accordion" id="accordion1">
+                                <!--고객정보-->
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title">
+                                            <p class="title">고객정보</p>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                        <div class="user-info-area">
+                                            <div class="user-info-detail">
+                                                <div class="info-dl">
+                                                    <dl class="info-dl-item">
+                                                        <dt>고객명</dt>
+                                                        <dd id="custNm">김폰폰</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>연락처</dt>
+                                                        <dd id="hpNo">01012345678</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>이메일주소</dt>
+                                                        <dd id="email"></dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>주소</dt>
+                                                        <dd id="addr">강원특별자치도 춘천시 퇴계로 5 (퇴계동)</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!--RO정보-->
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title">
+                                            <p class="title">RO정보</p>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                        <div class="user-info-area">
+                                            <div class="user-info-detail">
+                                                <div class="info-dl">
+                                                    <dl class="info-dl-item">
+                                                        <dt>R/O번호</dt>
+                                                        <dd id="roNo">RO2409000109</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>예약번호</dt>
+                                                        <dd id="resvNo">SB2409000084</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>SA</dt>
+                                                        <dd id="chrgSaNm">김태안</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>접수일자</dt>
+                                                        <dd id="roDtime">2024-09-30 13:54</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>출고예정일자</dt>
+                                                        <dd id="dlvExptDtime">2024-09-30 23:30</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>예상작업시간</dt>
+                                                        <dd id="requiredTime">9.6 시간</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>모델</dt>
+                                                        <dd id="modelNm">A6 3.2 FSI qu.</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>차량번호</dt>
+                                                        <dd id="carNo">14더7897</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>차대번호</dt>
+                                                        <dd id="vinNo">WAUZZZGY3MA001024</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>보증시작일</dt>
+                                                        <dd id="wartStartDt">2009-04-17 00:00</dd>
+                                                    </dl>
+                                                    <dl class="info-dl-item">
+                                                        <dt>주행거리(km)</dt>
+                                                        <dd id="lastCarMilg">50</dd>
+                                                    </dl>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!--작업내용-->
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title title-flex">
+                                            <div class="title-left">
+                                                <p class="title">작업내용</p>
+                                            </div>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                       <div class="agreement-area-wrap">
+                                        <ul id="listview03" class="list-group type2" data-role="listview"></ul>
+                                       </div>
+                                   </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--고객서명-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">서명</p>
+                                </div>
+                            </div>
+                            <div class="agreement-area-wrap">
+                                <div class="agreement-area">
+                                    <div class="agreement-body">
+                                        <div class="customer-sign">
+                                            <a href="javascript:;" class="sign-area">
+                                                <!-- 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <!-- <div class="sign-img-con"></div> -->
+                                                <!-- // 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <div class="sign-img-con">
+                                                    <img src="../../../images/temp/@signature_img.png" alt="">
+                                                </div>
+                                                <div class="sign-info-group">
+                                                    <p class="sign-info-date">2021년 12월 20일</p>
+                                                    <p class="sign-info-name">
+                                                        <span class="sign-title">이름</span>
+                                                        <span class="sign-name">홍길동</span>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="footer" class="footer">
+            <div class="footer-btn">
+                <button type="button" class="btn btn-primary">저장</button>
+            </div>
+        </footer>
+   
+    </div>
+    <script id="mainTemplate3" type="text/x-kendo-template">
+        <!--
+            itemColor : bp-int, g-cust 클래스 구분
+
+        -->
+        <div class="group-header">
+            <div class="item-link-group">
+                <div class="label-thirds horizontal">
+                    <span class="label-con">#: label1.num #</span>
+                    <span class="label-con">#: label1.text1 #</span>
+                    <span class="label-con">#: label1.text2 #</span>
+                </div>
+            </div>
+            # if (subtext1 || subtext2) { #
+                <div class="text">
+                    # if (subtext1) { #
+                        <span>#: subtext1 #</span>
+                    # } #
+                    # if (subtext2) { #
+                        <span>#: subtext2 #</span>
+                    # } #
+                </div>
+            # } #
+        </div><!--//group-header-->
+        <ol id="sublistview03_#: id #" class="listnum" data-role="listview"></ol>
+    </script>
+    <script id="subTemplate3" type="text/x-kendo-template">
+        <div class="item-area">
+            <div class="item-area-con">
+                <div class="item-md-text-group">
+                    <!-- 부품컬러:green, 공임 컬러:blue-->
+                    <p class="item-md-text #: itemColor #">#: itemTxt #</p>
+                    <p class="item-md-text">#: itemNm #</p>
+                    <p class="item-md-text">#: itemCd #</p>
+                </div>
+                <div class="item-md-text-group">
+                    <p class="item-md-text">#: qty #</p> <!-- 수량 -->
+                    <p class="item-md-text">#: utpe #</p>  <!-- 단가 -->
+                    <p class="item-md-text">#: amt #</p>   <!-- 금액 -->
+                </div>
+            </div>
+        </div>
+    </script>
+    <script>
+        var mainData3 = [
+        {
+                id: "03_001",
+                label1: { num: "10000", text1: "BP-INS", text2: "AXA 손해보험"},
+                subtext1: "최종 점검 최종 기술 검사",
+                subtext2: "",
+                /*subData3: [
+                    {
+                        id: "1",
+                        itemColor: "blue",
+                        itemTxt: "[공임]",
+                        itemNm: "STICKER", 
+                        itemCd: "000010006E",
+                        qty: "1.00TU",
+                        utpe: "1,400",
+                        amt: "1,400",
+                    },
+                    {
+                        id: "2",
+                        itemColor: "blue",
+                        itemTxt: "[공임]",
+                        itemNm: "STICKER", 
+                        itemCd: "000010006E",
+                        qty: "1.00TU",
+                        utpe: "1,400",
+                        amt: "1,400",
+                    }
+                ]*/
+            },
+            {
+                id: "03_002",
+                num: "1000",
+                label1: { num: "20000", text1: "BP-INS", text2: "AXA 손해보험"},
+                subtext1: "최종 점검 최종 기술 검사",
+                subtext2: "상세정보 입력",
+                subData3: [
+                    {
+                        id: "1",
+                        itemColor: "green",
+                        itemTxt: "[부품]",
+                        itemNm: "STICKER",
+                        itemCd: "000010006E",
+                        qty: "1.00TU",
+                        utpe: "1,400",
+                        amt: "1,400",
+                    },
+                    {
+                        id: "2",
+                        itemColor: "blue",
+                        itemTxt: "[공임]",
+                        itemNm: "STICKER",
+                        itemCd: "000010006E",
+                        qty: "1.00TU",
+                        utpe: "1,400",
+                        amt: "1,400",
+                    }
+                ]
+            },
+            {
+                id: "03_003",
+                label1: { num: "30000", text1: "BP-INS", text2: "AXA 손해보험"},
+                subtext1: "",
+                subtext2: "",
+                /*subData3: [
+                    {
+                        id: "1",
+                        itemColor: "blue",
+                        itemTxt: "[공임]",
+                        itemNm: "STICKER", 
+                        itemCd: "000010006E",
+                        qty: "1.00TU",
+                        utpe: "1,400",
+                        amt: "1,400",
+                    },
+                    {
+                        id: "2",
+                        itemColor: "blue",
+                        itemTxt: "[공임]",
+                        itemNm: "STICKER", 
+                        itemCd: "000010006E",
+                        qty: "1.00TU",
+                        utpe: "1,400",
+                        amt: "1,400",
+                    }
+                ]*/
+            },
+            {
+                id: "03_004",
+                label1: { num: "40000", text1: "BP-INS", text2: "AXA 손해보험"},
+                subtext1: "",
+                subtext2: "",
+                /*subData3: [
+                    {
+                        id: "1",
+                        itemNm: "STICKER", 
+                        itemCd: "000010006E",
+                        qty: "1.00TU",
+                        utpe: "1,400",
+                        amt: "1,400",
+                    },
+                    {
+                        id: "2",
+                        itemNm: "STICKER", 
+                        itemCd: "000010006E",
+                        qty: "1.00TU",
+                        utpe: "1,400",
+                        amt: "1,400",
+                    }
+                ]*/
+            }
+        ];
+
+        $(document).ready(function () {
+            var acc1 = document.querySelector("#accordion1");
+            accordionEvent(acc1);
+
+            $("#listview03").kendoMobileListView({
+                dataSource: kendo.data.DataSource.create({ data: mainData3 }),
+                template: kendo.template($("#mainTemplate3").html()),
+
+                dataBound: function () {
+                    var view = this.dataSource.view();
+
+                    view.forEach(function(item) {
+                        var subList = $("#sublistview03_" + item.id);
+
+                        if (subList.length && item.subData3) {
+                            setTimeout(function() {
+                                subList.kendoMobileListView({
+                                    dataSource: kendo.data.DataSource.create({ data: item.subData3 }),
+                                    template: kendo.template($("#subTemplate3").html())
+                                });
+                            }, 0);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

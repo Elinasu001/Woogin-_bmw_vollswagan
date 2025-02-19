@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/guide.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../scripts/libs/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="scripts/libs/shCore.js"></script>
+    <script type="text/javascript" src="scripts/libs/shBrushCss.js"></script>
+    <script type="text/javascript" src="scripts/libs/shBrushJScript.js"></script>
+    <script type="text/javascript" src="scripts/libs/shBrushXml.js"></script>
+    <script type="text/javascript" src="scripts/static2.js"></script>
+    <title>현황판</title>
+</head>
+
+<body>
+    <div id="guide-wrap" class="guide-wrap2">
+        <div id="guide-header">
+            <h1 class="logo"><a href="../index.html">PC/Tablet 현황판(IA)</a></h1>
+        </div>
+        <div id="container" class="ia">
+            <div class="guide-note">
+                <h2>작성 가이드</h2>
+                <ul>
+                    <li>* 구분 표시방법 - P : Popup, T : Tab, ST : Step </li>
+                    <li>* 유형 - 기획 IA 정의서 참고하여 작성</li>
+                    <li>* 진척관리 - 최초 완료표시 기준으로 날짜를 표시하고, 비고란에 전달사항이 있는경우 표시한다.</li>
+                    <li>* 결함관리 - 신규/수정/삭제 이슈가 있는 경우 소스코드와 비고란에 동일한 주석문구를 표시한다.<br />(주석표기 예시 - YY.MM.DD 수정 : 작업내용)</li>
+                    <!-- <li>3차 최종완료 - 사이트 오픈후에 전체현황을 엑셀로 백업하여 기록을 남기고 비고란은 삭제한다.</li> -->
+                </ul>
+            </div>
+            <div class="work-status">
+                <span class="item"><em>총 페이지 : </em><em class="real-total-amount"></em>(<em class="total-amount"></em>),</span>
+                <span class="item"><em>완료 : </em><em class="done-amount"></em>,</span>
+                <span class="item"><em>배포 : </em><em class="fine-amount"></em>,</span>
+                <span class="item"><em>진척률 : </em><em class="ratio"></em>%</span>
+            </div>
+            <ul class="table">SeolSans
+                <li class="table-header">
+                    <span scope="col" class="col-no">번호</span>
+                    <span class="col-sort">형태</span>
+                    <span scope="col" class="col-sort">카테고리</span>
+                    <span scope="col" class="col-1depth">1depth</span>
+                    <span scope="col" class="col-2depth">2depth</span>
+                    <span scope="col" class="col-3depth">3depth</span>
+                    <span scope="col" class="col-pattern">유형</span>
+                    <span scope="col" class="col-type">구분</span>
+                    <span scope="col" class="col-url">URL</span>
+                    <span scope="col" class="col-id">Program ID</span>
+                    <span scope="col" class="col-date">날짜</span>
+                    <span scope="col" class="col-status">상태</span><!-- ing, done, fine, delete -->
+                    <span scope="col" class="col-worker">담당자</span>
+                    <span scope="col" class="col-memo">비고</span>
+                </li>
+            </ul>
+           <ul class="table table-app">
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort">시승관리</span>
+                <span class="col-1depth">시승신청목록</span>
+                <span class="col-2depth">시승차량선택</span>
+                <span class="col-3depth"></span>
+                <span class="col-pattern"></span>
+                <span class="col-type">ST1</span>
+                <span class="col-url">DriveRequest_ST1</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">기존활용</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">시승차량검색</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">P</span>
+                <span class="col-url">DriveRequest_P</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">기존활용</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">차량정보</span>
+                <span class="col-pattern"></span>
+                <span class="col-type"></span>
+                <span class="col-url">DriveRequest_P2</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo">
+                </span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth">스케쥴선택</span>
+                <span class="col-3depth"></span>
+                <span class="col-pattern"></span>
+                <span class="col-type">ST2</span>
+                <span class="col-url">DriveRequest_ST2</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">캘린더선택</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">P</span>
+                <span class="col-url">DriveRequest_ST2</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status dong fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo">
+                    24.10.24-기존활용 사용 X, 켄도사용작업필요<br>
+                    켄도사용 불가, 기존 활용 작업가능
+                </span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">사간선택</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">P</span>
+                <span class="col-url">DriveRequest_ST2</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">기존활용</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth">고객정보입력</span>
+                <span class="col-3depth"></span>
+                <span class="col-pattern"></span>
+                <span class="col-type">ST3</span>
+                <span class="col-url">DriveRequest_ST3</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth">신청상세내용</span>
+                <span class="col-3depth"></span>
+                <span class="col-pattern"></span>
+                <span class="col-type">ST4</span>
+                <span class="col-url">DriveRequest_ST4</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth">시승현황상세</span>
+                <span class="col-3depth"></span>
+                <span class="col-pattern"></span>
+                <span class="col-type"></span>
+                <span class="col-url">DriveStatus_Details</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">예약정보변경</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">P</span>
+                <span class="col-url">DriveStatus_Details_P</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">예약정보변경(alert)</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">A</span>
+                <span class="col-url">DriveStatus_Details_A</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">운행종료 안내</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">P</span>
+                <span class="col-url">DriveStatus_Details_P2</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">신규</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">운행종료 안내</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">P</span>
+                <span class="col-url">DriveStatus_Details_E</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">기존활용</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth">시승신청 내역</span>
+                <span class="col-3depth">시승신청 내역</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">T</span>
+                <span class="col-url">manage_T1</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">기존활용</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">반납/최소내역</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">T</span>
+                <span class="col-url">manage_T1</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+            <li class="table-body">
+                <span class="col-no"></span>
+                <span class="col-sort">기존활용</span>
+                <span class="col-sort"></span>
+                <span class="col-1depth"></span>
+                <span class="col-2depth"></span>
+                <span class="col-3depth">시승신청 검색</span>
+                <span class="col-pattern"></span>
+                <span class="col-type">P</span>
+                <span class="col-url">manage_P</span>
+                <span class="col-id"></span>
+                <span class="col-date"></span>
+                <span class="col-status done fine"></span>
+                <span class="col-worker"></span>
+                <span class="col-memo"></span>
+            </li>
+        </div>
+    </div>
+</body>
+</html>

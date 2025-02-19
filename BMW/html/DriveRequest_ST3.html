@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">-->
+        <meta name="viewport" content="user-scalable=no,width=375">
+        <title>My DMS STG</title>
+     <!-- css -->
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/css/libs/slick.css">
+        <!-- js -->
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.fileDownload.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/pub-ui.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/crm/crm.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/sal/sal.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/slick.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+        <script src="../../resources/mob/js/jquery-ui.min.js"></script>
+        <script>
+            var _contextPath = "";
+            $(function() {
+                $("button.btn.btn-util.back").not(".btn-close-gnb").on("click", function() {
+                    // window.history.back();
+                    window.location.replace("/selectHome.do");
+                });
+            });
+        </script>
+    </head>
+
+
+<body>
+    <!--MO07030100-->
+    <div id="wrap">
+        <header id="header" class="header">
+            <div class="header-left">
+                <button class="btn btn-util back">
+                    <span class="sr-only">뒤로가기</span>
+                </button>
+            </div>
+            <h1 class="header-title">시승신청</h1>
+            <div class="header-right">
+                <button class="btn btn-util menu">
+                    <span class="sr-only">메뉴</span>
+                </button>
+            </div>
+        </header>
+        <div id="content" class="bg scroll-hidden">
+            <div class="cont-body mo-body">
+                <div class="card-list">
+                    <div class="search-header">
+                        <div class="step-nav">
+                            <ul class="col04">
+                                <li>시승차량선택</li>
+                                <li>스케쥴선택</li>
+                                <li class="active">고객정보입력</li>
+                                <li>신청상세내용</li>
+                            </ul>
+                        </div>
+                        <div class="title-area">
+                            <p class="title">고객 정보를 선택해주세요</p>
+                        </div>
+                        <div class="search-area">
+                            <input type="text" class="search-input" placeholder="고객명을 입력하세요">
+                            <button class="search-input-btn">
+                                <span class="sr-only">검색</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="search-list-wrap">
+                        <!--<div class="list-header">
+                            <div class="list-header-left">
+                                <p class="total-count-area">총 <span class="num">16</span>건</p>
+                            </div>
+                        </div>-->
+                        <ul id="listview" class="list-group telnum" data-role="listview"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="footer" class="footer">
+            <div class="footer-btn">
+                <button type="button" class="btn btn-primary">완료</button>
+            </div>
+        </footer>
+    </div>
+    <script id="tmp" type="text/x-kendo-template">
+        <div class="item-area vertical">
+            <div class="item-area-con item-flex">
+                <div class="item-left">
+                    <!--
+                        라벨컬러값 
+                          - [상태] 일반시승:drive , 대차:change , 마케팅:marketing , 관리:manage
+                          - [운행상태] 승인대기중:Waiting, 시승중:driveing , 시승종료:driveend, 승인거절:refusal
+                     -->
+                    <div class="label-half horizontal">
+                        <span class="label-con label-text1 #: label.color1 #"">#: label.text1 #</span>
+                        <span class="label-con label-text1 #: label.color2 #"">#: label.text2 #</span>
+                    </div>
+                </div>
+                <div class="item-right">
+                    <div class="item-icon-group">
+                        <a href="javascript:;" class="item-icon icon-phone">
+                            <span class="sr-only">call</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="item-area-con">
+                <div class="item-user-text">
+                    <p class="item-text bold">#: name #</p>
+                    <p class="item-text">#: carNum1 #</p>
+                    <p class="item-text">#: carNum2 #</p>
+                </div>
+                
+            </div>
+            <div class="item-area-con item-flex flex-end">
+                <div class="item-left">
+                    <div class="item-text-group">
+                        <p class="item-text">#: info.text1 #</p>
+                        <p class="item-text date">#: info.text2 # ~</p>
+                    </div>
+                </div>
+                <div class="item-right item-flex">
+                    <p class="item-sub-text">2021</p>
+                    <p class="item-text">06.28</p>
+                </div>
+            </div>
+        </div>
+        <!-- nodata 일 때 -->
+        <!-- <div class="item-area">
+            <p class="nodata">조회된 데이터가 없습니다.</p>
+        </div> -->
+        <!-- nodata 일 때 -->
+    </script>
+    <!--
+       라벨컬러값 
+         - [상태] 일반시승:drive , 대차:change , 마케팅:marketing , 관리:manage
+         - [운행상태] 승인대기중:Waiting, 시승중:driveing , 시승종료:driveend, 승인거절:refusal
+    -->
+    <script>
+        var groupedData = [
+            {
+                name: "홍길동",
+                carNum1: "0974",
+                carNum2: "12가 4567",
+                label: { color1: "drive", text1: "일반시승", text2: "승인대기중", color2: "Waiting" },
+                info: { text1: "320i LCI", text2: "2024-01-10 12:00" }
+            },
+            {
+                name: "김동현",
+                carNum1: "0974",
+                carNum2: "12가 4567",
+                label: { color1: "change", text1: "대차", text2: "승인대기중", color2: "Waiting" },
+                info: { text1: "320i LCI", text2: "2024-01-10 12:00" }
+            },
+            {
+                name: "정예진",
+                carNum1: "0974",
+                carNum2: "12가 4567",
+                label: { color1: "drive", text1: "일반시승", text2: "시승종료", color2: "driveend" },
+                info: { text1: "320i LCI", text2: "2024-01-10 12:00" }
+            },
+            {
+                name: "김윤우",
+                carNum1: "0974",
+                carNum2: "12가 4567",
+                label: { color1: "manage", text1: "관리", text2: "시승중", color2: "driveing" },
+                info: { text1: "320i LCI", text2: "2024-01-10 12:00" }
+            },
+            {
+                name: "김윤우",
+                carNum1: "0974",
+                carNum2: "12가 4567",
+                label: { color1: "manage", text1: "관리", text2: "승인거절", color2: "refusal" },
+                info: { text1: "320i LCI", text2: "2024-01-10 12:00" }
+            }
+        ];
+        $(document).ready(function () {
+            // listview
+            $("#listview").kendoMobileListView({
+                dataSource: kendo.data.DataSource.create({ data: groupedData }),
+                template: kendo.template($("#tmp").html()),
+            });
+        });
+    </script>
+</body>
+
+</html>

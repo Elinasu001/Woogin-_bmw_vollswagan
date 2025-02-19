@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO">
+
+	<!-- Active RAC 일반수리 차량점검 항목 조회 -->
+	<select id="selectCarChkActCarSvcTpCd01List" parameterType="CarChkActSearchMobVO" resultType="CarChkActMstMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.selectCarChkActCarSvcTpCd01List] */
+		SELECT
+		     #{sDlrCd} AS DLR_CD
+		    ,#{sBizAreaCd} AS BIZ_AREA_CD
+		    ,#{sBrchCd} AS BRCH_CD
+		    ,#{sRoNo} AS RO_NO
+		    ,s1.CAR_SVC_TP_CD
+		    ,s1.CAR_CHK_STAT_TP_CD
+		    ,s1.CAR_CHK_ATC_SORT_SN
+		    ,s1.CAR_CHK_ATC_CD
+		    ,s1.CAR_CHK_ATC_NM
+		    ,s1.CAR_CHK_ATC_DETL_CD
+		    ,s1.CAR_CHK_ATC_DETL_NM
+		    ,s2.ATC_CIE_YN
+		    ,s2.CHK_USR_ID
+		    ,s2.CHK_DT
+		    ,s2.REG_USR_ID
+		    ,s2.REG_DT
+		    ,s2.UPDT_USR_ID
+		    ,s2.UPDT_DT
+		FROM (
+		    SELECT
+		         T1.CAR_SVC_TP_CD                 /*차량점검항목코드 (SER016)*/
+		        ,T1.CAR_CHK_STAT_TP_CD            /*차량점검상태유형코드 (SER017)*/
+		        ,T1.CAR_CHK_ATC_SORT_SN           /*차량점검항목정렬순번*/
+		        ,T1.CAR_CHK_ATC_CD                /*차량점검항목코드*/
+		        ,T1.CAR_CHK_ATC_NM                /*차량점검항목명*/
+		        ,T1.ETL_YN                        /*필수여부*/
+		        ,T2.CAR_CHK_ATC_DETL_CD           /*차량점검항목상세코드*/
+		        ,T2.CAR_CHK_ATC_DETL_NM           /*차량점검항목상세명*/
+		    FROM SER_CAR_CHK_ACT_MST T1
+		    LEFT JOIN SER_CAR_CHK_ACT_DETL T2
+		    ON T1.CAR_SVC_TP_CD = T2.CAR_SVC_TP_CD
+		    AND T1.CAR_CHK_STAT_TP_CD = T2.CAR_CHK_STAT_TP_CD
+		    AND T1.CAR_CHK_ATC_SORT_SN = T2.CAR_CHK_ATC_SORT_SN
+		    AND T1.CAR_CHK_ATC_CD = T2.CAR_CHK_ATC_CD
+		    WHERE T1.CAR_SVC_TP_CD = #{sCarSvcTpCd} --01:일반수리, 02:사고수리
+		    AND T1.CAR_CHK_STAT_TP_CD = #{sCarChkStatTpCd} --R:RAC, E:End Control, T:RAC/End Control
+		)  s1
+		LEFT OUTER JOIN SER_CAR_CHK_ACT_RSLT s2
+		  ON s2.DLR_CD = #{sDlrCd}
+		  AND s2.BIZ_AREA_CD = #{sBizAreaCd}
+		  AND s2.BRCH_CD = #{sBrchCd}
+		  AND s2.RO_NO = #{sRoNo}
+		  AND s1.CAR_SVC_TP_CD = s2.CAR_SVC_TP_CD
+		  AND s1.CAR_CHK_STAT_TP_CD = s2.CAR_CHK_STAT_TP_CD
+		  AND s1.CAR_CHK_ATC_SORT_SN = s2.CAR_CHK_ATC_SORT_SN
+		  AND s1.CAR_CHK_ATC_CD = s2.CAR_CHK_ATC_CD
+		  AND s1.CAR_CHK_ATC_DETL_CD = s2.CAR_CHK_ATC_DETL_CD
+		ORDER BY s1.CAR_CHK_ATC_SORT_SN ASC
+	</select>
+	
+	<!-- Active RAC 사고수리 차량점검 항목 조회 -->
+	<select id="selectCarChkActCarSvcTpCd02List" parameterType="CarChkActSearchMobVO" resultType="CarChkActMstMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.selectCarChkActCarSvcTpCd02List] */
+		SELECT
+		     #{sDlrCd} AS DLR_CD
+		    ,#{sBizAreaCd} AS BIZ_AREA_CD
+		    ,#{sBrchCd} AS BRCH_CD
+		    ,#{sRoNo} AS RO_NO
+		    ,s1.CAR_SVC_TP_CD
+		    ,s1.CAR_CHK_STAT_TP_CD 
+		    ,s1.CAR_CHK_ATC_SORT_SN
+		    ,s1.CAR_CHK_ATC_CD
+		    ,s1.CAR_CHK_ATC_NM
+		    ,s1.ETL_YN
+		    ,s1.CAR_CHK_ATC_DETL_CD 
+		    ,s1.CAR_CHK_ATC_DETL_NM 
+		    ,s2.ATC_CIE_YN
+		    ,s2.CHK_USR_ID
+		    ,s2.CHK_DT
+		    ,s2.REG_USR_ID
+		    ,s2.REG_DT
+		    ,s2.UPDT_USR_ID
+		    ,s2.UPDT_DT
+		FROM (	        
+		    SELECT 
+		         T1.CAR_SVC_TP_CD        /*차량점검항목코드 (SER016)*/
+		        ,T1.CAR_CHK_STAT_TP_CD   /*차량점검상태유형코드 (SER017)*/
+		        ,T1.CAR_CHK_ATC_SORT_SN  /*차량점검항목정렬순번*/
+		        ,T1.CAR_CHK_ATC_CD       /*차량점검항목코드*/
+		        ,T1.CAR_CHK_ATC_NM       /*차량점검항목명*/
+		        ,T1.ETL_YN               /*필수여부*/
+		        ,'00' AS CAR_CHK_ATC_DETL_CD
+		        ,''   AS CAR_CHK_ATC_DETL_NM
+		    FROM SER_CAR_CHK_ACT_MST T1
+		    WHERE T1.CAR_SVC_TP_CD = #{sCarSvcTpCd} -- 01:일반수리, 02:사고수리
+		      AND T1.CAR_CHK_STAT_TP_CD = #{sCarChkStatTpCd} -- R:RAC, E:End Control, T:RAC/End Control
+		      AND T1.CAR_CHK_ATC_CD NOT IN ('19')	--사고수리의 경우 [19:공통]은 Active RAC체크항목에서 제외
+		)  s1
+		LEFT OUTER JOIN SER_CAR_CHK_ACT_RSLT s2
+		  ON s2.DLR_CD = #{sDlrCd}
+		  AND s2.BIZ_AREA_CD = #{sBizAreaCd}
+		  AND s2.BRCH_CD = #{sBrchCd}
+		  AND s2.RO_NO = #{sRoNo}
+		  AND s1.CAR_SVC_TP_CD = s2.CAR_SVC_TP_CD
+		  AND s1.CAR_CHK_STAT_TP_CD = s2.CAR_CHK_STAT_TP_CD
+		  AND s1.CAR_CHK_ATC_SORT_SN = s2.CAR_CHK_ATC_SORT_SN
+		  AND s1.CAR_CHK_ATC_CD = s2.CAR_CHK_ATC_CD
+		  AND s1.CAR_CHK_ATC_DETL_CD = s2.CAR_CHK_ATC_DETL_CD
+		ORDER BY s1.CAR_CHK_ATC_SORT_SN ASC
+	</select>
+	
+	<!-- 차량점검 정보 조회 -->
+	<select id="selectCarChkInfo" parameterType="CarChkActSearchMobVO" resultType="CarChkActInfoMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.selectCarChkInfo] */
+		SELECT
+		     T1.DLR_CD
+		    ,T1.BIZ_AREA_CD
+		    ,T1.BRCH_CD
+		    ,T1.RO_NO
+		    ,#{sCarSvcTpCd} AS CAR_SVC_TP_CD
+		    ,#{sCarChkStatTpCd} AS CAR_CHK_STAT_TP_CD
+		    ,T2.CAR_CHK_INFO
+		    <choose>
+				<when test='flag == "E02"'>
+					,T2.CHK_DTIME_IE AS CHK_DTIME
+					,T2.CHK_USR_ID_IE AS CHK_USR_ID
+					,T2.CHK_USR_SIGN_IE AS CHK_USR_SIGN
+					,T2.TAKE_PIC_DTIME_IE_1 AS TAKE_PIC_DTIME_1
+					,T2.TAKE_PIC_DTIME_IE_2 AS TAKE_PIC_DTIME_2
+					,T2.TAKE_PIC_DTIME_IE_3 AS TAKE_PIC_DTIME_3
+					,T2.TAKE_PIC_DTIME_IE_4 AS TAKE_PIC_DTIME_4
+					,T2.TAKE_PIC_DTIME_IE_5 AS TAKE_PIC_DTIME_5
+					,T2.TAKE_PIC_DTIME_IE_6 AS TAKE_PIC_DTIME_6
+					,T2.TAKE_PIC_DTIME_IE_7 AS TAKE_PIC_DTIME_7
+					,T2.TAKE_PIC_DTIME_IE_8 AS TAKE_PIC_DTIME_8
+					,T2.TAKE_PIC_DTIME_IE_9 AS TAKE_PIC_DTIME_9
+					,T2.TAKE_PIC_DTIME_IE_10 AS TAKE_PIC_DTIME_10
+					,NVL(T2.REMARK_IE_1,' ') AS REMARK_1
+					,NVL(T2.REMARK_IE_2,' ') AS REMARK_2
+				</when>
+				<otherwise>
+					,T2.CHK_DTIME 
+					,T2.CHK_USR_ID
+					,T2.CHK_USR_SIGN 
+					,T2.TAKE_PIC_DTIME_1
+					,T2.TAKE_PIC_DTIME_2
+					,T2.TAKE_PIC_DTIME_3
+					,T2.TAKE_PIC_DTIME_4
+					,T2.TAKE_PIC_DTIME_5
+					,T2.TAKE_PIC_DTIME_6
+					,T2.TAKE_PIC_DTIME_7
+					,T2.TAKE_PIC_DTIME_8
+					,T2.TAKE_PIC_DTIME_9
+					,T2.TAKE_PIC_DTIME_10
+					,NVL(T2.REMARK_1,' ') AS REMARK_1
+					,NVL(T2.REMARK_2,' ') AS REMARK_2
+				</otherwise>
+			</choose>
+		    ,T2.FILE_DOC_NO
+		    ,T2.FILE_NO
+		    ,T2.REG_USR_ID
+		    ,T2.REG_DT
+		    ,T2.UPDT_USR_ID
+		    ,T2.UPDT_DT
+		    ,CASE WHEN T2.CHK_USR_ID IS NULL THEN FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID)
+		    	  ELSE FN_GET_USR_NM(T2.DLR_CD, T2.CHK_USR_ID)
+		    	   END CHRG_SA_NM   /*담당SA 명*/
+		FROM SER_RO_MNG T1
+		    LEFT OUTER JOIN SER_CAR_CHK_INFO T2
+		      ON T1.DLR_CD = T2.DLR_CD
+		      AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD
+		      AND T1.BRCH_CD = T2.BRCH_CD
+		      AND T1.RO_NO = T2.RO_NO
+		      AND T2.CAR_SVC_TP_CD = #{sCarSvcTpCd} -- 01:일반수리, 02:사고수리
+		      AND T2.CAR_CHK_STAT_TP_CD = #{sCarChkStatTpCd}-- R:RAC, E:End Control, T:RAC/End Control
+		WHERE 1=1
+		  AND T1.DLR_CD = #{sDlrCd}
+		  AND T1.BIZ_AREA_CD = #{sBizAreaCd}
+		  AND T1.BRCH_CD = #{sBrchCd}
+		  AND T1.RO_NO = #{sRoNo}
+	</select>
+
+	<!-- Plus Double Check 점검지유형 목록 조회 -->
+	<select id="selectPlusDoubleCheckTypeList" parameterType="String" resultType="RoMngPlusDoubleCheckMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.selectPlusDoubleCheckTypeList] */
+		SELECT
+			 CMM_CD
+			,CMM_CD_NM
+		  FROM CMM_CODE
+	     WHERE 1=1
+		   AND CMM_GRP_CD = 'SER016'
+		   AND CODE_BRAND_CD IN ('ALL', #{sBrandCd})
+		   AND REMARK1 = 'O'
+	</select>
+
+	<!-- Plus Double Check 점검항목 목록 조회 -->
+	<select id="selectPlusDoubleCheckItemList" parameterType="CarChkActSearchMobVO" resultType="CarPlusDoubleCheckRsltMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.selectPlusDoubleCheckItemList] */
+		SELECT ROWNUM AS RNUM, T.*
+		  FROM (
+			SELECT
+				 T1.CAR_SVC_TP_CD  										--차량점검항목코드
+				,T1.CHK_TP_CD  											--응답유형타입
+				,FN_CMM_CD('SER137', T1.CHK_TP_CD, 'N') AS CHK_TP_NM  	--응답유형타입(명)
+				,T1.CAR_CHK_ATC_CD 										--차량점검 마스터코드
+				,T1.CAR_CHK_ATC_NM 										--차량점검 마스터코드(명)
+				,T2.CAR_CHK_ATC_DETL_CD  								--차량점검상세 항목코드
+				,T2.CAR_CHK_ATC_DETL_NM 								--차량점검상세 항목코드(명)
+				,T2.REMARK 												--비고
+				,T3.ATC_CIE_YN 											--점검결과
+				,T3.NXT_SVC_DT 											--넥스트 서비스 예상일자
+				,T3.CHK_CONTS 											--점검내용
+				,T4.CHK_TC_DT 											--점검일시(테크니션)
+				,T4.CHK_TC_ID 											--점검자ID(테크니션)
+				,T4.CHK_SKIP_RSN 										--점검생략사유
+			  FROM SER_CAR_CHK_ACT_MST T1 					--차량점검항목마스터
+			 INNER JOIN SER_CAR_CHK_ACT_DETL T2
+				ON T1.CAR_SVC_TP_CD = T2.CAR_SVC_TP_CD
+			   AND T1.CAR_CHK_ATC_CD = T2.CAR_CHK_ATC_CD
+			  LEFT OUTER JOIN SER_CAR_CHK_ACT_RSLT T3 		--차량점검항목결과
+				ON T2.CAR_SVC_TP_CD = T3.CAR_SVC_TP_CD
+			   AND T2.CAR_CHK_ATC_CD = T3.CAR_CHK_ATC_CD
+			   AND T2.CAR_CHK_ATC_DETL_CD = T3.CAR_CHK_ATC_DETL_CD
+		       AND T3.DLR_CD = #{sDlrCd}
+			   AND T3.BIZ_AREA_CD = #{sBizAreaCd}
+		       AND T3.BRCH_CD = #{sBrchCd}
+			   AND T3.REF_NO = #{sRoNo}
+			  LEFT OUTER JOIN SER_CAR_CHK_INFO T4 			--차량점검정보
+				ON T3.DLR_CD = T4.DLR_CD
+			   AND T3.BIZ_AREA_CD = T4.BIZ_AREA_CD
+			   AND T3.BRCH_CD = T4.BRCH_CD
+			   AND T3.REF_NO = T4.REF_NO
+			   AND T3.CAR_SVC_TP_CD = T4.CAR_SVC_TP_CD
+			 WHERE 1=1
+			   AND T1.CAR_SVC_TP_CD = #{sCarSvcTpCd}
+			 ORDER BY T1.CAR_CHK_ATC_CD, T2.CAR_CHK_ATC_DETL_CD
+		  ) T
+	</select>
+
+	<!-- Plus Double Check 점검정보(특이사항, 서명 등) 조회 -->
+	<select id="selectPlusDoubleChkInfo" parameterType="CarChkActSearchMobVO" resultType="CarPlusDoubleCheckInfoMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.selectPlusDoubleChkInfo] */
+		SELECT
+			 CHK_TC_SIGN 					--점검자서명(테크니션)
+			,FN_GET_USR_NM(DLR_CD, CHK_TC_ID) AS CHK_TC_NM 		--점검자(ID)이름
+			,CHK_TC_DT 						--점검일시(테크니션)
+			,REMARK_TC 						--점검비고(테크니션)
+			,CHK_SKIP_RSN 					--점검생략사유
+		  FROM SER_CAR_CHK_INFO
+		 WHERE 1=1
+		   AND DLR_CD = #{sDlrCd}
+		   AND BIZ_AREA_CD = #{sBizAreaCd}
+		   AND BRCH_CD = #{sBrchCd}
+		   AND REF_NO = #{sRoNo}
+		   AND CAR_SVC_TP_CD = #{sCarSvcTpCd}
+	</select>
+
+	<!-- Plus Double Check 차량점검 결과 병합 -->
+	<update id="mergePlusDoubleChkCar" parameterType="CarPlusDoubleCheckRsltMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.mergePlusDoubleChkCar] */
+		MERGE INTO SER_CAR_CHK_ACT_RSLT
+		USING DUAL
+		   ON (
+			DLR_CD = #{dlrCd}
+			AND BIZ_AREA_CD = #{bizAreaCd}
+			AND BRCH_CD = #{brchCd}
+			AND REF_NO = #{refNo}
+			AND CAR_SVC_TP_CD = #{carSvcTpCd}
+			AND CAR_CHK_ATC_CD = #{carChkAtcCd}
+			AND CAR_CHK_ATC_DETL_CD = #{carChkAtcDetlCd}
+		)
+		 WHEN MATCHED THEN
+			UPDATE SET
+				 ATC_CIE_YN = NVL(#{atcCieYn}, 'N')
+				,NXT_SVC_DT = NVL(#{nxtSvcdt}, NULL)
+				,CHK_USR_ID = #{chkUsrId}
+				,CHK_DT = SYSDATE
+				,CHK_CONTS = #{chkConts}
+				,UPDT_USR_ID = #{updtUsrId}
+				,UPDT_DT = SYSDATE
+		WHEN NOT MATCHED THEN
+			INSERT(
+				 DLR_CD
+				,BIZ_AREA_CD
+				,BRCH_CD
+				,REF_NO
+				,CAR_SVC_TP_CD
+				,CAR_CHK_ATC_CD
+				,CAR_CHK_ATC_DETL_CD
+				,ATC_CIE_YN
+				,NXT_SVC_DT
+				,CHK_USR_ID
+				,CHK_DT
+				,CHK_CONTS
+				,REG_USR_ID
+				,REG_DT
+				,UPDT_USR_ID
+				,UPDT_DT
+			)
+			VALUES (
+				 #{dlrCd}
+				,#{bizAreaCd}
+				,#{brchCd}
+				,#{refNo}
+				,#{carSvcTpCd}
+				,#{carChkAtcCd}
+				,#{carChkAtcDetlCd}
+				,#{atcCieYn}
+				,#{nxtSvcdt}
+				,#{chkUsrId}
+				,SYSDATE
+				,#{chkConts}
+				,#{regUsrId}
+				,SYSDATE
+				,#{updtUsrId}
+				,SYSDATE
+			)
+	</update>
+
+	<!-- Plus Double Check 차량점검 정보 병합 -->
+	<update id="mergePlusDoubleChkInfo" parameterType="CarPlusDoubleCheckInfoMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.mergePlusDoubleChkInfo] */
+		MERGE INTO SER_CAR_CHK_INFO
+		USING DUAL
+		   ON (
+			DLR_CD = #{dlrCd}
+			AND BIZ_AREA_CD = #{bizAreaCd}
+			AND BRCH_CD = #{brchCd}
+			AND REF_NO = #{roNo}
+			AND CAR_SVC_TP_CD = #{carSvcTpCd}
+		)
+		 WHEN MATCHED THEN
+			UPDATE SET
+				 CHK_TC_SIGN = #{chkTcSign}  	--점검자서명(테크니션)
+				,REMARK_TC = #{remarkTc} 		--점검비고(테크니션) (기타 특이사항)
+				,CHK_TC_DT = SYSDATE 			--점검일시(테크니션)
+				,CHK_TC_ID = #{chkTcId} 		--점검자ID(테크니션)
+				,CHK_SKIP_RSN = #{chkSkipRsn} 	--점검생략사유
+				,UPDT_USR_ID = #{updtUsrId}
+				,UPDT_DT = SYSDATE
+		 WHEN NOT MATCHED THEN
+			INSERT(
+				 DLR_CD
+				,BIZ_AREA_CD
+				,BRCH_CD
+				,REF_NO
+				,CAR_SVC_TP_CD
+				,CHK_TC_DT
+				,CHK_TC_ID
+				,CHK_TC_SIGN
+				,REMARK_TC
+				,CHK_SKIP_RSN
+				,REG_USR_ID
+				,REG_DT
+				,UPDT_USR_ID
+				,UPDT_DT
+				)
+			VALUES(
+				 #{dlrCd}
+				,#{bizAreaCd}
+				,#{brchCd}
+				,#{roNo}
+				,#{carSvcTpCd}
+				,SYSDATE
+				,#{chkTcId} 		--점검자ID(테크니션)
+				,#{chkTcSign} 		--점검자서명(테크니션)
+				,#{remarkTc} 		--점검비고(테크니션) (기타 특이사항)
+				,#{chkSkipRsn} 		--점검생략사유
+				,#{updtUsrId}
+				,SYSDATE
+				,#{updtUsrId}
+				,SYSDATE
+			)
+	</update>
+	
+	<!-- Final Inspection 결과 병합 -->
+	<update id="mergeCarChkAct" parameterType="CarChkActRsltMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.mergeCarChkAct] */
+    	MERGE INTO SER_CAR_CHK_ACT_RSLT
+	    USING DUAL 
+	       ON (
+	        DLR_CD = #{dlrCd}
+	        AND BIZ_AREA_CD = #{bizAreaCd}
+	        AND BRCH_CD = #{brchCd}
+	        AND REF_NO = #{roNo}
+	        AND CAR_SVC_TP_CD = #{carSvcTpCd}
+<!--	        AND SORT_SN = #{sortSn} 					&#45;&#45; 필요한지 확인 필요-->
+	        AND CAR_CHK_ATC_CD = #{carChkAtcCd}
+	        AND CAR_CHK_ATC_DETL_CD = #{carChkAtcDetlCd}
+	    )
+	    WHEN MATCHED THEN
+	        UPDATE SET
+	             ATC_CIE_YN = NVL(#{atcCieYn}, 'N')
+	            ,CHK_USR_ID = #{regUsrId}
+	            ,CHK_DT = SYSDATE
+	            ,UPDT_USR_ID = #{regUsrId}
+	            ,UPDT_DT = SYSDATE
+	    WHEN NOT MATCHED THEN
+	        INSERT(
+	        	 DLR_CD
+	            ,BIZ_AREA_CD
+	            ,BRCH_CD
+	            ,REF_NO
+	            ,CAR_SVC_TP_CD
+	            ,SORT_SN
+	            ,CAR_CHK_ATC_CD
+	            ,CAR_CHK_ATC_DETL_CD
+	            ,ATC_CIE_YN
+	            ,CHK_USR_ID
+	            ,CHK_DT
+	            ,REG_USR_ID
+	            ,REG_DT
+	            ,UPDT_USR_ID
+	            ,UPDT_DT
+	        )VALUES(
+	        	 #{dlrCd}
+	            ,#{bizAreaCd}
+	            ,#{brchCd}
+	            ,#{roNo}
+	            ,#{carSvcTpCd}
+	            ,#{sortSn}
+	            ,#{carChkAtcCd}
+	            ,#{carChkAtcDetlCd}
+	            ,#{atcCieYn}
+	            ,#{regUsrId}
+	            ,SYSDATE
+	            ,#{regUsrId}
+	            ,SYSDATE
+	            ,#{regUsrId}
+	            ,SYSDATE
+	        )
+    </update>
+    
+    <!-- Final Inspection 정보 병합 -->
+    <update id="mergeCarChkInfo" parameterType="CarChkActInfoMobVO">
+		/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.mergeCarChkInfo] */
+    	MERGE INTO SER_CAR_CHK_INFO
+	    USING DUAL 
+	       ON (
+	        DLR_CD 				= #{dlrCd}
+	        AND BIZ_AREA_CD 	= #{bizAreaCd}
+	        AND BRCH_CD 		= #{brchCd}
+	        AND REF_NO 			= #{roNo}
+	        AND CAR_SVC_TP_CD 	= #{carSvcTpCd}
+	    )
+	    WHEN MATCHED THEN
+	        UPDATE SET
+	             CAR_CHK_INFO = #{carChkInfo}
+				,CHK_TC_SIGN = #{chkTcSign}
+				,CHK_CT_SIGN = #{chkCtSign}
+				,CHK_SA_SIGN = #{chkSaSign}
+				,REMARK_TC = #{remarkTc}
+				,REMARK_CT = #{remarkCt}
+				,REMARK_SA = #{remarkSa}	-- CHK_**_ID, CHK_**_DT는 전부 다르게 삽입해야 함 (일단 보류)
+				,CHK_TC_DT = SYSDATE   		-- 3개 DT 모두 통일되게 처리
+				,CHK_CT_DT = SYSDATE
+				,CHK_SA_DTIME = SYSDATE
+				,CHK_TC_ID = #{regUsrId}	-- 3개 ID 모두 통일되게 처리
+				,CHK_CT_ID = #{regUsrId}
+				,CHK_SA_ID = #{regUsrId}
+				,FILE_DOC_NO = #{fileDocNo}
+	            ,FILE_NO = #{fileNo}
+	            ,UPDT_USR_ID = #{regUsrId}
+	            ,UPDT_DT = SYSDATE
+	    WHEN NOT MATCHED THEN
+	        INSERT(
+	        	 DLR_CD
+	            ,BIZ_AREA_CD
+	            ,BRCH_CD
+	            ,REF_NO
+	            ,CAR_SVC_TP_CD
+	            ,CAR_CHK_INFO
+				,CHK_TC_DT
+				,CHK_CT_DT
+				,CHK_SA_DTIME
+				,CHK_TC_ID
+				,CHK_CT_ID
+				,CHK_SA_ID
+				,CHK_TC_SIGN
+				,CHK_CT_SIGN
+				,CHK_SA_SIGN
+				,REMARK_TC
+				,REMARK_CT
+				,REMARK_SA
+	            ,FILE_DOC_NO
+	            ,FILE_NO
+	            ,REG_USR_ID
+	            ,REG_DT
+	            ,UPDT_USR_ID
+	            ,UPDT_DT
+	        )VALUES(
+	        	 #{dlrCd}
+	            ,#{bizAreaCd}
+	            ,#{brchCd}
+	            ,#{roNo}
+	            ,#{carSvcTpCd}
+	            ,#{carChkInfo}
+	            ,SYSTIMESTAMP
+				,SYSTIMESTAMP
+				,SYSTIMESTAMP
+				,#{updtUsrId}
+				,#{updtUsrId}
+				,#{updtUsrId}
+	            ,#{chkTcSign}
+				,#{chkCtSign}
+				,#{chkSaSign}
+				,#{remarkTc}
+				,#{remarkCt}
+				,#{remarkSa}
+	            ,#{fileDocNo}
+	            ,#{fileNo}
+	            ,#{regUsrId}
+	            ,SYSDATE
+	            ,#{regUsrId}
+	            ,SYSDATE
+	        )
+    </update>
+    
+    <update id="updateCarChkInfoChkImg" parameterType="CarChkActInfoMobVO">
+    	/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.updateCarChkInfoChkImg] */
+    	UPDATE SER_CAR_CHK_INFO
+           SET CHK_IMG = #{chkImgByteArr}
+         WHERE DLR_CD = #{dlrCd}
+           AND BIZ_AREA_CD = #{bizAreaCd}
+           AND BRCH_CD = #{brchCd}
+           AND RO_NO = #{roNo}
+           AND CAR_SVC_TP_CD = #{carSvcTpCd}
+           AND CAR_CHK_STAT_TP_CD = #{carChkStatTpCd}
+    </update>
+
+	<!-- 이 아래부터 Final Inspection 관련 (새로운 Mapper로 분리할 수도 있음)-->
+
+	<!-- Final Inspection 체크리스트 목록과 체크 여부 조회 -->
+	<!-- RO_NO 등을 기준으로 검색 -->
+	<select id="selectFinalInspectionCheckList" parameterType="CarChkActSearchMobVO" resultType="CarChkActInfoMobVO">
+	/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.selectFinalInspectionCheckList] */
+		SELECT
+			s1.CAR_SVC_TP_CD
+			,s1.SORT_SN
+			,s1.CAR_CHK_ATC_CD
+			,s1.CAR_CHK_ATC_NM
+			,s1.CAR_CHK_ATC_DETL_CD
+			,s1.CAR_CHK_ATC_DETL_NM
+			,s1.CHK_PSTN_ID
+			,s1.REMARK
+			,s2.ATC_CIE_YN 				-- 점검결과(Y, N)
+			,s2.CHK_USR_ID
+			,s2.REG_USR_ID
+			,s2.REG_DT
+			,s2.UPDT_USR_ID
+			,s2.UPDT_DT
+		  FROM (
+			SELECT
+				T1.CAR_SVC_TP_CD
+				,T1.SORT_SN
+				,T1.CAR_CHK_ATC_CD
+				,T1.CAR_CHK_ATC_NM
+				,T1.CHK_PSTN_ID
+				,T2.CAR_CHK_ATC_DETL_CD
+				,T2.CAR_CHK_ATC_DETL_NM
+				,T2.REMARK
+			  FROM SER_CAR_CHK_ACT_MST T1
+			 INNER JOIN SER_CAR_CHK_ACT_DETL T2
+			    ON T1.CAR_SVC_TP_CD = T2.CAR_SVC_TP_CD
+			   AND T1.CAR_CHK_ATC_CD = T2.CAR_CHK_ATC_CD
+			   AND T1.CAR_SVC_TP_CD = #{sCarSvcTpCd}			-- VW는 04, Audi는 05
+			) s1
+		  LEFT OUTER JOIN SER_CAR_CHK_ACT_RSLT s2
+			ON s2.DLR_CD = #{sDlrCd}
+		   AND s2.BIZ_AREA_CD = #{sBizAreaCd}
+		   AND s2.BRCH_CD = #{sBrchCd}
+		   AND s2.REF_NO = #{sRoNo}
+		   AND s1.CAR_SVC_TP_CD = s2.CAR_SVC_TP_CD
+		   AND s1.SORT_SN = s2.SORT_SN 							-- 필요한 컬럼인지 확인 필요
+		   AND s1.CAR_CHK_ATC_CD = s2.CAR_CHK_ATC_CD
+		   AND s1.CAR_CHK_ATC_DETL_CD = s2.CAR_CHK_ATC_DETL_CD
+		 ORDER BY s1.SORT_SN ASC, s1.CAR_CHK_ATC_DETL_CD ASC
+	</select>
+	<!-- Final Inspection 비고 & 서명 조회 -->
+	<select id="selectRemarksAndSigns" parameterType="CarChkActSearchMobVO" resultType="FinalInspectionMobVO">
+	/* [com.wdms.dms.mob.ser.carChkAct.service.dao.CarChkActMobDAO.selectRemarksAndSigns] */
+		SELECT
+			CHK_TC_DT
+			,CHK_CT_DT
+			,CHK_SA_DTIME
+			,FN_GET_USR_NM(DLR_CD, CHK_TC_ID) AS CHK_TC_ID
+			,FN_GET_USR_NM(DLR_CD, CHK_CT_ID) AS CHK_CT_ID
+			,FN_GET_USR_NM(DLR_CD, CHK_SA_ID) AS CHK_SA_ID
+			,CHK_TC_SIGN
+			,CHK_CT_SIGN
+			,CHK_SA_SIGN
+			,REMARK_TC
+			,REMARK_CT
+			,REMARK_SA
+		  FROM SER_CAR_CHK_INFO
+		 WHERE 1=1
+		   AND DLR_CD 		 = #{sDlrCd}
+		   AND BIZ_AREA_CD   = #{sBizAreaCd}
+		   AND BRCH_CD 		 = #{sBrchCd}
+		   AND REF_NO 		 = #{sRoNo}
+		   AND CAR_SVC_TP_CD = #{sCarSvcTpCd}
+	</select>
+
+</mapper>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">-->
+        <meta name="viewport" content="user-scalable=no,width=375">
+        <title>My DMS STG</title>
+     <!-- css -->
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/css/libs/slick.css">
+        <!-- js -->
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.fileDownload.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/pub-ui.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/crm/crm.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/sal/sal.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+        <script src="../../resources/mob/js/jquery-ui.min.js"></script>
+        <script>
+            var _contextPath = "";
+            $(function() {
+                $("button.btn.btn-util.back").not(".btn-close-gnb").on("click", function() {
+                    // window.history.back();
+                    window.location.replace("/selectHome.do");
+                });
+            });
+        </script>
+    </head>
+
+
+<body>
+    <!--MO07030100-->
+    <div id="wrap">
+        <header id="header" class="header">
+            <div class="header-left">
+                <button class="btn btn-util back">
+                    <span class="sr-only">뒤로가기</span>
+                </button>
+            </div>
+            <h1 class="header-title">시승현황 상세</h1>
+            <div class="header-right">
+                <button class="btn btn-util menu">
+                    <span class="sr-only">메뉴</span>
+                </button>
+            </div>
+        </header>
+        <div id="content" class="bg scroll-hidden">
+            <div class="cont-body mo-body">
+                <div class="info-wrap">
+                    <div class="user-info-area info-content">
+                        <div class="list-header">
+                            <div class="list-header-left">
+                                <p class="title">신청내역</p> 
+                            </div>
+                            <div class="list-header-right">
+                                <div class="item-icon-group">
+                                    <a href="javascript:;" class="item-icon icon-search">
+                                        <span class="sr-only">검색</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-info-detail rcompleted">
+                            <div class="item-area vertical">
+                                <div class="item-area-con item-flex">
+                                    <div class="item-left">
+                                        <!--
+                                        라벨컬러값 
+                                            - [상태] 일반시승:drive , 대차:change , 마케팅:marketing , 관리:manage
+                                            - [운행상태] 승인대기중:Waiting, 시승중:driveing , 시승종료:driveend, 승인거절:refusal
+                                        -->
+                                        <div class="label-half horizontal">
+                                            <span class="label-con label-text1 drive">일반시승</span>
+                                            <span class="label-con label-text1 Waiting">승인대기중</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-right">
+                                        <div class="item-icon-group type2">
+                                            <a href="javascript:;" class="item-icon icon-time">연장</a>
+                                            <a href="javascript:;" class="item-icon icon-write">수정</a>
+                                            <a href="javascript:;" class="item-icon icon-del">삭제</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-area-con item-flex">
+                                    <div class="item-full">
+                                        <div class="time-se">
+                                            <p>
+                                                <span>2024-04-01 (월)</span>
+                                                <span>08:30</span>
+                                            </p>
+                                            <p>~</p>
+                                            <p>
+                                                <span>2024-04-01 (월)</span>
+                                                <span>08:30</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="item-full">
+                                        <p class="title">
+                                            <span class="font-bold">396버 6105</span>
+                                            <span>320i LCI</span>
+                                        </p>
+                                        <div class="text-group">
+                                            <p>
+                                                <span class="s-tite">담당 SC</span>
+                                                <span>김규리 SC</span>
+                                            </p>
+                                            <p>
+                                                <span class="s-tite">지점</span>
+                                                <span>동탄지점</span>
+                                            </p>
+                                            <p>
+                                                <span class="s-tite">고객명</span>
+                                                <span>권기현 010-1234-5678</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form>
+                                <div class="form-group bt1">
+                                    <div class="text-group">
+                                        <p>
+                                            <span>신청</span>
+                                            <span>03/02 15:51</span>
+                                        </p>
+                                        <p>
+                                            <span>승인</span>
+                                            <span class="point">완료</span>
+                                        </p>
+                                    </div>
+                                    <div class="form-item selectbox">
+                                        <select id="selectInput"></select>
+                                    <script>
+                                        // select
+                                        $("#selectInput").kendoExtDropDownList({
+                                            optionLabel: "시승동의서작성",
+                                            autoBind: false,
+                                            dataTextField: "text",
+                                            dataValueField: "value",
+                                            dataSource: [
+                                                { text: "item1", value: "1" },
+                                                { text: "item2", value: "2" },
+                                                { text: "item3", value: "3" },
+                                            ]
+                                        });
+                                    </script>
+                                    </div>
+                                    <div class="form-item">
+                                        <label class="form-label">운전면허증</label>
+                                        <div class="form-item-inner">
+                                            <div class="form-upload-area box">
+                                                <input type="text" id="uploadInput" class="form-upload-text" value="" placeholder="파일을 첨부하세요" disabled>
+                                                <label class=form-upload-label>
+                                                    <input class="form-upload" name="files" id="files" type="file" aria-label="files" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!--//form-group-->
+                            </form>
+                            <div id="footer">
+                                <div class="footer-btn">
+                                    <button id="" type="button" class="btn btn-primary" disabled>고객이동 / 운동시작</button>
+                                </div>
+                                <div class="footer-btn half">
+                                    <button id="" type="button" class="btn btn-secondary icon-btn icon-unlock" disabled>문열기</button>
+                                    <button id="" type="button" class="btn btn-primary icon-btn icon-lock" disabled>문잠금</button>
+                                </div>
+                                <div class="footer-btn">
+                                    <button id="" type="button" class="btn btn-primary" disabled>운행종료</button>
+                                </div>
+                            </div>
+                        </div><!--//user-info-detail-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+  
+    </div>
+
+</body>
+
+</html>

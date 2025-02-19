@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO">
+
+	<!-- WTime 목록 조회 -->
+	<select id="selectWTimeList" parameterType="RoAsgnMngSearchMobVO" resultType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectWTimeList] */
+		SELECT 
+			  CMM_CD AS WRK_CD
+			, CMM_CD_NM AS WRK_NM
+			, NVL2(t2.WRK_USR_ID, 'Y', 'N') AS PROCESS_YN
+			, t2.WRK_SEQ
+		FROM CMM_CODE t1
+		    LEFT OUTER JOIN SER_TIME_CLKG_INFO t2
+		      ON t1.CMM_CD = t2.WRK_CD
+		     AND t2.WRK_TP_CD = 'WT'
+		     AND t2.WRK_STAT_CD = '01'
+		     AND t2.DLR_CD = #{sDlrCd} 
+		     AND t2.BIZ_AREA_CD = #{sBizAreaCd} 
+		     AND t2.BRCH_CD = #{sBrchCd} 
+		     AND t2.WRK_USR_ID = #{sWrkUsrId}
+		WHERE 1=1
+		  AND t1.CMM_GRP_CD = 'SER088'
+		  AND t1.USE_YN = 'Y'
+		ORDER BY T1.SORT_ORDER
+	</select>
+
+	<!-- 배정 목록 마스터 조회 -->
+	<select id="selectTimeClkgRoAsgnList" parameterType="RoAsgnMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectTimeClkgRoAsgnList] */
+		SELECT
+			DISTINCT
+			'01' ASGN_STAT_CD
+		    ,a.CAR_NO
+		    ,TO_CHAR(a.RO_DTIME, 'MM-DD HH24:MI') AS RO_DTIME
+		    ,a.DLR_CD                    /*딜러코드*/
+		    ,d.CORP_SHOT_CD AS DLR_SHOT_CD 							--딜러영문코드
+		    ,a.BIZ_AREA_CD               /*사업소코드*/
+		    ,a.BRCH_CD                   /*대리점코드*/
+		    ,a.RO_NO                     /*RO번호*/
+		    ,a.RELEASE_NO                /*발행번호*/
+		    ,c.REMARK2 AS SVC_TYPE_NM    /*서비스타입코드명*/
+		    ,a.CHRG_SA_ID				 /*담당SA*/
+		FROM SER_RO_MNG a
+		INNER JOIN SER_RO_ASGN_MNG b
+		  ON a.DLR_CD = b.DLR_CD
+	 	 AND a.BIZ_AREA_CD = b.BIZ_AREA_CD
+		 AND a.BRCH_CD = b.BRCH_CD
+		 AND a.RO_NO = b.RO_NO
+		 AND b.WRK_USR_ID = #{sWrkUsrId}
+		LEFT OUTER JOIN CMM_CODE c
+		  ON a.SVC_TYPE = c.CMM_CD
+		 AND c.CMM_GRP_CD = 'SER006'
+		LEFT JOIN CMM_CORP d
+		  ON a.DLR_CD = d.CORP_CD
+		WHERE a.DLR_CD 		= #{sDlrCd}
+		AND a.BIZ_AREA_CD	= #{sBizAreaCd}
+		AND a.BRCH_CD 		= #{sBrchCd}
+		AND a.RO_STAT IN ('02','03')
+		ORDER BY RO_DTIME DESC
+	</select>
+	
+	<!-- 미배정 목록 마스터 조회 -->
+	<select id="selectTimeClkgRoNoAsgnList" parameterType="RoAsgnMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectTimeClkgRoNoAsgnList] */
+		SELECT 
+		    * 
+		FROM (
+			SELECT
+		    	'02' ASGN_STAT_CD
+		        ,a.CAR_NO
+		        ,TO_CHAR(a.RO_DTIME, 'MM-DD HH24:MI') AS RO_DTIME
+		        ,a.DLR_CD                    /*딜러코드*/
+		        ,a.BIZ_AREA_CD               /*사업소코드*/
+		        ,a.BRCH_CD                   /*대리점코드*/
+		        ,a.RO_NO                     /*RO번호*/
+		        ,a.RELEASE_NO                /*발행번호*/
+		        ,c.REMARK2 AS SVC_TYPE_NM    /*서비스타입코드명*/
+		        ,a.CHRG_SA_ID				 /*담당SA*/
+		    FROM SER_RO_MNG a
+		    LEFT OUTER JOIN CMM_CODE c
+		    ON a.SVC_TYPE = c.CMM_CD
+		    AND c.CMM_GRP_CD = 'SER006'
+		    INNER JOIN SER_TIME_CLKG_INFO d
+		    ON a.DLR_CD = d.DLR_CD
+		    AND a.BIZ_AREA_CD = d.BIZ_AREA_CD
+		    AND a.BRCH_CD = d.BRCH_CD
+		    AND a.RO_NO = d.RO_NO
+		    AND d.WRK_STAT_CD = '01'
+		    AND d.WRK_USR_ID 	= #{sWrkUsrId}
+		    WHERE a.DLR_CD 		= #{sDlrCd}
+			AND a.BIZ_AREA_CD	= #{sBizAreaCd}
+			AND a.BRCH_CD 		= #{sBrchCd}
+		    AND a.RO_NO NOT IN (SELECT DISTINCT RO_NO FROM SER_RO_ASGN_MNG WHERE WRK_USR_ID = #{sWrkUsrId})
+		    AND a.RO_STAT IN ('02','03')
+		    <if test='sCarNo != null and sCarNo != ""'>			
+				UNION
+			    SELECT
+			    	'02' ASGN_STAT_CD
+			        ,a.CAR_NO
+			        ,TO_CHAR(a.RO_DTIME, 'MM-DD HH24:MI') AS RO_DTIME
+			        ,a.DLR_CD                    /*딜러코드*/
+			        ,a.BIZ_AREA_CD               /*사업소코드*/
+			        ,a.BRCH_CD                   /*대리점코드*/
+			        ,a.RO_NO                     /*RO번호*/
+			        ,a.RELEASE_NO                /*발행번호*/
+			        ,c.REMARK2 AS SVC_TYPE_NM    /*서비스타입코드명*/
+			        ,a.CHRG_SA_ID				 /*담당SA*/
+			    FROM SER_RO_MNG a
+			    LEFT OUTER JOIN CMM_CODE c
+			    ON a.SVC_TYPE = c.CMM_CD
+			    AND c.CMM_GRP_CD = 'SER006'
+			    WHERE a.DLR_CD 		= #{sDlrCd}
+			    AND a.BIZ_AREA_CD	= #{sBizAreaCd}
+			    AND a.BRCH_CD 		= #{sBrchCd}
+			    AND a.RO_NO NOT IN (SELECT DISTINCT RO_NO FROM SER_RO_ASGN_MNG WHERE WRK_USR_ID = #{sWrkUsrId})
+			    AND a.CAR_NO LIKE '%' || #{sCarNo} || '%'
+			    AND a.RO_STAT IN ('02','03')
+			</if>
+		) T
+		GROUP BY T.ASGN_STAT_CD, T.CAR_NO , T.RO_DTIME, T.DLR_CD ,T.BIZ_AREA_CD ,T.BRCH_CD ,T.RO_NO ,T.RELEASE_NO ,T.SVC_TYPE_NM ,T.CHRG_SA_ID  
+		ORDER BY T.RO_DTIME DESC
+	</select>
+	
+	<!-- 배정/미배정 목록 디테일 조회 -->
+	<select id="selectTimeClkgRoDetailList" parameterType="RoAsgnMngSearchMobVO" resultType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectTimeClkgRoDetailList] */
+		SELECT 
+		    c.WRK_USR_ID
+		    ,a.DLR_CD                    /*딜러코드*/
+		    ,a.BIZ_AREA_CD               /*사업소코드*/
+		    ,a.BRCH_CD                   /*대리점코드*/
+		    ,a.RO_NO                     /*RO번호*/
+		    ,a.LINE_NO                   /*라인번호*/
+		    ,a.RELEASE_NO                /*발행번호*/
+		    ,NVL(c.WRK_CD, a.ITEM_CD) AS WRK_CD   /*작업코드*/
+		    ,a.ITEM_NM AS WRK_NM       /*작업명*/
+		    ,NVL(a.QTY,0) AS QTY         /*수량*/
+		    ,b.VIN_NO
+		    ,c.WRK_SEQ
+		    ,c.WRK_START_DTIME
+		    ,c.WRK_END_DTIME
+		    ,c.WRK_STAT_CD	
+		    ,TO_CHAR(c.WRK_START_DTIME, 'HH24:MI') AS WRK_START_TM
+		    ,TO_CHAR(c.WRK_END_DTIME, 'HH24:MI') AS WRK_END_TM
+		    ,CASE WHEN c.WRK_STAT_CD = '01' THEN 'Y' ELSE 'N' END AS PROCESS_YN
+			,a.WRK_GRP_CD
+			,d.WRK_CONTS
+		FROM SER_RO_OPER_ITEM a
+		INNER JOIN SER_RO_MNG b
+		ON a.DLR_CD = b.DLR_CD
+		AND a.BIZ_AREA_CD = b.BIZ_AREA_CD
+		AND a.BRCH_CD = b.BRCH_CD
+		AND a.RO_NO = b.RO_NO
+		AND a.ITEM_TP_CD = '04' 	  /*공임만 timeClocking*/
+		AND a.ITEM_CD NOT IN ('4100B02','9900P02','9900P03')
+		LEFT OUTER JOIN (
+			SELECT 
+				DLR_CD, BIZ_AREA_CD, BRCH_CD, WRK_USR_ID, RO_NO, LINE_NO
+				,MAX(WRK_START_DTIME) KEEP(DENSE_RANK FIRST ORDER BY WRK_START_DTIME ASC) AS WRK_START_DTIME
+				,MAX(WRK_END_DTIME) KEEP(DENSE_RANK FIRST ORDER BY WRK_END_DTIME DESC) AS WRK_END_DTIME
+				,MAX(WRK_STAT_CD) KEEP(DENSE_RANK FIRST ORDER BY WRK_SEQ DESC) AS WRK_STAT_CD
+				,MAX(WRK_CD) KEEP(DENSE_RANK FIRST ORDER BY WRK_CD DESC) AS WRK_CD
+				,MAX(WRK_SEQ) KEEP(DENSE_RANK FIRST ORDER BY WRK_SEQ DESC) AS WRK_SEQ
+			FROM SER_TIME_CLKG_INFO
+			WHERE 1=1 
+		    AND WRK_TP_CD = 'RT' /*수리작업*/
+		    AND WRK_USR_ID = #{sWrkUsrId}
+			AND (WRK_STAT_CD = '01' OR WRK_END_DTIME IS NOT NULL) /* TimeClocking 취소건에 대한 NULL 배제 */
+		  	GROUP BY DLR_CD, BIZ_AREA_CD, BRCH_CD, WRK_USR_ID, RO_NO, LINE_NO
+		) c
+			ON a.DLR_CD = c.DLR_CD
+		AND a.BIZ_AREA_CD = c.BIZ_AREA_CD
+		AND a.BRCH_CD = c.BRCH_CD
+		AND a.RO_NO = c.RO_NO
+		AND a.LINE_NO = c.LINE_NO
+		AND c.WRK_USR_ID 	= #{sWrkUsrId}
+		LEFT OUTER JOIN SER_RO_OPER_ITEM_GRP d
+		   ON a.DLR_CD         = d.DLR_CD
+		  AND a.BIZ_AREA_CD    = d.BIZ_AREA_CD
+		  AND a.BRCH_CD        = d.BRCH_CD
+		  AND a.RO_NO          = d.RO_NO
+		  AND a.WRK_GRP_CD     = d.WRK_GRP_CD
+		WHERE a.DLR_CD 		   = #{sDlrCd}
+		  AND a.BIZ_AREA_CD	   = #{sBizAreaCd}
+		  AND a.BRCH_CD 	   = #{sBrchCd}
+		  AND a.RO_NO          = #{sRoNo}
+		  AND a.DEL_YN 		   = 'N'
+		ORDER BY a.WRK_GRP_CD, a.SORT_ORDER ASC
+	</select>
+
+	<select id="selectTimeClkgInfoByWrkUsrIdAndWrkStatCd" parameterType="TimeClkgMngMobVO" resultType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectTimeClkgInfoByWrkUsrIdAndWrkStatCd] */
+		SELECT 
+		    DLR_CD
+		   ,BIZ_AREA_CD
+		   ,BRCH_CD
+		   ,WRK_USR_ID
+		   ,WRK_SEQ
+		   ,WRK_TP_CD
+		   ,WRK_STAT_CD
+		   ,WRK_CD
+		   ,WRK_START_DTIME
+		   ,WRK_END_DTIME
+		   ,BAY_NO
+		   ,RO_NO
+		   ,LINE_NO
+		   ,RELEASE_NO
+		   ,MANUAL_YN
+		   ,REG_USR_ID
+		   ,REG_DT
+		   ,UPDT_USR_ID
+		   ,UPDT_DT
+		FROM SER_TIME_CLKG_INFO 
+		WHERE WRK_STAT_CD = #{wrkStatCd}
+		AND WRK_USR_ID = #{wrkUsrId}
+		AND DLR_CD = #{dlrCd}
+		AND BIZ_AREA_CD	= #{bizAreaCd}
+		AND BRCH_CD = #{brchCd}
+	</select>
+	
+	<select id="selectSerTimeClkgInfoStatCount" parameterType="TimeClkgMngMobVO" resultType="java.util.HashMap">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectTimeClkgInfoByWrkUsrIdAndWrkStatCd] */
+		SELECT
+			/* 진행중인 타임클라킹 */
+			(SELECT 
+				COUNT(*) 
+			FROM SER_TIME_CLKG_INFO 
+			WHERE DLR_CD = #{dlrCd}
+			AND BIZ_AREA_CD	= #{bizAreaCd}
+			AND BRCH_CD = #{brchCd}
+			AND RO_NO = #{roNo}
+			AND WRK_CD NOT IN ('4100B02','9900P02','9900P03')
+			AND WRK_STAT_CD = '01') ING_COUNT,
+			/* 완료되지 않은 공임수 세기 */
+			(SELECT 
+			    COUNT(*) 
+			FROM (
+			    SELECT 
+			        CASE 
+			            WHEN (
+			                SELECT 
+			                    COUNT(*) 
+			                FROM SER_TIME_CLKG_INFO  
+			                WHERE DLR_CD = A.DLR_CD	
+			                AND BIZ_AREA_CD = A.BIZ_AREA_CD
+			                AND BRCH_CD = A.BRCH_CD
+			                AND RO_NO = A.RO_NO
+			                AND LINE_NO = A.LINE_NO
+			            ) >0 THEN 'Y'
+			            ELSE 'N' 
+			        END END_YN
+			    FROM SER_RO_OPER_ITEM A
+			    WHERE A.DLR_CD = #{dlrCd}
+			    AND A.BIZ_AREA_CD = #{bizAreaCd}
+			    AND A.BRCH_CD = #{brchCd}
+			    AND A.RO_NO = #{roNo}
+			    AND A.ITEM_TP_CD = '04'
+			    AND A.ITEM_CD NOT IN ('4100B02','9900P02','9900P03')
+			    )
+			WHERE END_YN = 'N'
+			) NO_END_COUNT
+		FROM DUAL
+	</select>
+
+	<!-- 작업자 타임클라킹 정보 저장  -->
+	<insert id="insertTimeClkgInfo" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.insertTimeClkgInfo] */
+		<selectKey resultType="int" keyProperty="wrkSeq" order="BEFORE">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.insertTimeClkgInfo] */
+   			SELECT NVL(MAX(WRK_SEQ),0)+1 WRK_SEQ
+			FROM SER_TIME_CLKG_INFO 
+			WHERE 1=1
+			AND DLR_CD 		= #{dlrCd}
+			AND BIZ_AREA_CD	= #{bizAreaCd}
+			AND BRCH_CD 	= #{brchCd}
+			AND WRK_USR_ID	= #{wrkUsrId}
+    	</selectKey>
+
+		INSERT INTO SER_TIME_CLKG_INFO
+		(
+		    DLR_CD
+		   ,BIZ_AREA_CD
+		   ,BRCH_CD
+		   ,WRK_USR_ID
+		   ,WRK_SEQ
+		   ,WRK_TP_CD
+		   ,WRK_STAT_CD
+		   ,WRK_CD
+		   ,WRK_START_DTIME
+		   ,WRK_END_DTIME
+		   ,BAY_NO
+		   ,RO_NO
+		   ,LINE_NO
+		   ,RELEASE_NO
+		   ,MANUAL_YN
+		   ,REG_USR_ID
+		   ,REG_DT
+		   ,UPDT_USR_ID
+		   ,UPDT_DT
+		)
+		VALUES 
+		(
+		    #{dlrCd}
+		   ,#{bizAreaCd}
+		   ,#{brchCd}
+		   ,#{wrkUsrId}
+		   ,#{wrkSeq}
+		   ,#{wrkTpCd}
+		   ,#{wrkStatCd}
+		   ,#{wrkCd}
+		   ,#{wrkStartDateTime}
+		   ,''
+		   ,#{bayNo}
+		   ,#{roNo}
+		   ,#{lineNo}
+		   ,#{releaseNo}
+		   ,#{manualYn}
+		   ,#{regUsrId} 
+		   ,SYSDATE     
+		   ,#{updtUsrId}
+		   ,SYSDATE
+		)
+	</insert>
+	
+	<!-- 작업자 타임클라킹 정보 수정  -->
+	<update id="updateTimeClkgInfoEnd" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.updateTimeClkgInfoEnd] */
+		UPDATE SER_TIME_CLKG_INFO
+		   SET WRK_END_DTIME = #{wrkEndDateTime}
+		      ,WRK_STAT_CD = '02'
+		      ,UPDT_DT = SYSDATE
+		      ,UPDT_USR_ID = #{updtUsrId}
+		WHERE DLR_CD = #{dlrCd}
+		  AND BIZ_AREA_CD = #{bizAreaCd}
+		  AND BRCH_CD = #{brchCd}
+		  AND WRK_USR_ID = #{wrkUsrId}
+		  AND WRK_SEQ = #{wrkSeq}
+	</update>
+	
+	<!-- 작업자 RO 정비시작  -->
+	<update id="updateTimeSerRoMngRoStatStart" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.updateTimeSerRoMngRoStatStart] */
+		UPDATE SER_RO_MNG
+		   SET RO_STAT = '03'
+		   	  ,UPDT_DT = SYSDATE
+		      ,UPDT_USR_ID = #{updtUsrId}
+		 WHERE DLR_CD = #{dlrCd}
+		   AND BIZ_AREA_CD = #{bizAreaCd}
+		   AND BRCH_CD = #{brchCd}
+		   AND RO_NO = #{roNo}
+		   AND RO_STAT = '02'
+	</update>
+	
+	<!-- 작업자 RO endControl 요청  -->
+	<update id="updateTimeSerRoMngRoStatEndControl" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.updateTimeSerRoMngRoStatEndControl] */
+		UPDATE SER_RO_MNG
+		   SET RO_STAT = '08'
+		   	  ,UPDT_DT = SYSDATE
+		      ,UPDT_USR_ID = #{updtUsrId}
+		 WHERE DLR_CD = #{dlrCd}
+		   AND BIZ_AREA_CD = #{bizAreaCd}
+		   AND BRCH_CD = #{brchCd}
+		   AND RO_NO = #{roNo}
+ 		   AND RO_STAT IN ('02', '03')
+	</update>
+	
+	<!-- 작업자 타임클라킹 정보 삭제  -->
+	<delete id="deleteTimeClkgInfo" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.deleteTimeClkgInfo] */
+		DELETE FROM SER_TIME_CLKG_INFO
+		 WHERE 1=1
+		   AND DLR_CD = #{dlrCd}
+		   AND BIZ_AREA_CD = #{bizAreaCd}
+		   AND BRCH_CD = #{brchCd}
+		   AND WRK_USR_ID = #{wrkUsrId}
+		   AND RO_NO = #{roNo}
+	</delete>
+		
+	<!-- Bay리스트 목록 조회 -->
+	<select id="selectBayManageByCondition" parameterType="BayManageSearchVO" resultType="BayManageVO">
+ 		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectBayManageByCondition] */
+       		SELECT
+			        A.BAY_NO             --BAY번호  
+			       ,A.DLR_CD             --딜러코드   
+			       ,B.CORP_NM AS DLR_NM	 --딜러명
+			       ,A.BIZ_AREA_CD        --사업소코드  
+			       ,C.BIZ_AREA_NM		 --사업소명
+			       ,A.BRCH_CD            --대리점코드
+			       ,D.BRCH_NM  			 --대리점명
+			       ,A.BAY_BDN            --BAY내역  
+			       ,A.RPIR_TP            --수리유형   
+			       ,A.BAY_DSTIN          --BAY구분  
+			       ,A.USE_YN             --사용여부   
+			       ,A.FLOOR_CD			 --층코드
+			       ,A.BAY_LOC_CD         --BAY위치코드
+			       ,A.BAY_LOC_NM         --BAY위치명 
+			       ,A.MNG_SA_ID          --관리SA ID
+			       ,A.MNG_SA_NM          --관리SA 명 
+			       ,A.VIRTL_YN           --가상여부   
+			       ,E.TECHMAN_ID		 --테크니션ID
+			  FROM SER_BAY_MST A 
+			 INNER JOIN CMM_CORP B
+            	ON A.DLR_CD = B.CORP_CD
+          	 INNER JOIN CMM_BIZ_AREA C
+            	ON A.DLR_CD = C.CORP_CD
+           	   AND A.BIZ_AREA_CD = C.BIZ_AREA_CD
+          	 INNER JOIN CMM_BRCH D
+            	ON A.DLR_CD = D.CORP_CD
+           	   AND A.BIZ_AREA_CD = D.BIZ_AREA_CD
+           	   AND A.BRCH_CD = D.BRCH_CD
+           	  LEFT OUTER JOIN SER_BAY_DETL E
+                ON A.DLR_CD = E.DLR_CD
+           	   AND A.BIZ_AREA_CD = E.BIZ_AREA_CD
+           	   AND A.BRCH_CD = E.BRCH_CD
+               AND A.BAY_NO = E.BAY_NO
+               AND E.TECHMAN_ID = #{sEmplNo}
+	         WHERE 1=1
+             <if test='sDlrCd != null and sDlrCd != ""'>
+               AND A.DLR_CD = #{sDlrCd}
+             </if>
+             <if test='sBizAreaCd != null and sBizAreaCd != ""'>
+               AND A.BIZ_AREA_CD = #{sBizAreaCd}
+             </if>
+             <if test='sBrchCd != null and sBrchCd != ""'>
+               AND A.BRCH_CD = #{sBrchCd}
+             </if>
+             ORDER BY E.TECHMAN_ID,A.DLR_CD, A.BIZ_AREA_CD, A.BRCH_CD, A.FLOOR_CD, A.BAY_LOC_CD, A.BAY_NO
+	</select>
+	
+	<!-- 차량, BAY 정보 조회 -->
+	<select id="selectCarBayInfoByKey" parameterType="RoAsgnMngSearchMobVO" resultType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectCarBayInfoByKey] */
+		SELECT 
+			 T2.VIN_NO
+			,T2.CAR_NO
+			,T1.BAY_NO
+			,T3.FLOOR_CD 
+		  FROM SER_TIME_CLKG_INFO T1
+		 INNER JOIN SER_RO_MNG T2
+			ON T1.DLR_CD = T2.DLR_CD 
+		   AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD 
+		   AND T1.BRCH_CD = T2.BRCH_CD 
+		   AND T1.RO_NO = T2.RO_NO 
+		  LEFT JOIN SER_BAY_MST T3
+		    ON T1.DLR_CD = T3.DLR_CD 
+		   AND T1.BIZ_AREA_CD = T3.BIZ_AREA_CD 
+		   AND T1.BRCH_CD = T3.BRCH_CD 
+		   AND T1.BAY_NO = T3.BAY_NO 
+		 WHERE 1=1	
+           AND T1.DLR_CD 		= #{sDlrCd}
+	       AND T1.BIZ_AREA_CD	= #{sBizAreaCd}
+	       AND T1.BRCH_CD 		= #{sBrchCd}
+	       AND T1.RO_NO			= #{sRoNo}
+	       AND T1.WRK_SEQ		= #{sWrkSeq}
+	       AND T1.WRK_USR_ID    = #{sWrkUsrId}
+	</select>
+	
+	<!-- 작업자 타임클라킹 정보 저장  -->
+	<insert id="insertSerRoDlrOpinionMtr" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.insertSerRoDlrOpinionMtr] */
+		<selectKey resultType="int" keyProperty="lineNo" order="BEFORE">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.insertSerRoDlrOpinionMtr] */
+   			SELECT 
+   				NVL(MAX(LINE_NO),0)+1 LINE_NO
+			FROM SER_RO_DLR_OPINION_MTR 
+			WHERE 1=1
+			AND DLR_CD 		= #{dlrCd}
+			AND BIZ_AREA_CD	= #{bizAreaCd}
+			AND BRCH_CD 	= #{brchCd}
+			AND RO_NO 		= #{roNo}
+    	</selectKey>
+
+		INSERT INTO SER_RO_DLR_OPINION_MTR
+		(
+		    DLR_CD
+		    ,BIZ_AREA_CD 
+		    ,BRCH_CD
+		    ,LINE_NO 
+		    ,RO_NO
+		    ,DLR_OPINION_TP 
+		    ,DLR_OPINION_MTR 
+		    ,DLR_ID
+		    ,REG_USR_ID 
+		    ,REG_DT
+		    ,UPDT_USR_ID 
+		    ,UPDT_DT
+		)
+		VALUES 
+		(
+		    #{dlrCd}
+		   ,#{bizAreaCd}
+		   ,#{brchCd}
+		   ,#{lineNo}
+		   ,#{roNo}
+		   ,#{dlrOpinionTp}
+		   ,#{dlrOpinionMtr}
+		   ,''
+		   ,#{regUsrId} 
+		   ,SYSDATE     
+		   ,#{regUsrId}
+		   ,SYSDATE
+		)
+	</insert>
+	
+	<!-- RO 정보 조회 -->
+	<select id="selectRoInfoByKey" parameterType="RoAsgnMngSearchMobVO" resultType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectRoInfoByKey] */
+		SELECT 
+			 T1.DLR_CD                								--딜러코드          
+		    ,T1.BIZ_AREA_CD           								--사업소코드         
+		    ,T1.BRCH_CD               								--대리점코드         
+		    ,T1.RO_NO                 								--RO번호          
+		    ,T1.RESV_NO               								--예약번호
+		    ,T1.VIN_NO 
+			,T1.RO_STAT 
+			,CASE WHEN T1.SVC_TYPE = '01' THEN 'M'
+				  WHEN T1.SVC_TYPE = '02' THEN 'S'
+				  WHEN T1.SVC_TYPE = '03' THEN 'R'
+				  WHEN T1.SVC_TYPE = '04' THEN 'G'
+				  WHEN T1.SVC_TYPE = '05' THEN 'N'
+				  WHEN T1.SVC_TYPE = '06' THEN 'I'
+				  WHEN T1.SVC_TYPE = '07' THEN 'A'
+				  WHEN T1.SVC_TYPE = '08' THEN 'P'
+				  ELSE NULL
+				  END SVC_TYPE
+			,T1.CHRG_SA_ID 
+			,T1.RELEASE_NO 
+			,T1.DLV_EXPT_DTIME 
+			,( SELECT SUM(QTY)
+				 FROM SER_RO_OPER_ITEM
+				WHERE 1=1
+				AND DLR_CD = #{sDlrCd}
+				AND BIZ_AREA_CD = #{sBizAreaCd}
+				AND BRCH_CD  = #{sBrchCd}
+				AND RO_NO  = #{sRoNo}
+				AND ITEM_TP_CD = '04') AS TOTAL_FRU
+		  FROM SER_RO_MNG T1
+		 WHERE 1=1
+		   AND T1.DLR_CD         = #{sDlrCd}     --딜러코드          
+		   AND T1.BIZ_AREA_CD    = #{sBizAreaCd} --사업소코드         
+		   AND T1.BRCH_CD        = #{sBrchCd}    --대리점코드         
+		   AND T1.RO_NO          = #{sRoNo}      --RO번호       
+	</select>
+	
+	<!-- RO에 해당하는 TimeClocking 데이터 수 조회 -->
+	<select id="selectTimeClkgCntByRo" parameterType="TimeClkgMngMobVO" resultType="int">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectTimeClkgCntByRo] */
+	    SELECT COUNT(*)
+		  FROM SER_TIME_CLKG_INFO 
+		 WHERE 1=1
+		   AND DLR_CD = #{roDlrCd}
+		   AND BIZ_AREA_CD = #{roBizAreaCd}
+		   AND BRCH_CD = #{roBrchCd}
+		   AND RO_NO = #{roNo}
+	</select>
+	
+	<!-- 가장 최근 RO배정 데이터 조회 -->
+	<select id="selectRoAsgnMngByKey" parameterType="TimeClkgMngMobVO" resultType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectRoAsgnMngByKey] */
+	    SELECT *
+	      FROM (
+	      	SELECT *
+	      	  FROM SER_RO_ASGN_MNG
+	      	 WHERE 1=1
+	      	   AND DLR_CD = #{dlrCd}
+			   AND BIZ_AREA_CD = #{bizAreaCd}
+			   AND BRCH_CD = #{brchCd}
+			   AND RO_NO = #{roNo}
+			 ORDER BY RELEASE_NO DESC 
+	      )
+		 WHERE 1=1
+		   AND ROWNUM = 1
+	</select>
+
+	<!-- 작업자의견 조회 -->
+	<select id="selectWrkUsrOpinion" parameterType="RoAsgnMngSearchMobVO" resultType="String">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectWrkUsrOpinion] */
+			SELECT WRK_USR_OPINION
+			  FROM SER_TIME_CLKG_INFO T1
+			  LEFT OUTER JOIN SER_RO_OPER_ITEM_GRP T2
+			    ON T1.DLR_CD = T2.DLR_CD
+			   AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD
+			   AND T1.BRCH_CD = T2.BRCH_CD
+			   AND T1.RO_NO = T2.RO_NO
+			   AND T2.WRK_GRP_CD = #{sWrkGrpCd}
+			 WHERE 1=1
+			   AND T1.DLR_CD = #{sDlrCd}            -- 딜러코드
+			   AND T1.BIZ_AREA_CD = #{sBizAreaCd}   -- 사업소코드
+			   AND T1.BRCH_CD = #{sBrchCd}          -- 대리점코드
+			   AND T1.RO_NO = #{sRoNo}              -- RO번호
+			   AND T1.LINE_NO = #{sLineNo}
+			   AND T1.WRK_SEQ = #{sWrkSeq}
+	</select>
+
+	<!-- 작업자의견 저장(수정) -->
+	<update id="updateWrkUsrOpinion" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.updateWrkUsrOpinion] */
+		UPDATE SER_TIME_CLKG_INFO    					--작업자타임클라킹정보
+		   SET
+		UPDT_USR_ID     = #{updtUsrId}             		--수정자ID
+		,UPDT_DT         = SYSDATE	              		--수정일자
+		<if test='wrkUsrId != null'>
+			,WRK_USR_ID   = #{wrkUsrId}           	    --작업자ID
+		</if>
+		<if test='wrkUsrOpinion != null'>
+			,WRK_USR_OPINION = #{wrkUsrOpinion}		    --작업자의견
+		</if>
+		 WHERE 1=1
+		   AND DLR_CD          = #{dlrCd}               --딜러코드
+		   AND BIZ_AREA_CD     = #{bizAreaCd}           --사업소코드
+		   AND BRCH_CD         = #{brchCd}              --대리점코드
+		   AND RO_NO 	   	   = #{roNo}              	-- RO번호
+		<!-- 작업자별 수정 권한 어떻게 줄 것인지에 따라 달라질 듯. 이 부분은 일단 주석 처리 -->
+<!--		AND WRK_USR_ID      = #{wrkUsrId}              &#45;&#45;작업자ID-->
+		   AND WRK_SEQ         = #{wrkSeq}              --순번
+	</update>
+
+
+	<!-- 작업그룹 단위 작업종료 ('N' -> 'Y') -->
+	<update id="updateRoOperGroupEndStatus" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.updateRoOperGroupEndStatus] */
+		UPDATE SER_RO_OPER_ITEM_GRP
+		   SET WRK_END_YN = 'Y'								--작업그룹 작업종료여부
+			   ,UPDT_USR_ID    	= #{updtUsrId}              --수정자ID
+		       ,UPDT_DT         = SYSDATE	              	--수정일자
+		 WHERE 1=1
+		   AND DLR_CD 			= #{dlrCd}					--딜러코드
+		   AND BIZ_AREA_CD 		= #{bizAreaCd}				--사업소코드
+		   AND BRCH_CD 			= #{brchCd}					--대리점코드
+		   AND RO_NO 			= #{roNo}
+		   AND WRK_GRP_CD   	= #{wrkGrpCd}
+	</update>
+
+	<!-- 작업 재시작에 따른 작업그룹의 작업종료 상태값 변경 ('Y' -> 'N')  -->
+	<update id="updateRoOperGroupEndStatusToN" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.updateRoOperGroupEndStatusToN] */
+		UPDATE SER_RO_OPER_ITEM_GRP
+		   SET WRK_END_YN = 'N'								--작업그룹 작업종료여부
+		       ,UPDT_USR_ID    	= #{updtUsrId}              --수정자ID
+		       ,UPDT_DT         = SYSDATE	              	--수정일자
+		 WHERE 1=1
+		   AND DLR_CD 			= #{dlrCd}					--딜러코드
+		   AND BIZ_AREA_CD 		= #{bizAreaCd}				--사업소코드
+		   AND BRCH_CD 			= #{brchCd}					--대리점코드
+		   AND RO_NO 			= #{roNo}
+		   AND WRK_GRP_CD   	= #{wrkGrpCd}
+	</update>
+
+	<!-- Time Clocking 취소사유 조회 -->
+	<select id="selectCancelReasonList" resultType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.selectCancelReasonList] */
+		SELECT
+			CMM_CD AS WRK_CD
+			,CMM_CD_NM AS WRK_NM
+		  FROM CMM_CODE
+		 WHERE 1=1
+		   AND CMM_GRP_CD = 'SER134'
+	</select>
+
+	<!-- 타임클락킹취소 -->
+	<!-- 작업완료(cf. SER059)처리하되, 종료일시 null (취소일시 SYSDATE) -->
+	<update id="updateTimeClockingCancelInfo" parameterType="TimeClkgMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.TimeClkgMngMobDAO.cancelTimeClocking] */
+		UPDATE SER_TIME_CLKG_INFO
+		   SET
+<!--		       WRK_END_DTIME    = SYSDATE-->
+		       WRK_STAT_CD     = '02'
+			   ,UPDT_USR_ID    	= #{updtUsrId}              --수정자ID
+			   ,UPDT_DT         = SYSDATE	              	--수정일자
+			   ,CNCL_RSN_CD     = #{cnclRsnCd}				--취소사유코드
+			   ,CNCL_RSN 	    = #{cnclRsn}				--취소사유
+			   ,CNCL_USR_ID    	= #{updtUsrId}              --취소자ID
+			   ,CNCL_DT         = SYSDATE	              	--취소일자
+		 WHERE 1=1
+		   AND DLR_CD 			= #{dlrCd}					--딜러코드
+		   AND BIZ_AREA_CD 		= #{bizAreaCd}				--사업소코드
+		   AND BRCH_CD 			= #{brchCd}					--대리점코드
+		   AND RO_NO 			= #{roNo}
+<!--		   AND WRK_GRP_CD   	= #{wrkGrpCd}-->
+		   AND WRK_SEQ          = #{wrkSeq}                 --순번
+	</update>
+
+</mapper>

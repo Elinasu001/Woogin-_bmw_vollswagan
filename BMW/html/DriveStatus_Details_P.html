@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">-->
+        <meta name="viewport" content="user-scalable=no,width=375">
+        <title>My DMS STG</title>
+     <!-- css -->
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/css/libs/slick.css">
+        <!-- js -->
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.fileDownload.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/pub-ui.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/crm/crm.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/sal/sal.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/slick.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+        <script src="../../resources/mob/js/jquery-ui.min.js"></script>
+        <script>
+            var _contextPath = "";
+            $(function() {
+                $("button.btn.btn-util.back").not(".btn-close-gnb").on("click", function() {
+                    // window.history.back();
+                    window.location.replace("/selectHome.do");
+                });
+            });
+        </script>
+    </head>
+
+<body>
+    <!-- modal -->
+    <div class="modal show">
+        <div class="modal-content bg scroll-hidden">
+            <div class="modal-header dark">
+                <div class="header-left">
+                    <button class="btn btn-util close btn-close-modal" onclick="btnCancel()"
+                        data-role="button">
+                        <span class="sr-only km-text">닫기</span>
+                    </button>
+                </div>
+                <h1 class="header-title">예약 정보 변경</h1>
+            </div><!--//modal-header-->
+            <div class="modal-body mo-body type2">
+                <div class="info-wrap">
+                    <div class="user-info-area info-content">
+                        <div class="list-header">
+                            <div class="list-header-left">
+                                <p class="title">예약 정보 변경</p> 
+                            </div>
+                        </div>
+                        <div class="user-info-detail">
+                            <p class="title ft18 bb1">
+                                <span class="font-bold">396버 6105</span>
+                                <span class="font-regular">320i LCI</span>
+                            </p>
+                            <form>
+                                <div class="form-group">
+                                    <div class="form-item">
+                                        <label class="form-label">시승 예약시작 일시</label>
+                                        <div class="form-item-inner">
+                                            <div class="form-input-unit">
+                                                <input class="form-input" type="text" id="datepicker2" name="datepicker2" value="" readonly="">
+                                                <span class="unit-icon date"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label class="form-label">시승 예약종료 일시</label>
+                                        <div class="form-item-inner">
+                                            <div class="form-input-unit">
+                                                <input class="form-input" type="text" id="datepicker2" name="datepicker2" value="" readonly="">
+                                                <span class="unit-icon date"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!--//form-group-->
+                            </form>
+                        </div><!--user-info-detail-->
+                    </div>
+                </div>
+            </div><!--//modal-body-->
+            <div class="modal-footer">
+                <div class="footer-btn">
+                    <button type="button" class="btn btn-primary">변경하기</button>
+                </div>
+            </div><!--//modal-footer-->
+        </div>
+    </div>
+    <!-- 캘린더 팝업 -->
+    <div class="modal-bottom date" id="dateModal">
+        <div class="modal-content mo-body">
+            <div class="modal-header">
+                <button class="btn btn-util close white btn-close-modal-bottom" onclick="closeModal('dateModal')">
+                    <span class="sr-only">닫기</span>
+                </button>
+                <h1 class="header-title">
+                    <em>시승 일자 선택</em>
+                    <span>시승 예약 시작 시간을 선택해주세요</span>
+                </h1>
+                <div class="form-group">
+                    <div class="form-item">
+                        <ul class="form-check-tag">
+                            <li>
+                                <input type="checkbox" name="radioBtn" id="radioBtn2-1" class="form-check">
+                                <label class="form-check-label" for="radioBtn">종일예약</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body modal-datepicker-area">
+                <div id="datepicker" class="modal-datepicker"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="footer-btn">
+                    <button id="dateConfirmButton" class="btn-primary" disabled>확 인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 시간 팝업 -->
+    <div class="modal-bottom time" id="timeModal">
+        <div class="modal-content mo-body">
+            <div class="modal-header">
+                <button class="btn btn-util close white btn-close-modal-bottom" onclick="closeModal('timeModal')">
+                    <span class="sr-only">닫기</span>
+                </button>
+                <h1 class="header-title">
+                    <em>시승 시간 선택</em>
+                    <span>시승 시간을 선택해주세요</span>
+                </h1>
+            </div>
+            <div class="modal-body modal-datepicker-area">
+                <p class="title date"></p>
+                <p class="stit">오전</p>
+                <div id="am-times" class="time-selector"></div>
+                <p class="stit">오후</p>
+                <div id="pm-times" class="time-selector"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="footer-btn">
+                    <button id="timeConfirmButton" class="btn-primary" disabled>확 인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            //시간선택팝업
+            var selectedDate = null;
+            var selectedTime = null;
+            var selectedInput = null;
+            $(".form-input").on("click", function () {
+                $("#dateModal").addClass("show");
+                selectedInput = $(this);
+                // 이전 날짜 초기화
+                $("#datepicker").datepicker("setDate", null);
+                $("#dateConfirmButton").prop("disabled", true);
+                $("#timeConfirmButton").prop("disabled", true);
+                $(".time-button").removeClass("selected");
+                selectedTime = null;
+            });
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd",
+                currentText: "오늘",
+                showButtonPanel: true,
+                monthNames: ['01월', '02월', '03월', '04월', '05월', '06월', '07월', '08월', '09월', '10월', '11월', '12월'],
+                dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+                yearSuffix: '년',
+                showMonthAfterYear: true,
+                beforeShow: function (input, inst) {
+                    setTimeout(function () {
+                        const date = $("#datepicker").datepicker("getDate") || new Date();
+                        $(".ui-datepicker-title").html(formatDateFull(date));
+                    }, 0);
+                },
+                onSelect: function (dateText) {
+                    selectedDate = dateText;
+                    $("#dateConfirmButton").prop("disabled", false);
+                    $(".title.date").text(formatDateDisplay(dateText));
+                },
+                onChangeMonthYear: function (year, month) {
+                    const date = new Date(year, month - 1, 1);
+                    setTimeout(function () {
+                        $(".ui-datepicker-title").html(formatDateFull(date));
+                    }, 0);
+                }
+            });
+            // 스크롤로 월 변경
+            $('#datepicker').on('wheel', function (event) {
+                event.preventDefault();
+                var date = $("#datepicker").datepicker("getDate") || new Date();
+                var newDate = new Date(date.getFullYear(), date.getMonth() + (event.originalEvent.deltaY < 0 ? -1 : 1), 1);
+                $('#datepicker').datepicker('setDate', newDate);
+                $(".ui-datepicker-title").html(formatDateFull(newDate));
+            });
+            // 오전 및 오후 시간 버튼 생성
+            function populateTimeButtons() {
+                var amTimes = $("#am-times");
+                var pmTimes = $("#pm-times");
+                amTimes.empty();
+                pmTimes.empty();
+                // 오전 시간: 09:00부터 11:30까지
+                for (var i = 9; i < 12; i++) {
+                    var hour = i < 10 ? "0" + i : i;
+                    amTimes.append(`<button class="time-button" data-time="${hour}:00">${hour}:00</button>`);
+                    amTimes.append(`<button class="time-button" data-time="${hour}:30">${hour}:30</button>`);
+                }
+                // 오후 시간: 12:00부터 24:00까지
+                for (var j = 12; j <= 24; j++) {
+                    var hour = j < 10 ? "0" + j : j;
+                    pmTimes.append(`<button class="time-button" data-time="${hour}:00">${hour}:00</button>`);
+                    if (j < 24) pmTimes.append(`<button class="time-button" data-time="${hour}:30">${hour}:30</button>`);
+                }
+            }
+            populateTimeButtons();
+            // 시간 버튼 선택
+            $(".time-selector").on("click", ".time-button", function () {
+                $(".time-button").removeClass("selected");
+                $(this).addClass("selected");
+                selectedTime = $(this).data("time");
+                updateConfirmButtonState();
+            });
+            // 날짜 확인 버튼 클릭
+            $("#dateConfirmButton").on("click", function () {
+                if (!$(this).prop("disabled")) {
+                    $("#dateModal").removeClass("show");
+                    $("#timeModal").addClass("show");
+                    updateConfirmButtonState();
+                }
+            });
+            function updateConfirmButtonState() {
+                if (selectedDate && selectedTime) {
+                    $("#timeConfirmButton").prop("disabled", false); // 활성화
+                } else {
+                    $("#timeConfirmButton").prop("disabled", true); // 비활성화
+                }
+            }
+            // 시간 확인 버튼 클릭
+            $("#timeConfirmButton").on("click", function () {
+                if (selectedDate && selectedTime) {
+                    selectedInput.val(formatDateTime(selectedDate, selectedTime));
+                    closeModal('timeModal');
+                }
+            });
+            // 날짜 표시 포맷팅 함수
+            function formatDateDisplay(dateText) {
+                const date = new Date(dateText);
+                return `${date.getFullYear()}년 ${("0" + (date.getMonth() + 1)).slice(-2)}월 ${("0" + date.getDate()).slice(-2)}일`;
+            }
+            // 날짜와 시간 결합 포맷팅 함수
+            function formatDateTime(dateText, timeText) {
+                const date = new Date(dateText);
+                const year = date.getFullYear();
+                const month = ("0" + (date.getMonth() + 1)).slice(-2);
+                const day = ("0" + date.getDate()).slice(-2);
+                return `${year}-${month}-${day} ${timeText}`;
+            }
+            // 모달 닫기 함수
+            function closeModal(modalId) {
+                $("#" + modalId).removeClass("show");
+            }
+        });
+        function closeModal(modalId) {
+            $("#" + modalId).removeClass("show");
+        }
+    </script>
+</body>
+</html>

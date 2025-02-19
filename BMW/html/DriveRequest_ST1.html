@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">-->
+        <meta name="viewport" content="user-scalable=no,width=375">
+        <title>My DMS STG</title>
+     <!-- css -->
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/css/libs/slick.css">
+        <!-- js -->
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.fileDownload.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/pub-ui.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/crm/crm.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/sal/sal.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/slick.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+        <script src="../../resources/mob/js/jquery-ui.min.js"></script>
+        <script>
+            var _contextPath = "";
+            $(function() {
+                $("button.btn.btn-util.back").not(".btn-close-gnb").on("click", function() {
+                    // window.history.back();
+                    window.location.replace("/selectHome.do");
+                });
+            });
+        </script>
+    </head>
+
+<body>
+    <!--MO07030100-->
+    <div id="wrap">
+        <header id="header" class="header">
+            <div class="header-left">
+                <button class="btn btn-util back">
+                    <span class="sr-only">뒤로가기</span>
+                </button>
+            </div>
+            <h1 class="header-title">시승신청</h1>
+            <div class="header-right">
+                <button class="btn btn-util menu">
+                    <span class="sr-only">메뉴</span>
+                </button>
+            </div>
+        </header>
+        <div id="content" class="bg scroll-hidden">
+            <div class="cont-body mo-body">
+                <div class="info-wrap">
+                    <div class="user-info-area info-content">
+                        <div class="step-nav">
+                            <ul class="col04">
+                                <li class="active">시승차량선택</li>
+                                <li>스케쥴선택</li>
+                                <li>고객정보입력</li>
+                                <li>신청상세내용</li>
+                            </ul>
+                        </div>
+                        <div class="form-group bb1">
+                            <form>
+                            <div class="list-header">
+                                <div class="list-header-left">
+                                    <p class="title">시승 차량을 선택하세요</p>
+                                </div>
+                                <div class="list-header-right">
+                                    <div class="item-icon-group">
+                                        <a href="javascript:;" class="item-icon icon-search">
+                                            <span class="sr-only">검색</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <label class="form-label"><span class="essential">Series</span>[중복가능]</label>
+                                <ul class="form-check-tag col05">
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn1" class="form-check all" checked>
+                                        <label class="form-check-label" for="radioBtn1">All</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn2" class="form-check">
+                                        <label class="form-check-label" for="radioBtn2">1</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn3" class="form-check">
+                                        <label class="form-check-label" for="radioBtn3">2</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn4" class="form-check">
+                                        <label class="form-check-label" for="radioBtn4">3</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn5" class="form-check">
+                                        <label class="form-check-label" for="radioBtn5">4</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn6" class="form-check">
+                                        <label class="form-check-label" for="radioBtn6">5</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn7" class="form-check">
+                                        <label class="form-check-label" for="radioBtn7">6</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn8" class="form-check">
+                                        <label class="form-check-label" for="radioBtn8">7</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn9" class="form-check">
+                                        <label class="form-check-label" for="radioBtn9">8</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn10" class="form-check">
+                                        <label class="form-check-label" for="radioBtn10">M</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn11" class="form-check">
+                                        <label class="form-check-label" for="radioBtn11">X1</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn12" class="form-check">
+                                        <label class="form-check-label" for="radioBtn12">X2</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn13" class="form-check">
+                                        <label class="form-check-label" for="radioBtn13">X3</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn14" class="form-check">
+                                        <label class="form-check-label" for="radioBtn14">X4</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn15" class="form-check">
+                                        <label class="form-check-label" for="radioBtn15">X5</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn16" class="form-check">
+                                        <label class="form-check-label" for="radioBtn16">X6</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn17" class="form-check">
+                                        <label class="form-check-label" for="radioBtn17">X7</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn18" class="form-check">
+                                        <label class="form-check-label" for="radioBtn18">XM</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn19" class="form-check">
+                                        <label class="form-check-label" for="radioBtn19">Z</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" name="radioBtn" id="radioBtn20" class="form-check">
+                                        <label class="form-check-label" for="radioBtn20">iNEXT</label>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                            </form>
+                        </div>
+                        <div class="card-list model">
+                            <p class="s-title"><span>Model</span></p>
+                            <ul id="listview1" class="list-group" data-role="listview"></ul>
+                            <script id="tmp1" type="text/x-kendo-template">
+                                <div class="item-area">
+                                    <div class="item-area-con item-flex">
+                                        <!-- label 클래스 
+                                            현금 : label-half color1
+                                            금융 : label-half color2
+                                        -->
+                                        <div class="label-half #: label1.color #">
+                                            <span class="label-con label-text1">#: label1.text1 #</span>
+                                            <span class="label-con label-text1">#: label1.text2 #</span>
+                                        </div>
+                                    </div>
+                                    <div class="item-area-con">
+                                        <div class="item-text-group">
+                                            <p class="item-text">#: carNum #</p>
+                                            <p class="item-text">#: carModel #</p>
+                                        </div>
+                                        <div class="item-text-group">
+                                            <p class="item-text">#: carInfo #</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </script>
+                            <!-- // list template -->
+                        
+                            <script>
+                                // 작업항목 data
+                                var groupedData1 = [
+                                    {
+                                        label1: { text1: "3Series", text2: "예약가능", color: "normal"},
+                                        carNum: "32고 6365",
+                                        carModel: "320d M Spt_P1",
+                                        carInfo: "차량 색상 Portimao Blue",
+                                    },
+                                    {
+                                        label1: { text1: "3Series", text2: "예약가능", color: "normal"},
+                                        carNum: "32고 6365",
+                                        carModel: "320d M Spt_P1",
+                                        carInfo: "차량 색상 Portimao Blue",
+                                    },
+                                    {
+                                        label1: { text1: "3Series", text2: "예약가능", color: "normal"},
+                                        carNum: "32고 6365",
+                                        carModel: "320d M Spt_P1",
+                                        carInfo: "차량 색상 Portimao Blue",
+                                    },
+                                   
+                                ];
+
+                                 // 판매기회
+                                $("#listview1").kendoMobileListView({
+                                    dataSource: kendo.data.DataSource.create({data: groupedData1}),
+                                    template: kendo.template($("#tmp1").html()),
+                                });
+                        
+                                $(document).ready(function() {
+                                    $('.form-check.all').on('change', function() {
+                                        var isChecked = $(this).is(':checked');
+                                        $(this).closest('.form-check-tag').find('.form-check').not('.all').prop('checked', isChecked);
+                                    });
+
+                                    $('.form-check').not('.all').on('change', function() {
+                                        var allChecked = $(this).closest('.form-check-tag').find('.form-check').not('.all').length === 
+                                                        $(this).closest('.form-check-tag').find('.form-check').not('.all:checked').length;
+                                        $(this).closest('.form-check-tag').find('.form-check.all').prop('checked', allChecked);
+                                    });
+                                });
+                        
+                            </script>
+                        </div>
+                    </div><!-- //info-content -->
+                </div>
+                
+            </div>
+        </div>
+        <footer id="footer" class="footer">
+            <div class="footer-btn">
+                <button type="button" class="btn btn-primary">다음</button>
+            </div>
+        </footer>
+    </div>
+
+
+</body>
+</html>
+

@@ -1,0 +1,571 @@
+/* line form 형식 */
+.line-form {
+    padding: 0.4rem 0 1.2rem;
+    box-sizing: border-box;
+    // 기본 리셋
+    .k-form-buttons {
+        display: none;
+    }
+    .k-form-fieldset {
+        margin: 0;
+    }
+    .k-form-legend {
+        display: none;
+    }
+
+    // label
+    .k-input-label, .k-label, .k-form-label {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 0.4rem;
+        font-size: 1.2rem;
+        color: $text-gray2;
+        .k-label-optional {
+            display: inline-block;
+            width: 0.4rem;
+            height: 0.4rem;
+            border-radius: 50%;
+            background-color: $error;
+            vertical-align: text-top;
+            text-indent: -9999rem;
+            overflow: hidden;
+        }
+    }
+
+    // input
+    .k-form-field {
+        margin-bottom: 0rem;
+    }
+    .k-textbox {
+        display: block;
+        padding: 0 0 0.8rem;
+        text-indent: 0;
+        font-size: 1.6rem;
+        color: $black;
+        >.k-input, >input {
+            padding: 0;
+            font-size: 1.6rem;
+            text-indent: 0;
+        }
+    }
+    .k-autocomplete, .k-dropdown-wrap, .k-multiselect-wrap, .k-numeric-wrap, .k-picker-wrap, .k-textarea, .k-textbox {
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        border-bottom: 0.1rem solid $line-input;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        &:hover, &:focus {
+            border-color: $black;
+        }
+        &.k-state-disabled {
+            border-bottom: 0.1rem dashed $line-input;
+            color: $text-placeholder;
+            opacity: 1;
+        }
+        &::placeholder {
+            color: $text-placeholder;
+        }
+        &.k-invalid {
+            border-color: $error;
+        }
+    }
+    .k-autocomplete, .k-dropdown-wrap, .k-multiselect-wrap, .k-numeric-wrap, .k-picker-wrap, .k-selectbox {
+        .k-input {
+            padding: 0 0 0.8rem;
+            font-size: 1.6rem;
+            text-indent: 0;
+        }
+    }
+
+    // select icon
+    .k-dropdown-wrap, .k-numeric-wrap, .k-picker-wrap {
+        padding-right: 2.4rem;
+        .k-select {
+            border-width: 0;
+            width: 2.4rem;
+            height: 2.4rem;
+            .k-icon {
+                &:before {
+                    content: '';
+                    width: 100%;
+                    height: 100%;
+                }
+
+                &.k-i-arrow-60-down {
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    &:before {
+                        background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 1.6rem auto; 
+                    }
+                }
+                &.k-i-calendar {
+                    &:before {
+                        background: red; // 임시
+                    }
+                }
+                &.k-i-clock {
+                    &:before {
+                        background: blue; // 임시
+                    }
+                }
+                width: 2.4rem;
+                height: 2.4rem;
+                font: inherit;
+                vertical-align: baseline;
+            }
+        }
+    }
+    .k-combobox {
+        .k-select {
+            border-width: 0;
+        }
+    }
+    // validation
+    .k-form-error {
+        color: $error;
+    }
+
+    // datetime, daterange
+    .daterangepicker {
+        display: flex;
+        justify-content: space-between;
+        .k-textbox-container {
+            width: calc(50% - 1rem);
+            padding-top: 0;
+            .k-label {
+                display: none;
+            }
+            // ~ 표시
+            + span{
+                position: relative;
+                display: block;
+                width: 1rem;
+                height: 100%;
+                padding-bottom: 0.8rem;
+                font-size: 1.2rem;
+                color: $text-gray1;
+               &:before {
+                   content: "~";
+                   position: absolute;
+                   top: 50%;
+                   left: 50%;
+                   transform: translate(-50%, -50%);
+               } 
+            }
+            .k-textbox {
+                padding-right: 2.4rem;
+                cursor: pointer;
+                // icon
+                background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat top right / 2.4rem auto; 
+            }
+        }
+    }
+
+    // datetime
+    .k-datetimepicker {
+        .k-select {
+            .k-link {
+                display: block;
+                width: 100%;
+            }
+        }
+        .k-picker-wrap {
+            .k-icon {
+                margin: 0;
+            }
+        }
+    }
+
+    // search 버튼
+    .btn-input-search {
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+        height: 2.7rem;
+        padding:0 2.4rem 0.8rem 0;
+        border-bottom: 0.1rem solid $line-input;
+        text-indent: 0;
+        font-size: 1.6rem;
+        line-height: 2.7rem;
+        color: $black;
+        cursor: pointer;
+        background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat center right / 1.6rem auto; 
+        &:hover {
+            border-color: $black;
+        }
+    }
+}
+
+/* radio */
+.k-radio-list  {
+    .k-radio-item {
+        margin-right: 4rem;
+        &.k-state-disabled {
+            opacity: 1;
+        }
+    }
+}
+.k-radio {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: $white;
+    border: 0.1rem solid $primary2;
+    opacity: 0.3;
+    +.k-radio-label {
+        margin-left: 0.8rem;
+    }
+    &:checked {
+        background: $primary2;
+        opacity: 1;
+        &:before {
+            background-color: $white;
+        }
+    }
+    &:disabled {
+        border: solid 0.1rem rgba(31, 38, 62, 0.3);
+        background-color: rgba(31, 38, 62, 0.1);
+        opacity: 1;
+        &:checked{
+            opacity: 0.3;
+            border: 0.1rem solid $primary2;
+            background: $primary2;
+        }
+        +.k-radio-label {
+            opacity: 1;
+            filter: none;
+            color: $text-placeholder;
+        }
+    }
+}
+.k-radio-label {
+    font-size: 1.6rem;
+    color: $black;
+    +.k-radio {
+        margin-left: 0.8rem;
+    }
+}
+
+/* checkbox */
+.k-checkbox-list  {
+    .k-checkbox-item {
+        margin-right: 4rem;
+        &.k-state-disabled {
+            opacity: 1;
+        }
+    }
+}
+.k-checkbox {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.2rem;
+    background: $white;
+    border: 0.1rem solid $primary2;
+    opacity: 0.3;
+    +.k-checkbox-label {
+        margin-left: 0.8rem;
+    }
+    &:checked {
+        background: $primary2;
+        opacity: 1;
+        &:before {
+            // 체크 아이콘 넣기
+            color: $white;
+        }
+    }
+    &:disabled {
+        border: solid 0.1rem rgba(31, 38, 62, 0.3);
+        background-color: rgba(31, 38, 62, 0.1);
+        opacity: 1;
+        &:checked{
+            opacity: 0.3;
+            border: 0.1rem solid $primary2;
+            background: $primary2;
+        }
+        +.k-checkbox-label {
+            opacity: 1;
+            filter: none;
+            color: $text-placeholder;
+        }
+    }
+}
+.k-checkbox-label {
+    font-size: 1.6rem;
+    color: $black;
+    +.k-checkbox {
+        margin-left: 0.8rem;
+    }
+}
+
+/* select, datetime 선택 시 나오는 드롭다운 리스트 */
+.k-popup {
+    background-color: $white;
+    &.k-calendar-container {
+        padding: 0;
+        border: 0;
+
+    }
+    &.k-datetime-container {
+        padding: 0;
+        border: 0;
+    }
+    // pager, form select 공통사용 -> 클래스 추가 가능한지 봐야함
+    &.k-list-container {
+        padding: 0;
+        border: 0;
+        .k-list {
+            margin-top: 0.4rem;
+            border: 0.1rem solid $line-blue-gray;
+            border-radius: 0.4rem;
+            .k-item {
+                min-height: 1.2rem;
+                padding: 0.8rem 1.1rem;
+                color: $text-gray1;
+                line-height: 1.2rem;
+                font-size: 1.2rem;
+                &.k-state-focused {
+                    background-color: $bg-select;
+                    color: $text-black;
+                }
+            }
+        }
+        // .k-list-optionlabel {
+        //     display: none;
+        // }
+    }
+}
+
+/* calendar */
+.k-calendar {
+    border: 0;
+    box-sizing: border-box;
+    .k-header {
+        padding: 0;
+        border: 0;
+        .k-link {
+            padding: 0;
+        }
+        .k-nav-prev, .k-nav-next {
+            top: 0;
+            width: 3.5rem;
+            height: 3.5rem;
+            box-sizing: border-box;
+            border: 0.1rem solid $line-calendar;
+            box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.05);
+            background-color: $white;
+            .k-icon {
+                vertical-align: middle;
+            }
+        }
+        .k-nav-prev {
+            left: 0;
+        }
+        .k-nav-next {
+            right: 0;
+        }
+        .k-nav-fast {
+            padding: 1.8rem 0;
+            color: $primary2;
+            font-weight: $font-bold;
+            font-size: 1.45rem;
+        }
+    }
+    .k-calendar-header {
+        padding: 1.8rem 0;
+        .k-title {
+            color: $primary2;
+            font-weight: $font-bold;
+            font-size: 1.45rem;
+        }
+        .k-calendar-nav {
+            .k-today {
+                padding: 0 1rem;
+                color: $primary2;
+                font-size: 1.2rem;
+            }
+            .k-button {
+                width: 3.5rem;
+                height: 3.5rem;
+                box-sizing: border-box;
+                border: 0.1rem solid $line-calendar !important;
+                box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.05) !important;
+                background-color: $white;
+                .k-icon {
+                    vertical-align: middle;
+                }
+                &::before, &::after {
+                    background-color: $white;
+                }
+            }
+        }
+    }
+    .k-calendar-view {
+        width: 33rem;
+        height: auto;
+        .k-content {
+            width: calc(100% - 0.2rem);
+            height: 33.6rem;
+            &.k-year {
+                height: 22rem;
+            }
+            thead {
+                background-color: $primary2;
+                th {
+                    height: 4.8rem;
+                    padding: 0;
+                    opacity: 0.6;
+                    border: 0;
+                    color: $white;
+                    font-weight: $font-bold;
+                    font-size: 1.2rem;
+                }
+            }
+            td {
+                width: 4.6rem;
+                height: 4.6rem;
+                border: 0.1rem solid $line-calendar;
+                border-radius: 0;
+                .k-link {
+                    width: auto;
+                    height: auto;
+                    padding: 0;
+                    color: #43425d;
+                    font-family: "sans-serif";
+                    font-size: 1.5rem;
+                    line-height: 2.1rem;
+                }
+                &.k-state-selected {
+                    background-color: $point;
+                    .k-link {
+                        color: $white;
+                    }
+                }
+                &.k-state-hover {
+                    background-color: $bg-default;
+                    &.k-state-selected {
+                        background-color: $point;
+                    }
+                }
+                &.k-other-month {
+                    .k-link {
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+    .k-footer {
+        .k-nav-today {
+            display: none;
+        }
+    }
+
+    // range
+    &.k-calendar-range {
+        .k-calendar-view {
+            width: 66rem;
+            .k-content {
+                width: 33rem;
+                td {
+                    &.k-range-mid {
+                        background-color: rgba(38, 128, 235, 0.3);
+                    }
+                    &.k-range-start, &.k-range-end  {
+                        background-color: $point !important;
+                        .k-link {
+                            color: $white;
+                        }
+                    }
+                }
+            }  
+        }
+        
+    }
+
+    // tab
+    .k-calendar-decadeview, .k-calendar-monthview, .k-calendar-yearview {
+        padding: 0;
+    }
+}
+/* datetime */
+.k-datetime-wrap {
+    .k-datetime-buttongroup {
+        .k-button {
+            border: 0.1rem solid $line-panel;
+            border-radius: 0;
+            color: $text-gray1;
+            font-size: 1.45rem;
+            &.k-state-active {
+                border: 2px solid $black;
+                color: $black;
+                font-weight: $font-bold;
+            }
+        }
+        .k-group-start {
+            border-top-left-radius: 0.4rem;
+            border-bottom-left-radius: 0.4rem;
+        }
+        .k-group-end{
+            border-top-right-radius: 0.4rem;
+            border-bottom-right-radius: 0.4rem;
+        }
+    }
+    .k-datetime-selector {
+        .k-datetime-time-wrap {
+            .k-time-header {
+                padding: 1rem 0.8rem 1.8rem;
+                .k-title {
+                    color: $primary2;
+                    font-weight: $font-bold;
+                    font-size: 1.45rem;
+                }
+                .k-time-now {
+                    padding: 0 1rem;
+                    color: $primary2;
+                    font-size: 1.2rem;
+                }
+                .k-button {
+                    border: 0.1rem solid $line-calendar !important;
+                    box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.05) !important;
+                    &::before, &::after {
+                        background-color: transparent;
+                    }
+                }
+            }
+            .k-time-highlight {
+                border-color: $line-calendar;
+            }
+            .k-time-list-wrapper {
+                .k-time-list {
+                    &::before, &::after {
+                        box-shadow: 0 0 3rem 2.5rem $white;
+                    }
+                    .k-item {
+                        &:hover {
+                            color: $point;
+                        }
+                    }
+                }
+                &.k-state-focused {
+                    &::before, &::after {
+                        background-color: rgba(0,0,0,.04);
+                    }
+                }
+            }
+        }
+    }
+    .k-datetime-footer {
+        &.k-action-buttons {
+            .k-button {
+                height: 3.2rem;
+                padding: 0 1.6rem;
+                font-weight: 700;
+                font-size: 1.2rem;
+            }
+        }
+    }
+}

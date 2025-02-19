@@ -1,0 +1,204 @@
+// icon
+.ico {
+    display: block;
+    width: 2.8rem;
+    height: 2.8rem;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 2.8rem auto;
+
+    // main icon
+    &-change {
+        background-image: url('#{$img-path}/icon/ico_change.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_change_wh.png'); 
+        }
+    }
+    &-flash {
+        background-image: url('#{$img-path}/icon/ico_flash.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_flash_wh.png'); 
+        }
+    }
+    &-card {
+        background-image: url('#{$img-path}/icon/ico_card.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_card_wh.png'); 
+        }
+    }
+    &-use {
+        background-image: url('#{$img-path}/icon/ico_use.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_use_wh.png'); 
+        }
+    }
+    &-list {
+        background-image: url('#{$img-path}/icon/ico_list.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_list_wh.png'); 
+        }
+    }
+
+    // util icon
+    &-arr {
+        background-image: url('#{$img-path}/icon/ico_arr.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_arr_wh.png'); 
+        }
+    }
+    &-bell {
+        background-image: url('#{$img-path}/icon/ico_bell.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_bell_wh.png'); 
+        }
+        &.on {
+            background-image: url('#{$img-path}/icon/ico_bell_on.png');
+            &.wh {
+                background-image: url('#{$img-path}/icon/ico_bell_on_wh.png'); 
+            }
+        }
+    }
+    &-close {
+        background-image: url('#{$img-path}/icon/ico_close.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_close_wh.png'); 
+        }
+    }
+    &-menu {
+        background-image: url('#{$img-path}/icon/ico_menu.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_menu_wh.png'); 
+        }
+    }
+    &-set {
+        background-image: url('#{$img-path}/icon/ico_set.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_set_wh.png'); 
+        }
+    }
+    &-switch {
+        background-image: url('#{$img-path}/icon/ico_switch.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_switch_wh.png'); 
+        }
+    }
+    
+    // etc icon
+    &-info {
+        background-image: url('#{$img-path}/icon/ico_info.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_info_wh.png'); 
+        }
+    }
+    &-cal {
+        background-image: url('#{$img-path}/icon/ico_cal.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_cal_wh.png'); 
+        }
+    }
+    &-filter {
+        background-image: url('#{$img-path}/icon/ico_filter.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_filter_wh.png'); 
+        }
+    }
+    &-zoom {
+        background-image: url('#{$img-path}/icon/ico_zoom.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_zoom_wh.png'); 
+        }
+    }
+    &-send {
+        background-image: url('#{$img-path}/icon/ico_send.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_send_wh.png'); 
+        }
+    }
+    &-invite {
+        background-image: url('#{$img-path}/icon/ico_invite.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_invite_wh.png'); 
+        }
+    }
+    &-cancle {
+        background-image: url('#{$img-path}/icon/ico_cancle.png');
+        &.wh {
+            background-image: url('#{$img-path}/icon/ico_cancle_wh.png'); 
+        }
+    }
+}
+
+// illustration
+.illust-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    [class^=ill] {
+        display: block;
+        width: 27.5rem;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 27.5rem auto;
+    }
+    [class^=ill-156] {
+        height: 15.6rem;
+    }
+    [class^=ill-120] {
+        height: 12rem;
+    }
+
+    /* height 156 */
+    .ill-156-msg {
+        background-image: url('#{$img-path}/illust/ill_156_msg.png');
+    }
+    .ill-156-pigbank-cashbee {
+        background-image: url('#{$img-path}/illust/ill_156_pigbank_cashbee.png');
+    }
+    .ill-156-pigbank-kona {
+        background-image: url('#{$img-path}/illust/ill_156_pigbank_kona.png');
+    }
+    .ill-156-wallet-phone {
+        background-image: url('#{$img-path}/illust/ill_156_wallet_phone.png');
+    }
+    .ill-156-moneybag {
+        background-image: url('#{$img-path}/illust/ill_156_moneybag.png');
+    }
+    .ill-156-family {
+        background-image: url('#{$img-path}/illust/ill_156_family.png');
+    }
+    .ill-156-phone {
+        background-image: url('#{$img-path}/illust/ill_156_phone.png');
+    }
+    .ill-156-pigbank {
+        background-image: url('#{$img-path}/illust/ill_156_pigbank.png');
+    }
+    .ill-156-wallet {
+        background-image: url('#{$img-path}/illust/ill_156_wallet.png');
+    }
+    .ill-156-document {
+        background-image: url('#{$img-path}/illust/ill_156_document.png');
+    }
+
+    /* height 120 */
+    .ill-120-shoppoing-wallet {
+        background-image: url('#{$img-path}/illust/ill_120_shopping_wallet.png');
+    }
+    .ill-120-wallet {
+        background-image: url('#{$img-path}/illust/ill_120_wallet.png');
+    }
+    .ill-120-preparing {
+        background-image: url('#{$img-path}/illust/ill_120_preparing.png');
+    }
+    .ill-120-shopping {
+        background-image: url('#{$img-path}/illust/ill_120_shopping.png');
+    }
+    .ill-120-hand {
+        background-image: url('#{$img-path}/illust/ill_120_hand.png');
+    }
+
+    /* etc */
+    .ill-nfc {
+        height: 23.2rem;
+        background-image: url('#{$img-path}/illust/ill_nfc.png');
+    }
+}

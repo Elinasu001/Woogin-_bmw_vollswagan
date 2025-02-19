@@ -1,0 +1,114 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    padding: 2rem 3.2rem 3.2rem;
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .search-area {
+
+        }
+        .profile-area {
+
+        }
+    }
+    &-dashboard {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin-top: 1.2rem;
+
+        .dashboard-col {
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            width: 100%;
+
+            &.xs {
+                flex: 0.7;
+            }
+            &.sm {
+                flex: 0.9;
+            }
+            &.md {
+                flex: 1.4;
+            }
+            &.lg {
+                flex: 1.9;
+            }
+            &.lg2 {
+                flex: 2;
+            }
+
+            +.dashboard-col {
+                margin-top: 2rem;
+            }
+            
+            .col-left {
+                display: flex;
+                flex-direction: column;
+                flex: 2;
+                +.col-right {
+                    margin-left: 2rem;
+                }
+            }
+            .col-right {
+                flex: 1;
+            }
+
+            .col-con {
+                flex: 1;
+                +.col-con {
+                    margin-top: 2rem;
+                }
+                &.xs {
+                    flex: 0.7;
+                }
+                &.sm {
+                    flex: 0.9;
+                }
+                &.md {
+                    flex: 1.4;
+                }
+                &.lg {
+                    flex: 1.9;
+                }
+                &.lg2 {
+                    flex: 2;
+                }
+            }
+
+            .row-con {
+                display: flex;
+                height: 100%;
+                .dashboard-panel {
+                    flex: 1;
+                    +.dashboard-panel {
+                        margin-left: 2rem;
+                    }
+                }
+            }
+        }
+
+        // panel
+        .dashboard-panel {
+            width: 100%;
+            height: 100%;
+            padding: 1.2rem 1.6rem;
+            border-radius: 0.8rem;
+            background-color: $white;
+        
+            &.primary1 {
+                background-color: $primary1;
+                color: $white;
+            }
+            &.primary2 {
+                background-color: $primary2;
+                color: $white;
+            }
+        }
+    }
+}

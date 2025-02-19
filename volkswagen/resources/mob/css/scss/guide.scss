@@ -1,0 +1,109 @@
+@import url("style.css");
+@import "_shCoreDefault";
+@import "_guide";
+
+.code-wrap {
+    display: flex;
+    .preview {
+        overflow: hidden;
+        position: relative;
+        width: 360px;
+        height: 812px;
+        //padding: 10px;
+        border-radius: 40px;
+        //border: 1px solid #ddd;
+        box-shadow: 0 5px 8px 5px rgba(0,0,0,.1);
+        box-sizing: border-box;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 22.5%;
+            display: block;
+            width: 55%;
+            height: 15px;
+            border-radius: 0 0 15px 15px;
+            //border: 1px solid #eee;
+            border-top: 0;
+            background: #f2f2f2;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            border: 1px solid #eee;
+        }
+        +* {
+            width: calc(100% - 375px);
+        }
+        .layout-wrap {
+            height: 100%;
+            margin: 0;
+            padding: 50px 20px;
+            border-radius: 30px;
+            border: 0;
+            //background: #f0f2f2;
+            .layout {
+                margin: 15px 0;
+                padding: 15px;
+                border: 1px solid #ddd;
+                &-body {
+                    height: 400px;
+                }
+                &-cont {
+                    height: 460px;
+                }
+                &-modal {
+                    height: 550px;
+                }
+            }
+        }
+    }
+    .pre-code {
+        padding-left: 20px;
+    }
+}
+/* highlihgt */
+.syntaxhighlighter {
+    overflow-y: hidden!important;
+    overflow-x: auto!important; 
+    margin: 0 !important;
+    //background: #f2f2f2 !important;
+    table{
+        //border: 1px solid #e8e8e8 !important;
+        .code{
+            .container {
+                padding: 10px 0 !important;
+            }
+            .line{
+                white-space: pre-wrap !important;
+                &.alt1, &.alt2{                
+                    padding: 1px 10px !important;
+                    font-size: 13px !important;
+                    background: transparent !important;
+                }
+                &.alt1{
+                    background-color: #f8f8f8 !important;
+                }
+                code{font-size: 12px !important;}
+            }
+        }        
+    }    
+}
+
+/* wrap-mobile */
+.wrap-mobile {
+    min-height: 100%;
+    padding: 44px 20px 44px;
+    //background-color: #f2f2f2;
+    section + section {
+        margin-top: 20px;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    h2 {
+        margin: 20px 0 10px;
+        font-size: 18px;
+    }
+}

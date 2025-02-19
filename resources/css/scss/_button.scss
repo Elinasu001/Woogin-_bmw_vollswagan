@@ -1,0 +1,355 @@
+/* button */
+.btn {
+    border: 0;
+    +.btn {
+        margin-left: 0.4rem;
+    }
+    +.btn-more-group {
+        margin-left: 0.4rem;
+    }
+    &-default {
+        height: 4rem;
+        padding: 0 2rem;
+        font-weight: $font-bold;
+        font-size: 1.45rem;
+    }
+    &-small {
+        height: 3.2rem;
+        padding: 0 1.6rem;
+        font-weight: $font-bold;
+        font-size: 1.2rem;
+    }
+    &-confirm {
+        height: 5rem;
+        padding: 0 2.4rem;
+        font-weight: $font-bold;
+        font-size: 1.6rem;
+    }
+    &-icon {
+        height: 3.2rem;
+        border: 0.1rem solid $btn-icon;
+        padding: 0 1rem;
+        color: $btn-primary;
+        background-color: $white;
+        .icon{
+            display: block;
+            width: 1.6rem;
+            height: 1.6rem;
+
+            // icon 이미지 
+            &-excel {
+                background: url('#{$img-path}/common/icon/icon_16_excel.png') no-repeat center / 1.6rem auto;  
+            }
+            &-excel2 {
+                background: url('#{$img-path}/common/icon/icon_16_excel2.png') no-repeat center / 1.6rem auto;  
+            }
+            &-sms {
+                background: url('#{$img-path}/common/icon/icon_16_sms.png') no-repeat center / 1.6rem auto;  
+            }
+            &-email {
+                background: url('#{$img-path}/common/icon/icon_16_email.png') no-repeat center / 1.6rem auto;  
+            }
+            &-modify {
+                background: url('#{$img-path}/common/icon/icon_16_modify.png') no-repeat center / 1.6rem auto;  
+            }
+            &-regist {
+                background: url('#{$img-path}/common/icon/icon_16_regist.png') no-repeat center / 1.6rem auto;  
+            }
+            &-detail {
+                background: url('#{$img-path}/common/icon/icon_16_detail.png') no-repeat center / 1.6rem auto;  
+            }
+            &-add {
+                background: url('#{$img-path}/common/icon/icon_16_add.png') no-repeat center / 1.6rem auto;  
+            }
+            &-search {
+                background: url('#{$img-path}/common/icon/icon_16_search.png') no-repeat center / 1.6rem auto;  
+            }
+            &-assign {
+                background: url('#{$img-path}/common/icon/icon_16_assign.png') no-repeat center / 1.6rem auto;  
+            }
+            &-contract {
+                background: url('#{$img-path}/common/icon/icon_16_contract.png') no-repeat center / 1.6rem auto;  
+            }
+            &-car {
+                background: url('#{$img-path}/common/icon/icon_16_car.png') no-repeat center / 1.6rem auto;  
+            }
+            &-car-regist {
+                background: url('#{$img-path}/common/icon/icon_16_car_regist.png') no-repeat center / 1.6rem auto;  
+            }
+            &-bill {
+                background: url('#{$img-path}/common/icon/icon_16_bill.png') no-repeat center / 1.6rem auto;  
+            }
+            &-save {
+                background: url('#{$img-path}/common/icon/icon_16_save.png') no-repeat center / 1.6rem auto;  
+            }
+            &-del {
+                background: url('#{$img-path}/common/icon/icon_16_del.png') no-repeat center / 1.6rem auto;  
+            }
+            &-download {
+                background: url('#{$img-path}/common/icon/icon_16_download.png') no-repeat center / 1.6rem auto;  
+            }
+            &-upload {
+                background: url('#{$img-path}/common/icon/icon_16_upload.png') no-repeat center / 1.6rem auto;  
+            }
+            &-calendar {
+                background: url('#{$img-path}/common/icon/icon_16_calendar.png') no-repeat center / 1.6rem auto;  
+            }
+            &-more {
+                background: url('#{$img-path}/common/icon/icon_12_more.png') no-repeat center / 1.2rem auto;  
+            }
+            &-download2 {
+                background: url('#{$img-path}/common/icon/icon_16_download2.png') no-repeat center / 1.6rem auto;  
+            }
+            &-upload2 {
+                background: url('#{$img-path}/common/icon/icon_16_upload2.png') no-repeat center / 1.6rem auto;  
+            }
+            &-car-inquire {
+                background: url('#{$img-path}/common/icon/icon_16_tooltip_car_info.png') no-repeat center / 1.6rem auto;  
+            }
+            &-up {
+                background: url('#{$img-path}/common/icon/icon_16_arr_grid_expand.png') no-repeat center / 1.6rem auto;
+                transform: rotate(-180deg);  
+            }
+            &-down {
+                background: url('#{$img-path}/common/icon/icon_16_arr_grid_expand.png') no-repeat center / 1.6rem auto;  
+            }
+
+            // check button
+            &-check {
+                background: url('#{$img-path}/common/icon/icon_checkbox_disabled.png') no-repeat center/1.6rem auto; 
+            }
+
+            &:only-child {
+                margin: 0 -0.3rem;
+            }
+            +.btn-icon-text {
+                padding-left: 0.4rem;
+            }
+        }
+        &-text {
+            font-size: 1.2rem;
+            &.text-star {
+                margin-top: 0.6rem;
+                font-size: 1.8rem;
+                color: $black;
+            }
+        }
+
+         // check button
+        &.active {
+            .icon {
+                &-check {
+                    background: url('#{$img-path}/common/icon/icon_checkbox_active.png') no-repeat center/1.6rem auto; 
+                }
+            }
+        }
+
+        // 큰사이즈
+        &.big {
+            height: 4rem;
+            border-radius: 0.4rem;
+            .icon {
+                width: 2rem;
+                height: 2rem;
+                &-check {
+                    background: url('#{$img-path}/common/icon/icon_checkbox_disabled.png') no-repeat center/1.6rem auto; 
+                }
+                &-sms {
+                    background: url('#{$img-path}/common/icon/icon_20_sms.png') no-repeat center / 2rem auto;  
+                }
+                &-email {
+                    background: url('#{$img-path}/common/icon/icon_20_email.png') no-repeat center / 2rem auto;  
+                }
+
+                &:only-child {
+                    margin: 0 -0.1rem;
+                }
+            }
+            .btn-icon-text {
+                font-size: 1.45rem;
+            }
+
+            // check button
+            &.active {
+                .icon {
+                    &-check {
+                        background: url('#{$img-path}/common/icon/icon_checkbox_active.png') no-repeat center/1.6rem auto; 
+                    }
+                }
+            }
+        }
+    }
+    &-icon-more {
+        width: 4rem;
+        height: 4rem;
+        padding: 0;
+        background: url('#{$img-path}/common/icon/icon_16_more.png') no-repeat center / 1.6rem auto;
+    }
+
+    &-mini {
+        width: 1.6rem;
+        height: 1.6rem;
+        &-plus {
+            background: url('#{$img-path}/common/icon/icon_16_tree_open.png') no-repeat center / 1.6rem auto;
+        }
+        &-minus {
+            background: url('#{$img-path}/common/icon/icon_16_tree_close.png') no-repeat center / 1.6rem auto;
+        }
+        &-detail {
+            background: url('#{$img-path}/common/icon/icon_16_detail.png') no-repeat center / 1.6rem auto; 
+        }
+    }
+}
+.btn-group {
+    display: flex;
+    .btn-default {
+        +.btn-default {
+            margin-left: 0.6rem;
+        }
+    }
+    .btn-small {
+        +.btn-small {
+            margin-left: 0.4rem;
+        }
+    }
+    .btn-confirm {
+        +.btn-confirm {
+            margin-left: 1rem;
+        }
+    }
+    .btn-icon {
+        +.btn-icon {
+            margin-left: 0.4rem;
+        }
+        +.btn-add-search-group {
+            margin-left: 0.4rem;
+        }
+        +.btn-more-group {
+            margin-left: 0.4rem;
+        }
+    }
+    .btn-add-search-group, .btn-more-group {
+        +.btn-icon {
+            margin-left: 0.4rem;
+        }
+        +.btn-add-search-group {
+            margin-left: 0.4rem;
+        }
+        +.btn-more-group {
+            margin-left: 0.4rem;
+        }
+    }
+    .btn-icon.big {
+        +.btn-icon.big {
+            margin-left: 0.6rem;
+        }
+    }
+
+}
+// more
+.btn-more-group {
+    position: relative;
+    width: 3.2rem;
+    .btn-more-sub {
+        position: absolute;
+        right: 0;
+        top: 4rem;
+        z-index: 100;
+        display: none;
+        &.active {
+            display: block;
+        }
+        ul {
+            padding: 1.6rem;
+            border: 0.1rem solid $primary2;
+            border-radius: 0.3rem;
+            background-color: $white;
+            box-shadow: 0.2rem 0.2rem 0.4rem 0 rgba(0, 0, 0, 0.1);
+            li {
+                + li {
+                    margin-top: 1.2rem;
+                }
+                a {
+                    display: block;
+                    position: relative;
+                    padding-left: 2rem;
+                    font-size: 1.2rem;
+                    color: $primary2;
+                    white-space: nowrap;
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        display: block;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                    }
+                    &.icon-excel {
+                        &::before {
+                            background: url('#{$img-path}/common/icon/icon_16_excel.png') no-repeat center / 1.6rem auto;
+                        }
+                    }
+                    &.icon-excel2 {
+                        &::before {
+                            background: url('#{$img-path}/common/icon/icon_16_excel2.png') no-repeat center / 1.6rem auto;
+                        }
+                    }
+                    &.icon-download {
+                        &::before {
+                            background: url('#{$img-path}/common/icon/icon_16_download.png') no-repeat center / 1.6rem auto;
+                        }
+                    }
+                }
+            }
+            .text-item {
+                a {
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+}
+
+// add search 
+.btn-add-search-group {
+    .btn-add-search-sub {
+        display: none;
+        z-index: 100;
+        position: absolute;
+        top: 4rem;
+        left: 0;
+        width: 100%;
+        &.active {
+            display: block;
+        }
+    }
+}
+
+// kendo button custom
+.k-button {
+    border-radius: 0.4rem;
+    &:hover {
+        &:before {
+            opacity: 1;
+        }
+    }
+    &.k-primary {
+        background-color: $btn-primary;
+        color: $white;
+        border: 0.1rem solid $btn-primary;
+        background-image: none;
+    }
+    &.k-secondary {
+        background-color: $white;
+        color: $btn-primary;
+        border: 0.1rem solid $btn-primary;
+    }
+
+    &.k-state-disabled, &:disabled {
+        opacity: .3;
+    }
+    &.btn-icon {
+        border-radius: 0.3rem;
+    }
+}

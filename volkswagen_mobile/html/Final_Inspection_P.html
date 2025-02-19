@@ -1,0 +1,675 @@
+<html lang="ko" class="k-webkit k-webkit128 k-mobile">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <title>WDMS STG</title>
+    
+    <!-- css -->
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css?ver=1.3">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/css/libs/slick.css">
+    <!-- js -->
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.fileDownload.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/crm/crm.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/sal/sal.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/slick.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+
+    
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+        let viewportMeta = document.querySelector('meta[name="viewport"]');
+        
+        if (!viewportMeta) {
+            viewportMeta = document.createElement('meta');
+            viewportMeta.name = 'viewport';
+            document.head.appendChild(viewportMeta);
+        }
+
+        // 화면 너비가 768px 미만일 경우 (모바일)
+        if (window.innerWidth < 768) {
+            viewportMeta.content = 'user-scalable=no,width=375';
+        } else {
+            // 태블릿 및 그 이상일 경우
+            viewportMeta.content = 'width=device-width,initial-scale=1,user-scalable=no';
+        }
+    });
+
+    </script>
+    </head>
+
+<body>
+    <!-- modal -->
+    <div class="modal show">
+        <div class="modal-content bg scroll-hidden" id="vwBody">
+            <div class="modal-header">
+                <h1 class="header-title">Final Inspection 상세</h1><!-- Direct Reception -->
+                <div class="header-left">
+                    <button class="btn btn-util close btn-close-modal km-widget km-button" onclick="btnCancel()"
+                        data-role="button">
+                        <span class="sr-only km-text"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body mo-body type2">
+                <div class="info-wrap">
+                    <div class="user-info-area">
+                        <div class="info-sec">
+                            <ul id="listview_TC" class="list-agreement" data-role="listview">
+                                <li>
+                                    <!--N : div class="main" 부분 태그 구조 변경-->
+                                    <div class="item-text-group chk-list-tit">
+                                        <div class="tit">정비 최종 기술 검사</div>
+                                        <div>
+                                            <p class="item-text">OK</p>
+                                            <p class="item-text">N.OK</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-list">
+                                        <ul id="sublistview_01" class="list-group check-list" data-role="listview"></ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <script id="tmp01" type="text/x-kendo-template">
+                            <div class="item-area">
+                                <div class="item-left break">
+                                    <p class="item-text tit">#: carChkAtcDetlNm #</p>
+                                    <p class="item-text">#= remark != null ? remark : '' #</p>
+                                </div>
+                                <div class="item-right">
+                                    <ul class="form-checkbox-group">
+                                        <li>
+                                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </script>
+                        <script>
+                            // 질문체크1
+                            var groupedData01 = [
+                                {
+                                    carChkAtcDetlNm: "지침에 따라 모든 작업이 완료되었는가? 주문 상의 서명, 점검하였는가?",
+                                    remark: "",
+                                    carChkAtcCd: "01_001",
+                                    carChkAtcDetlCd: "1",
+                                    atcCieYn: "Y"
+                                },
+                                {
+                                    carChkAtcDetlNm: "누출 작업완료 시간을 준수하였는가?",
+                                    remark: "",
+                                    carChkAtcCd: "01_002",
+                                    carChkAtcDetlCd: "1",
+                                    atcCieYn: "Y"
+                                },
+                            ];
+                            $(document).ready(function () {
+                                // 사진촬영
+                                $("#sublistview_01").kendoMobileListView({
+                                    dataSource: kendo.data.DataSource.create({ data: groupedData01 }),
+                                    template: kendo.template($("#tmp01").html()),
+                                });
+
+                            });
+                        </script>
+                        <!--비고-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">비고</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-item">
+                                    <textarea class="form-textarea" rows="4" placeholder="텍스트를 입력해주세요."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!--서명-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">점검자 서명</p>
+                                </div>
+                            </div>
+                            <div class="agreement-area-wrap">
+                                <div class="agreement-area">
+                                    <div class="agreement-body">
+                                        <div class="customer-sign">
+                                            <a href="javascript:;" class="sign-area">
+                                                <!-- 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <!-- <div class="sign-img-con"></div> -->
+                                                <!-- // 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <div class="sign-img-con">
+                                                    <img src="../../../images/temp/@signature_img.png" alt="">
+                                                </div>
+                                                <div class="sign-info-group">
+                                                    <p class="sign-info-date">2021년 12월 20일</p>
+                                                    <p class="sign-info-name">
+                                                        <span class="sign-title">이름</span>
+                                                        <span class="sign-name">홍길동</span>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--E : 질문체크1-->
+                        <!--S : 질문체크2-->
+                        <div class="info-sec">
+                            <ul id="listview_TC2" class="list-agreement" data-role="listview">
+                                <li>
+                                    <!--N : div class="main" 부분 태그 구조 변경-->
+                                    <div class="item-text-group chk-list-tit">
+                                        <div class="tit">차량 리프트 상 품질 관리 검사 차량 하부 점검</div>
+                                        <div>
+                                            <p class="item-text">OK</p>
+                                            <p class="item-text">N.OK</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-list">
+                                        <ul id="sublistview_02_01" class="list-group check-list" data-role="listview"></ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <!--N : div class="main" 부분 태그 구조 변경-->
+                                    <div class="item-text-group chk-list-tit">
+                                        <div class="tit">주문 완료여부 점검 : 주문서/범위/문서에 따른 적합성</div>
+                                        <div>
+                                            <p class="item-text">OK</p>
+                                            <p class="item-text">N.OK</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-list">
+                                        <ul id="sublistview_02_02" class="list-group check-list" data-role="listview"></ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <!--N : div class="main" 부분 태그 구조 변경-->
+                                    <div class="item-text-group chk-list-tit">
+                                        <div class="tit">시험 주행, 최종 기술검사</div>
+                                        <div>
+                                            <p class="item-text">OK</p>
+                                            <p class="item-text">N.OK</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-list">
+                                        <ul id="sublistview_02_03" class="list-group check-list" data-role="listview"></ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--비고-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">비고</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-item">
+                                    <textarea class="form-textarea" rows="4" placeholder="텍스트를 입력해주세요."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!--서명-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">점검자 서명</p>
+                                </div>
+                            </div>
+                            <div class="agreement-area-wrap">
+                                <div class="agreement-area">
+                                    <div class="agreement-body">
+                                        <div class="customer-sign">
+                                            <a href="javascript:;" class="sign-area">
+                                                <!-- 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <!-- <div class="sign-img-con"></div> -->
+                                                <!-- // 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <div class="sign-img-con">
+                                                    <img src="../../../images/temp/@signature_img.png" alt="">
+                                                </div>
+                                                <div class="sign-info-group">
+                                                    <p class="sign-info-date">2021년 12월 20일</p>
+                                                    <p class="sign-info-name">
+                                                        <span class="sign-title">이름</span>
+                                                        <span class="sign-name">홍길동</span>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--E : 질문체크2-->
+                        <!--S : 질문체크3-->
+                        <div class="info-sec">
+                            <ul id="listview_TC3" class="list-agreement" data-role="listview">
+                                <li>
+                                    <!--N : div class="main" 부분 태그 구조 변경-->
+                                    <div class="item-text-group chk-list-tit">
+                                        <div class="tit">최종 점검 최종 기술 검사</div>
+                                        <div>
+                                            <p class="item-text">OK</p>
+                                            <p class="item-text">N.OK</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-list">
+                                        <ul id="sublistview_03_01" class="list-group check-list" data-role="listview"></ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <!--N : div class="main" 부분 태그 구조 변경-->
+                                    <div class="item-text-group chk-list-tit">
+                                        <div class="tit">최종 검사(차량 픽업으로 인도)</div>
+                                        <div>
+                                            <p class="item-text">OK</p>
+                                            <p class="item-text">N.OK</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-list">
+                                        <ul id="sublistview_03_02" class="list-group check-list" data-role="listview"></ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--비고-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">비고</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-item">
+                                    <textarea class="form-textarea" rows="4" placeholder="텍스트를 입력해주세요."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!--서명-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">점검자 서명</p>
+                                </div>
+                            </div>
+                            <div class="agreement-area-wrap">
+                                <div class="agreement-area">
+                                    <div class="agreement-body">
+                                        <div class="customer-sign">
+                                            <a href="javascript:;" class="sign-area">
+                                                <!-- 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <!-- <div class="sign-img-con"></div> -->
+                                                <!-- // 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <div class="sign-img-con">
+                                                    <img src="../../../images/temp/@signature_img.png" alt="">
+                                                </div>
+                                                <div class="sign-info-group">
+                                                    <p class="sign-info-date">2021년 12월 20일</p>
+                                                    <p class="sign-info-name">
+                                                        <span class="sign-title">이름</span>
+                                                        <span class="sign-name">홍길동</span>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--E : 질문체크3-->
+                    </div>
+                </div>
+            </div>
+            <!--하단버튼 영역-->
+            <div class="modal-footer">
+                <div class="footer-btn">
+                    <button type="button" class="btn btn-primary">저장</button>
+                </div>
+            </div>
+        </div>
+
+        <script id="tmp01" type="text/x-kendo-template">
+            <div class="item-area">
+                <div class="item-left break">
+                    <p class="item-text tit">#: carChkAtcDetlNm #</p>
+                    <p class="item-text">#= remark != null ? remark : '' #</p>
+                </div>
+                <div class="item-right">
+                    <ul class="form-checkbox-group">
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                        </li>
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </script>
+        <script id="tmp02_01" type="text/x-kendo-template">
+            <div class="item-area">
+                <div class="item-left break">
+                    <p class="item-text tit">#: carChkAtcDetlNm #</p>
+                    <p class="item-text">#= remark != null ? remark : '' #</p>
+                </div>
+                <div class="item-right">
+                    <ul class="form-checkbox-group">
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                        </li>
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </script>
+        <script id="tmp02_02" type="text/x-kendo-template">
+            <div class="item-area">
+                <div class="item-left break">
+                    <p class="item-text tit">#: carChkAtcDetlNm #</p>
+                    <p class="item-text">#= remark != null ? remark : '' #</p>
+                </div>
+                <div class="item-right">
+                    <ul class="form-checkbox-group">
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                        </li>
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </script>
+        <script id="tmp02_03" type="text/x-kendo-template">
+            <div class="item-area">
+                <div class="item-left break">
+                    <p class="item-text tit">#: carChkAtcDetlNm #</p>
+                    <p class="item-text">#= remark != null ? remark : '' #</p>
+                </div>
+                <div class="item-right">
+                    <ul class="form-checkbox-group">
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                        </li>
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </script>
+        <script id="tmp03_01" type="text/x-kendo-template">
+            <div class="item-area">
+                <div class="item-left break">
+                    <p class="item-text tit">#: carChkAtcDetlNm #</p>
+                    <p class="item-text">#= remark != null ? remark : '' #</p>
+                </div>
+                <div class="item-right">
+                    <ul class="form-checkbox-group">
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                        </li>
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </script>
+        <script id="tmp03_02" type="text/x-kendo-template">
+            <div class="item-area">
+                <div class="item-left break">
+                    <p class="item-text tit">#: carChkAtcDetlNm #</p>
+                    <p class="item-text">#= remark != null ? remark : '' #</p>
+                </div>
+                <div class="item-right">
+                    <ul class="form-checkbox-group">
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                        </li>
+                        <li>
+                            <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                            <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </script>
+        <script>
+            // 질문체크1
+            var groupedData01 = [
+                {
+                    carChkAtcDetlNm: "지침에 따라 모든 작업이 완료되었는가? 주문 상의 서명, 점검하였는가?",
+                    remark: "",
+                    carChkAtcCd: "01_01_001",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y"
+                },
+                {
+                    carChkAtcDetlNm: "누출 작업완료 시간을 준수하였는가?",
+                    remark: "",
+                    carChkAtcCd: "01_01_002",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y"
+                },
+            ];
+            //질문체크2
+            var groupedData02_01 = [
+                {
+                    carChkAtcDetlNm: "지침에 따라 모든 작업이 완료되었는가? 주문 상의 서명, 점검하였는가?",
+                    remark: "",
+                    carChkAtcCd: "02_01_001",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y"
+                },
+                {
+                    carChkAtcDetlNm: "누출 작업완료 시간을 준수하였는가?",
+                    remark: "",
+                    carChkAtcCd: "02_01_002",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y"
+                }
+            ];
+            var groupedData02_02 = [
+                {
+                    carChkAtcDetlNm: "모든 작업을 완료하고 그에 맞게 문서화하였는가?",
+                    remark: "",
+                    carChkAtcCd: "02_02_001",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y" 
+                },
+                {
+                    carChkAtcDetlNm: "Labor Code 및 Time Clock 은 정확히 기재되었는가?",
+                    remark: "",
+                    carChkAtcCd: "02_02_002",
+                    carChkAtcDetlCd: "2",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "액체/소형 부품을 포함해 부품이 포스팅 되었는가?",
+                    remark: "",
+                    carChkAtcCd: "02_02_003",
+                    carChkAtcDetlCd: "3",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "보증 규정을 준수했는가?",
+                    remark: "",
+                    carChkAtcCd: "02_02_004",
+                    carChkAtcDetlCd: "4",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "ELSA 및 ETKA 출력을 했는가(주문 추가 사항)?",
+                    remark: "",
+                    carChkAtcCd: "02_02_005",
+                    carChkAtcDetlCd: "5",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "VAS Data 및 점검내용은 출력 및 첨부되었는가?",
+                    remark: "",
+                    carChkAtcCd: "02_02_006",
+                    carChkAtcDetlCd: "6",
+                    atcCieYn: "N"
+                }
+            ];
+            var groupedData02_03 = [
+                {
+                    carChkAtcDetlNm: "소음, 주행 패턴, 브레이크 등이 어떠한가?",
+                    remark: "",
+                    carChkAtcCd: "02_03_001",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y" 
+                },
+                {
+                    carChkAtcDetlNm: "조명 점검",
+                    remark: "",
+                    carChkAtcCd: "01_03_002",
+                    carChkAtcDetlCd: "2",
+                    atcCieYn: "N"
+                }
+            ];
+             //질문체크3
+             var groupedData03_01 = [
+                {
+                    carChkAtcDetlNm: "누출 육안 검사",
+                    remark: "",
+                    carChkAtcCd: "03_01_001",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y"
+                },
+                {
+                    carChkAtcDetlNm: "기능 점검, 모든 것이 제자리에 잘 고정되어 있는가?",
+                    remark: "",
+                    carChkAtcCd: "03_01_002",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y"
+                }
+            ];
+            var groupedData03_02 = [
+                {
+                    carChkAtcDetlNm: "보충 레벨(오일, 냉각수, 윈도우 클리너액)은 양호한가?",
+                    remark: "",
+                    carChkAtcCd: "03_02_001",
+                    carChkAtcDetlCd: "1",
+                    atcCieYn: "Y" 
+                },
+                {
+                    carChkAtcDetlNm: "내/외부 청결성(엔진룸 포함)은 양호한가?",
+                    remark: "",
+                    carChkAtcCd: "03_02_002",
+                    carChkAtcDetlCd: "2",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "디스플레이는 리셋 되었는가(서비스 또는 경고 등)?+G46",
+                    remark: "",
+                    carChkAtcCd: "02_003",
+                    carChkAtcDetlCd: "3",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "고객 설정은 리셋(시트)되었는가?",
+                    remark: "",
+                    carChkAtcCd: "02_004",
+                    carChkAtcDetlCd: "4",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "미 진행 작업의 상세 내용 및 고객 설명 정보는 준비되었는가?",
+                    remark: "",
+                    carChkAtcCd: "02_005",
+                    carChkAtcDetlCd: "5",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "주문 작업 완료 및 시험 주행 후 최종 주행거리는 기록했는가?",
+                    remark: "",
+                    carChkAtcCd: "02_006",
+                    carChkAtcDetlCd: "6",
+                    atcCieYn: "N"
+                },
+                {
+                    carChkAtcDetlNm: "차량 주차 후 주차위치는 기록했는가?",
+                    remark: "",
+                    carChkAtcCd: "02_007",
+                    carChkAtcDetlCd: "7",
+                    atcCieYn: "N"
+                }
+            ];
+
+            $(document).ready(function () {
+                // 질문체크1
+                $("#sublistview_01").kendoMobileListView({
+                    dataSource: kendo.data.DataSource.create({ data: groupedData01 }),
+                    template: kendo.template($("#tmp01").html()),
+                });
+                // 질문체크2
+                $("#sublistview_02_01").kendoMobileListView({
+                    dataSource: kendo.data.DataSource.create({ data: groupedData02_01 }),
+                    template: kendo.template($("#tmp02_01").html()),
+                });
+                $("#sublistview_02_02").kendoMobileListView({
+                    dataSource: kendo.data.DataSource.create({ data: groupedData02_02 }),
+                    template: kendo.template($("#tmp02_02").html()),
+                });
+                $("#sublistview_02_03").kendoMobileListView({
+                    dataSource: kendo.data.DataSource.create({ data: groupedData02_03 }),
+                    template: kendo.template($("#tmp02_03").html()),
+                });
+                // 질문체크3
+                $("#sublistview_03_01").kendoMobileListView({
+                    dataSource: kendo.data.DataSource.create({ data: groupedData03_01 }),
+                    template: kendo.template($("#tmp02_01").html()),
+                });
+                $("#sublistview_03_02").kendoMobileListView({
+                    dataSource: kendo.data.DataSource.create({ data: groupedData03_02 }),
+                    template: kendo.template($("#tmp02_02").html()),
+                });
+
+            });
+        </script>
+
+</body>
+
+</html>

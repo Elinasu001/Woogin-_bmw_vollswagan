@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+ 
+
+
+
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+        
+        <title>My DMS STG</title>
+        
+        <!-- css -->
+        <!-- css -->
+        <link rel="stylesheet" type="text/css" href="/resources/mob/css/libs/kendo/kendo.common.min.css">
+        <link rel="stylesheet" type="text/css" href="/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+        <link rel="stylesheet" type="text/css" href="/resources/mob/css/libs/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="/resources/mob/css/style.css?ver=1.2">
+        <link rel="stylesheet" type="text/css" href="/resources/css/libs/slick.css">
+        <!-- js -->
+        
+        <script type="text/javascript" src="/resources/mob/js/jquery-3.7.1.js"></script>
+        <script type="text/javascript" src="/resources/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="/resources/js/jquery.fileDownload.js"></script>
+        <script type="text/javascript" src="/resources/mob/js/kendo/kendo.all.min.js"></script>
+        <script type="text/javascript" src="/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+        <script type="text/javascript" src="/cmm/sci/js/selectCultureSettings.do"></script>
+        
+        <script type="text/javascript" src="/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+        
+        <script type="text/javascript" src="/resources/mob/js/pub-ui.js"></script>
+        <script type="text/javascript" src="/resources/js/dms/crm/crm.common.js"></script>
+        <script type="text/javascript" src="/resources/js/dms/sal/sal.common.js"></script>
+        <script type="text/javascript" src="/resources/js/slick.min.js"></script>
+       
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+
+    <!-- jQuery Timepicker Addon CSS 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
+
+        
+
+        
+        </head>
+        <body>
+            <!-- modal -->
+            <div class="modal show">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="header-title">시승신청 내역</h1>
+                        <div class="header-right">
+                            <button class="btn btn-util close btn-close-modal km-widget km-button" onclick="btnCancel()" data-role="button">
+                                <span class="sr-only km-text">닫기</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body mo-body">
+                        <form class="form-content">
+                            <div class="form-group">
+                                <div class="form-item">
+                                    <label class="form-label">고객명</label>
+                                    <div class="form-item-inner">
+                                        <input class="form-input" type="text" placeholder="제목을 입력해주세요." />
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <label class="form-label">조회년월</label>
+                                    <div class="form-item-inner">
+                                        <div class="form-input-unit">
+                                            <input class="form-input date" type="text" id="datepicker1" name="datepicker1" value="" readonly="">
+                                            <span class="unit-icon date"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <label class="form-label">시승유형</label>
+                                    <ul class="form-radio-tag col02">
+                                        <li>
+                                            <input type="radio" name="radioBtn" id="radioBtn1" class="form-radio">
+                                            <label class="form-radio-label" for="radioBtn1">일반시승</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="radioBtn" id="radioBtn2" class="form-radio">
+                                            <label class="form-radio-label" for="radioBtn2">대차</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="radioBtn" id="radioBtn3" class="form-radio">
+                                            <label class="form-radio-label" for="radioBtn3">마케팅</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" name="radioBtn" id="radioBtn4" class="form-radio">
+                                            <label class="form-radio-label" for="radioBtn4">관리</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="form-item">
+                                    <label class="form-label">차량번호</label>
+                                    <div class="form-item-inner">
+                                        <input class="form-input" type="text" placeholder="제목을 입력해주세요." />
+                                        <button class="input-btn"><span class="sr-only">검색</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!--하단버튼 영역-->
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                            <button type="button" class="btn btn-secondary">초기화</button>
+                            <button type="button" class="btn btn-primary">조회</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-input-unit">
+                <input class="form-input date" type="text" id="datepicker1" name="datepicker1" value="" readonly="">
+                <span class="unit-icon date"></span>
+            </div>
+            
+            <!-- Custom Year-Month Picker Modal -->
+            <div class="modal-bottom month" id="dateModal">
+                <div class="modal-content mo-body">
+                    <div class="modal-header">
+                        <button class="btn btn-util close white btn-close-modal-bottom" onclick="closeModal('dateModal')">
+                            <span class="sr-only">닫기</span>
+                        </button>
+                        <h1 class="header-title">
+                            <em>조회년월</em>
+                            <span>조회년월을 선택해주세요</span>
+                        </h1>
+                    </div>
+            
+                    <div class="modal-body modal-datepicker-area">
+                        <!-- Custom Year Selector -->
+                        <div id="yearSelector" class="year-selector">
+                            <ul>
+                                <!-- Dynamically generate year options with JavaScript -->
+                            </ul>
+                        </div>
+            
+                        <!-- Custom Month Selector -->
+                        <div id="monthSelector" class="month-selector">
+                            <ul>
+                                <!-- Populate months from January to December -->
+                                <li data-month="01">1월</li>
+                                <li data-month="02">2월</li>
+                                <li data-month="03">3월</li>
+                                <li data-month="04">4월</li>
+                                <li data-month="05">5월</li>
+                                <li data-month="06">6월</li>
+                                <li data-month="07">7월</li>
+                                <li data-month="08">8월</li>
+                                <li data-month="09">9월</li>
+                                <li data-month="10">10월</li>
+                                <li data-month="11">11월</li>
+                                <li data-month="12">12월</li>
+                            </ul>
+                        </div>
+                    </div>
+            
+                    <div class="modal-footer">
+                        <div class="footer-btn">
+                            <button id="dateConfirmButton" class="btn-primary" disabled>확 인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <style>
+                /* Style the selectors to match the simplified layout */
+                .year-selector, .month-selector {
+                    display: inline-block;
+                    margin: 10px;
+                }
+                .year-selector ul, .month-selector ul {
+                    list-style: none;
+                    padding: 0;
+                }
+                .year-selector li, .month-selector li {
+                    cursor: pointer;
+                    margin: 5px 0;
+                }
+                .selected {
+                    font-weight: bold;
+                    color: blue;
+                }
+            </style>
+            
+            <script>
+                $(document).ready(function () { 
+                    var selectedInput = null;
+                    var selectedYear = null;
+                    var selectedMonth = null;
+            
+                    // Open modal on date input click
+                    $(".form-input.date").on("click", function() {
+                        $("#dateModal").addClass("show");
+                        selectedInput = $(this);
+                        populateYearSelector(); // Populate the year selector when opening
+                    });
+            
+                    function populateYearSelector() {
+                    var yearList = $("#yearSelector ul");
+                    yearList.empty(); 
+                    var currentYear = new Date().getFullYear(); 
+                    for (var i = currentYear; i >= currentYear - 10; i--) { // 현재 연도부터 10년 전까지 표시
+                        var yearItem = $('<li data-year="' + i + '">' + i + '년</li>');
+                        if (i === currentYear) {
+                            yearItem.addClass("selected"); 
+                            selectedYear = currentYear; 
+                        }
+                        yearList.append(yearItem);
+                    }
+                }
+            
+                    // Year selection handler
+                    $("#yearSelector").on("click", "li", function() {
+                        selectedYear = $(this).data("year");
+                        $("#yearSelector li").removeClass("selected");
+                        $(this).addClass("selected");
+                        enableConfirmButton();
+                    });
+            
+                    // Month selection handler
+                    $("#monthSelector").on("click", "li", function() {
+                        selectedMonth = $(this).data("month");
+                        $("#monthSelector li").removeClass("selected");
+                        $(this).addClass("selected");
+                        enableConfirmButton();
+                    });
+            
+                    // Enable confirm button if both year and month are selected
+                    function enableConfirmButton() {
+                        if (selectedYear && selectedMonth) {
+                            $("#dateConfirmButton").prop("disabled", false);
+                        }
+                    }
+            
+                    // Confirm button click - set date in input and close modal
+                    $("#dateConfirmButton").on("click", function() {
+                        if (selectedInput && selectedYear && selectedMonth) {
+                            var dateText = selectedYear + "-" + selectedMonth;
+                            selectedInput.val(dateText);
+                            closeModal("dateModal");
+                        }
+                    });
+            
+                    // Close modal function
+                    function closeModal(modalId) {
+                        $("#" + modalId).removeClass("show");
+                        selectedYear = null;
+                        selectedMonth = null;
+                        $("#yearSelector li, #monthSelector li").removeClass("selected");
+                        $("#dateConfirmButton").prop("disabled", true);
+                    }
+                });
+            </script>
+            
+        
+        </body>
+</html>
+

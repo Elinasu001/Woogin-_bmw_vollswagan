@@ -1,0 +1,3945 @@
+/* line form 형식 */
+.line-form {
+    padding: 0.4rem 0 0;
+    overflow: hidden;
+    &.pc-form {
+        .form-field {
+            .form-label {
+                margin-bottom: 0.2rem;
+            }
+        }
+        .form-grid {
+            margin: 0 -1rem -0.8rem;
+            .form-grid-item {
+                padding-bottom: 0.8rem;
+            }
+        }
+    }
+
+    // form grid
+    .form-grid {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -1rem -2rem;
+        .form-grid-item {
+            padding-bottom: 2rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            box-sizing: border-box;
+            &.colspan-full {
+                width: 100% !important;
+            }
+            &.flex-item {
+                display: flex;
+                align-items: flex-end;
+                .form-field {
+                    flex: 1;
+                    +.form-field {
+                        margin-left: 2rem;
+                    }
+                    +.btn, +.btn-group {
+                        margin-left: 1rem;
+                    }
+
+                    // 견적서등록 AC06020000 (멀티셀렉트 넘침)
+                    &.width-half {
+                        width: calc(50% - 1rem);
+                    }
+                }
+
+                &.daterange-item {
+                    .form-field {
+                        + .form-field {
+                            position: relative;
+                            &:before {
+                                content: "~";
+                                position: absolute;
+                                top: 0.3rem;
+                                left: -1.4rem;
+                                font-size: 1.2rem;
+                                color: $text-gray1;
+                            }
+                        }
+                    }
+                }
+            }
+             // 라벨 없을 때
+            &.label-none {
+                display: flex;
+                flex-direction: column;
+                .form-field {
+                    margin-top: auto;
+                }
+            }
+        }
+
+        // 1단
+        &.grid-col-1 {
+            .form-grid-item {
+                width: 100%;
+            }
+        }
+        // 2단
+        &.grid-col-2 {
+            .form-grid-item {
+                width: 50%;
+            }
+        }
+        // 3단
+        &.grid-col-3 {
+            .form-grid-item {
+                width: 33.33%;
+                &.colspan-2 {
+                    width: 66.66%;
+                }
+            }
+        }
+        // 3단
+        &.grid-col-4 {
+            .form-grid-item {
+                width: 25%;
+                &.colspan-2 {
+                    width: 50%;
+                }
+                &.colspan-3 {
+                    width: 75%;
+                }
+            }
+        }
+    }
+
+    // form filed
+    .form-field {
+        &.form-required {
+            .form-label {
+                &::after {
+                    content: '';
+                    display: inline-block;
+                    width: 0.4rem;
+                    height: 0.4rem;
+                    margin-left: 0.2rem;
+                    border-radius: 50%;
+                    background-color: #f03e41;
+                    vertical-align: top;
+                }
+            }
+            &.tooltip-type {
+                .form-label {
+                    &::after {
+                        display: none;
+                    }
+                    .tooltip-group {
+                        .tooltip-title {
+                            &::after {
+                                content: '';
+                                display: inline-block;
+                                width: 0.4rem;
+                                height: 0.4rem;
+                                margin-left: 0.2rem;
+                                border-radius: 50%;
+                                background-color: #f03e41;
+                                vertical-align: top;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &.form-error {
+            .form-input, .form-textarea {
+                border-color: $error !important;
+            }
+            // unit text
+            .form-input-unit {
+                .unit-text {
+                    &::after {
+                        background: $error !important;
+                    }
+                }
+            }
+        }
+
+        // 체크박스, 라디오 중앙 정렬
+        &.align-center {
+            .form-checkbox-group, .form-radio-group {
+                li {
+                    margin-top: 0;
+                    margin-bottom: 0.8rem;
+                }
+            }
+            
+        }
+
+        // label
+        .form-label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 1.2rem;
+            line-height: 1.6rem;
+            color: $text-gray2;
+            +.btn-group {
+                padding-top: 0.2rem;
+            }
+        }
+
+        // 아이템 일렬로 정렬 시
+        .form-field-item {
+            &.flex-item {
+                display: flex;
+                align-items: center;
+                .form-radio-group, .form-checkbox-group {
+                    li {
+                        margin-top: 0;
+                    }
+                }
+                .btn {
+                    + .label-tag-list {
+                        margin-left: 1.8rem;
+                    }
+                }
+                .btn-group {
+                    +.form-checkbox-group, +.form-radio-group {
+                        margin-left: 1.8rem;
+                    }
+                }
+
+                // 고객등록 - 판매기회
+                .flex-item-input-btn {
+                    display: flex;
+                    width: 100%;
+                    .form-input {
+                        margin: 0 1.2rem 0 3.2rem;
+                    }
+                    .btn {
+                        flex: 1 0 auto;
+                    }
+                }
+            }
+
+            .inline-flex {
+                display: inline-flex;
+                align-items: center;
+
+                &.form-view {
+                    margin-left: auto;
+                    flex: 1 0 auto;
+                    .form-input {
+                        padding-bottom: 0;
+                        text-align: right;
+                    }
+                    // 버튼 하나만 있을 때
+                    .btn-view:only-child {
+                        margin-left: auto;
+                    }
+                }
+            }
+            .display-flex {
+                flex: 1;
+                +.display-flex, +.btn {
+                    margin-left: 1rem;
+                }
+
+                &.label-none {
+                    align-self: flex-end;
+                }
+                &.width-10 {
+                    flex: 0 0 10rem;
+                }
+                &.xs {
+                    flex: 0 0 25%;
+                }
+                &.sm {
+                    flex: 0 0 33%;
+                }
+                &.auto {
+                    flex: 0 0 auto;
+                }
+                &.daterange-item {
+                    position: relative;
+                    margin-left: 2rem;
+                    &::before {
+                        content: "~";
+                        position: absolute;
+                        top: 0.3rem;
+                        left: -1.4rem;
+                        font-size: 1.2rem;
+                        color: $text-gray1;
+                    }
+                }
+                
+                // radio,checkbox 중앙정렬
+                &.align-center {
+                    height: 1.6rem;
+                }
+            }
+            
+        }
+
+        // input text
+        .form-input {
+            display: block;
+            width: 100%;
+            padding: 0 0 0.8rem;
+            border-width: 0 0 0.1rem 0;
+            border-style: solid;
+            border-color: $line-input;
+            color: $black;
+            font-size: 1.45rem;
+            // tablet
+            // font-size: 1.6rem;
+            line-height: 2.3rem;
+            text-indent: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            &:hover, &:focus {
+                border-color: $black;
+            }
+            &::placeholder {
+                color: $text-placeholder;
+            }
+            &:disabled {
+                border-bottom: 0.1rem dashed $line-input;
+                color: $text-placeholder;
+                &.disabled-point {
+                    color: $primary1;
+                }
+            }
+            &:read-only {
+                border-color: $line-input;
+            }
+
+            // date input reset
+            &.k-dateinput {
+                padding: 0;
+                border-width: 0;
+            }
+        }
+        
+        // label + input
+        div.form-input {
+            display: flex;
+            // align-items: center;
+            min-height: 3.2rem;
+            .form-input-text {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                + .label-release,
+                + .label-group {
+                    margin-left: 0.8rem;
+                }
+                &.placeholder {
+                    color: $text-placeholder;
+                }
+            }
+            input.form-input-text {
+                border: 0;
+                color: $black;
+                font-size: 1.45rem;
+                line-height: 2.3rem;
+                text-indent: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                background-color: transparent;
+                &:hover, &:focus {
+                    // border-color: $black;
+                }
+                &::placeholder {
+                    color: $text-placeholder;
+                }
+                &:disabled {
+                    // border-bottom: 0.1rem dashed $line-input;
+                    color: $text-placeholder;
+                }
+                &:read-only {
+                    // border-color: $line-input;
+                }
+                &.w100 {
+                    width: 100%;
+                }
+            }
+            .label-release {
+                margin-bottom: -0.2rem;
+            }
+
+            .label-release, .label-group {
+                +.form-input-text {
+                    margin-left: 0.8rem;
+                }
+                +input.form-input-text {
+                    width: 100%;
+                }
+            }
+
+            // 검색
+            &.search {
+                padding-right: 2rem;
+                background: url('#{$img-path}/common/icon/icon_20_search.png') no-repeat top right / 2rem auto; 
+                cursor: pointer;
+            }
+        }
+
+        .form-input-unit {
+            position: relative;
+            display: flex;
+            border-width: 0 0 0.1rem 0;
+            border-style: solid;
+            border-color: $line-input;
+            .form-input {
+                box-sizing: border-box;
+                border: 0;
+                &:hover, &:focus {
+                    +.unit-text {
+                        &::after {
+                            background: $black;
+                        }
+                    }
+                }
+
+                &:read-only {
+                    +.unit-text {
+                        &::after {
+                            background: $line-input;
+                        }
+                    }
+                }
+            }
+            .k-dropdown {
+                .k-dropdown-wrap {
+                    border-bottom: 0 !important;
+                }
+            }
+            .k-numerictextbox {
+                .k-numeric-wrap {
+                    border-bottom: 0 !important;
+                }
+            }
+            
+            .unit-text {
+                flex: 0 0 auto;
+                font-size: 1.45rem;
+                line-height: 2.3rem;
+                color: $text-gray2;
+                &::after {
+                    position: absolute;
+                    bottom: -0.1rem;
+                    right: 0;
+                    content: "";
+                    display: block;
+                    width: 100%;
+                    height: 0.1rem;
+                    background: $line-input;
+                }
+                &.color1 {
+                    color: $point;
+                }
+            }
+            &.disabled {
+                border-style: dashed;
+                .unit-text {
+                    color: $text-placeholder;
+                }
+            }
+        }
+
+        // search input
+        .form-input-search-area {
+            position: relative;
+            .form-input {
+                padding-right: 2.2rem;
+                box-sizing: border-box;
+            }
+            .btn-form-search {
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                border: 0;
+                background: url('#{$img-path}/common/icon/icon_20_search.png') no-repeat 0 0/ 2rem auto; 
+            }
+        }
+
+        // search input
+        .form-input-multi-area {
+            position: relative;
+            .form-input {
+                padding-right: 2.2rem;
+                box-sizing: border-box;
+            }
+            .btn-form-multi {
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 0;
+                background: url('#{$img-path}/common/icon/icon_20_multi.png') no-repeat 0 0/ 2rem auto;
+                
+                &.item-more {
+                    background: url('#{$img-path}/common/icon/icon_20_multi_more.png') no-repeat 0 0/ 2rem auto;
+                }
+            }
+        }
+
+        // file upload
+        .form-upload-area {
+            position: relative;
+            display: flex;
+            width: 100%;
+            padding: 0 0 0.8rem;
+            border-width: 0 0 0.1rem 0;
+            border-style: solid;
+            border-color: $line-input;
+
+            // 다른 input이 들어오고 파일첨부가 필요할 때
+            &.line-none {
+                padding: 0;
+                border: 0;
+                .form-upload-label, .btn-upload {
+                    margin-left: 1.2rem;
+                }
+            }
+            
+            .form-upload-text {
+                flex: 1;
+                color: $black;
+                font-size: 1.45rem;
+                // tablet
+                // font-size: 1.6rem;
+                line-height: 2.3rem;
+                text-indent: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                background-color: transparent;
+                border: 0;
+            }
+            .form-upload-label, .btn-upload {
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                background: url('#{$img-path}/common/icon/icon_20_upload.png') no-repeat 0 0/ 2rem auto;
+                cursor: pointer;
+            }
+            .form-upload {
+                display: none;
+            }
+            // 파일 추가
+            .btn-upload-add {
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                margin-left: 1.2rem;
+                background: url('#{$img-path}/common/icon/icon_20_file_add.png') no-repeat 0 0/ 2rem auto;
+            }
+            // 파일 미리보기
+            .btn-view {
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                margin-left: 0.8rem;
+                background: url('#{$img-path}/common/icon/icon_20_view.png') no-repeat 0 0/ 2rem auto;
+            }
+            
+        }
+
+        // 문서조회 (라인 없는거)
+        .form-view {
+            position: relative;
+            display: flex;
+            .form-input {
+                border: 0;
+                &:read-only{
+                    border: 0;
+                }
+            }
+            .btn-view {
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                margin-left: 0.8rem;
+                background: url('#{$img-path}/common/icon/icon_20_view.png') no-repeat 0 0/ 2rem auto;
+            }
+
+            &.flex-end {
+                .form-input {
+                    padding: 0;
+                }
+            }
+        }
+        // 문서조회 (라인 있는거)
+        .form-view-area {
+            position: relative;
+            .form-input {
+                padding-right: 2.2rem;
+                box-sizing: border-box;
+            }
+            .btn-view {
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                margin-left: 0.8rem;
+                background: url('#{$img-path}/common/icon/icon_20_view.png') no-repeat 0 0/ 2rem auto;
+            }
+        }
+
+        // user 버튼 input
+        .form-input-user-area {
+            position: relative;
+            .form-input {
+                padding-right: 2.2rem;
+                box-sizing: border-box;
+            }
+            .btn-form-user {
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 0;
+                background: url('#{$img-path}/common/icon/icon_20_user.png') no-repeat 0 0/ 2rem auto;
+            }
+        }
+
+        // 새로고침 버튼 input
+        .form-input-refresh-area {
+            position: relative;
+            .form-input {
+                padding-right: 2.2rem;
+                box-sizing: border-box;
+            }
+            .btn-form-refresh {
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 0;
+                background: url('#{$img-path}/common/icon/icon_20_refresh.png') no-repeat 0 0/ 2rem auto;
+            }
+        }
+
+        // 추천 버튼 input
+        .form-recommend-area {
+            position: relative;
+            .form-input {
+                padding-right: 2.2rem;
+                box-sizing: border-box;
+            }
+            .btn-recommend {
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 0;
+                background: url('#{$img-path}/common/icon/icon_20_recommend.png') no-repeat 0 0/ 2rem auto;
+                &.active {
+                    background: url('#{$img-path}/common/icon/icon_20_recommend_active.png') no-repeat 0 0/ 2rem auto;
+                }
+            }
+        }
+
+        // 버튼 2개 input
+        .form-input-btn2 {
+            position: relative;
+            .form-input {
+                padding-right: 5.2rem;
+                box-sizing: border-box;
+            }
+            .btn-group {
+                position: absolute;
+                top: 0;
+                right: 0;
+                display: flex;
+                .btn {
+                    +.btn {
+                        margin-left: 1.2rem;
+                    }
+                }
+
+                // 버튼 종류
+                .btn-form-search {
+                    display: block;
+                    width: 2rem;
+                    height: 2rem;
+                    border: 0;
+                    background: url('#{$img-path}/common/icon/icon_20_search.png') no-repeat 0 0/ 2rem auto; 
+                }
+                .btn-form-multi {
+                    display: block;
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 0;
+                    background: url('#{$img-path}/common/icon/icon_20_multi.png') no-repeat 0 0/ 2rem auto;
+                    
+                    &.item-more {
+                        background: url('#{$img-path}/common/icon/icon_20_multi_more.png') no-repeat 0 0/ 2rem auto;
+                    }
+                }
+                .btn-upload-add {
+                    display: block;
+                    width: 2rem;
+                    height: 2rem;
+                    margin-left: 1.2rem;
+                    background: url('#{$img-path}/common/icon/icon_20_file_add.png') no-repeat 0 0/ 2rem auto;
+                }
+                .btn-view {
+                    display: block;
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 0;
+                    background: url('#{$img-path}/common/icon/icon_20_view.png') no-repeat 0 0/ 2rem auto;
+                }
+                .btn-form-user {
+                    display: block;
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 0;
+                    background: url('#{$img-path}/common/icon/icon_20_user.png') no-repeat 0 0/ 2rem auto;
+                }
+                .btn-form-refresh {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 0;
+                    background: url('#{$img-path}/common/icon/icon_20_refresh.png') no-repeat 0 0/ 2rem auto;
+                }
+                .btn-recommend {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 0;
+                    background: url('#{$img-path}/common/icon/icon_20_recommend.png') no-repeat 0 0/ 2rem auto;
+                    &.active {
+                        background: url('#{$img-path}/common/icon/icon_20_recommend_active.png') no-repeat 0 0/ 2rem auto;
+                    }
+                }
+            }
+        }
+
+        // textarea
+        .form-textarea {
+            display: block;
+            width: 100%;
+            padding: 1.4rem;
+            border: 0.1rem solid $line-input;
+            border-radius: 0.4rem;
+            font-size: 1.45rem;
+            line-height: 1.8rem;
+            resize: none;
+            box-sizing: border-box;
+            &::placeholder {
+                color: $text-placeholder;
+            }
+            &:disabled {
+                color: #bbb;
+                background-color: #f2f2f2;
+            }
+
+            &.type2 {
+                padding: 0.9rem;
+                font-size: 1.2rem;
+                color: $text-black;
+                &:read-only {
+                    padding: 0;
+                    border: 0;
+                }
+            }
+        }
+        // textarea 안에 버튼 들어갈 때
+        .form-textarea-wrap {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 0.8rem;
+            border: 0.1rem solid $line-input;
+            border-radius: 0.4rem;
+            font-size: 1.45rem;
+            line-height: 1.8rem;
+            resize: none;
+            box-sizing: border-box;
+            .form-textarea {
+                border: 0;
+                padding: 0.6rem;
+            }
+            .btn-group {
+                margin-left: auto;
+            }
+        }
+
+        // editor
+        .k-editor {
+            width: 100% !important;
+            border: 0.1rem solid $line-input;
+            border-radius: 0.4rem;
+            font-size: 1.45rem;
+            line-height: 1.8rem;
+            box-sizing: border-box;
+            border-spacing: 0;
+            overflow: hidden;
+            // header
+            .k-toolbar-resizable {
+                min-height: 2.8rem;
+            }
+            .k-editor-toolbar-wrap {
+                padding: 0.9rem 2rem 0.6rem;
+                border-bottom: 0.1rem solid $line-input;
+            }
+            .k-editor-toolbar {
+                .k-button-group {
+                    padding: 0;
+                    .k-tool {
+                        width: 2.8rem;
+                        height: 2.8rem;
+                        border: 0;
+                        margin: 0;
+                        &-icon {
+                            width: 100%;
+                            height: 100%;
+                            vertical-align: top;
+                        }
+                    }
+                }
+                .k-tool-group{
+                    .k-dropdown {
+                        &-wrap {
+                            padding-bottom: 0.7rem;
+                        }
+                    }
+                    .k-combobox {
+                        width: auto;
+                    }
+                    .k-picker-wrap {
+                        border-width: 0 0 0.1rem 0;
+                        border-style: solid;
+                        border-color: $line-input;
+                        background-color: transparent;
+                        .k-tool-icon {
+                            padding-top: 0;
+                            &::before {
+                                width: 2rem;
+                                height: 2rem;
+                            }
+                        }
+                        .k-select {
+                            width: 2rem;
+                            line-height: 2rem;
+                            border: 0;
+                            .k-icon {
+                                width: 100%;
+                                height: 2rem;
+                                &.k-i-arrow-60-down {
+                                    &:before {
+                                        background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                                    }
+                                }
+                                &::before {
+                                    content: '';
+                                    display: inline-block;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // content
+            .k-editable-area {
+                padding: 1.5rem;
+                width: 100%;
+                height: 100%;
+                border-width: 0;
+                outline: 0;
+                iframe.k-content {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                    border-width: 0;
+                    background: 0 0;
+                }
+            }
+        }
+
+        // 모바일 템플릿 에디터
+        &.sms {
+            .k-editor {
+                .k-editable-area {
+                    display: block;
+                    width: 22.5rem;
+                    height: 16.6rem;
+                    padding: 12rem 3rem 0;
+                    margin: 0 auto;
+                    background: url('#{$img-path}/visual/img_sms_editor.png') no-repeat top 2rem left 0 / 100% auto; 
+                }
+            }
+        }
+
+        // select 
+        .k-dropdown, .k-combobox {
+            width: 100%;
+            .k-dropdown-wrap {
+                display: block;
+                width: 100%;
+                padding: 0 0 0.8rem;
+                border-width: 0 0 0.1rem 0;
+                border-style: solid;
+                border-color: $line-input;
+                background-color: transparent;
+                &.k-state-hover, &.k-state-active {
+                    border-color: $black;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    border-bottom: 0.1rem dashed $line-input;
+                    cursor: default;
+                    .k-input {
+                        color: $text-placeholder;
+                    }
+                    .k-select {
+                        opacity: 0.3;
+                    }
+                }
+                .k-input {
+                    width: calc(100% - 2rem);
+                    padding: 0 0 0 0;
+                    color: $black;
+                    line-height: 2.3rem;
+                    font-size: 1.45rem;
+                    // tablet
+                    // font-size: 1.6rem;
+                    text-indent: 0;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                .k-select {
+                    width: 2rem;
+                    line-height: 2rem;
+                    .k-icon {
+                        width: 100%;
+                        height: 2rem;
+                        &.k-i-arrow-60-down {
+                            &:before {
+                                background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                            }
+                        }
+                        &::before {
+                            content: '';
+                            display: inline-block;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+        }
+
+        // multi select (dropdowntree)
+        .k-dropdowntree, .k-multiselect {
+            width: 100%;
+            .k-multiselect-wrap {
+                display: block;
+                // width: 100%;
+                height: 2.3rem;
+                padding: 0 5.6rem 0.8rem 0;
+                border-width: 0 0 0.1rem 0;
+                border-style: solid;
+                border-color: $line-input;
+                background: transparent url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat top right / 2rem auto;
+                border-radius: 0;
+                cursor: pointer;
+                &.k-state-hover, &.k-state-active {
+                    border-color: $black;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    border-bottom: 0.1rem dashed $line-input;
+                    cursor: default;
+                    .k-input {
+                        color: $text-placeholder;
+                    }
+                    .k-select {
+                        opacity: 0.3;
+                    }
+                }
+                .k-input {
+                    min-height: auto;
+                    padding: 0 2rem 0 0;
+                    color: $black;
+                    line-height: 2.3rem;
+                    font-size: 1.45rem;
+                    // tablet
+                    // font-size: 1.6rem;
+                    text-indent: 0;
+                    &.k-readonly {
+                        opacity: 1;
+                    }
+                }
+                .k-clear-value {
+                    position: absolute;
+                    top: 0.4rem;
+                    right: 3.2rem;
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    cursor: pointer;
+                    .k-icon {
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                        &::before {
+                            content: '';
+                            display: block;
+                            width: 100%;
+                            height: 100%;
+                            background: url('#{$img-path}/common/icon/icon_16_input_reset.png') no-repeat 0 0 / 1.6rem auto;
+                        }
+                    }
+                }
+
+                ul {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    li {
+                        float: none;
+                        margin: 0;
+                        padding: 0.4rem 1.2rem 0.5rem;
+                        line-height: 1.4rem;
+                        min-height: 2.2rem;
+                        border: 0;
+                        border-radius: 5rem;
+                        background-color: $bg-select;
+                        + li {
+                            margin-left: 0.4rem;
+                        }
+                        span {
+                            color: $text-gray1;
+                            font-size: 1.2rem;
+                        }
+
+                        .k-select {
+                            position: static;
+                            width: 1.2rem;
+                            height: 1.2rem;
+                            padding: 0 0 0 0.6rem;
+                            line-height: 1rem;
+                            .k-icon {
+                                position: static;
+                                display: block;
+                                width: 100%;
+                                height: 1.2rem;
+                                &.k-i-close {
+                                    &:before {
+                                        background: url('#{$img-path}/common/icon/icon_12_dropdowntree_close.png') no-repeat 0 0 / 1.2rem auto; 
+                                    }
+                                }
+                                &:before {
+                                    content: '';
+                                    position: static;
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                        }
+                    } 
+                }
+
+            }
+        }
+
+        // datepicker
+        .k-datepicker, .k-datetimepicker, .k-maskedtextbox, .k-timepicker {
+            display: block;
+            width: 100%;
+            .k-picker-wrap {
+                display: block;
+                width: 100%;
+                padding: 0 0 0.8rem;
+                border-width: 0 0 0.1rem 0;
+                border-style: solid;
+                border-color: $line-input;
+                background-color: transparent;
+                &.k-state-hover, &.k-state-active {
+                    border-color: $black;
+                }
+                .k-input {
+                    display: block;
+                    height: 2.3rem;
+                    padding: 0 2rem 0 0;
+                    color: $black;
+                    line-height: 2.3rem;
+                    font-size: 1.45rem;
+                    // tablet
+                    // font-size: 1.6rem;
+                    text-indent: 0;
+                }
+                .k-select {
+                    width: 2rem;
+                    height: 2rem;
+                    border-left: 0;
+                    line-height: 1.6rem;
+                    .k-icon {
+                        width: 100%;
+                        height: 100%;
+                        &.k-i-calendar {
+                            &:before {
+                                background: url('#{$img-path}/common/icon/icon_20_calendar.png') no-repeat 0 0 / 2rem auto; 
+                            }
+                        }
+                        &.k-i-clock {
+                            &:before {
+                                background: url('#{$img-path}/common/icon/icon_20_time.png') no-repeat top right / 2rem auto; 
+                            }
+                        }
+                        &:before {
+                            content: '';
+                            display: inline-block;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+        }   
+        .k-datetimepicker {
+            .k-picker-wrap {
+                .k-input {
+                    padding-right: 5.2rem;
+                }
+                .k-select {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 5.2rem;
+                    .k-link {
+                        width: 2rem;
+                        height: 100%;
+                    }
+                    .k-icon {
+                        margin: 0;
+                    }
+                }
+            }
+        }   
+        
+        // daterangepicker
+        .k-daterangepicker {
+            display: flex;
+            justify-content: space-between;
+            &.k-state-border-down, &.k-state-border-up {
+                .k-textbox-container {
+                    .k-dateinput {
+                        .k-textbox {
+                            border-color: $black;
+                        }
+                    }
+                }
+            }
+            .k-textbox-container {
+                width: calc(50% - 1rem);
+                padding-top: 0;
+                .k-dateinput {
+                    .k-textbox {
+                        display: block;
+                        height: 3.2rem;
+                        width: 100%;
+                        padding: 0 2rem 0.8rem 0;
+                        border-width: 0 0 0.1rem 0;
+                        border-style: solid;
+                        border-color: $line-input;
+                        background-color: transparent;
+                        color: $black;
+                        line-height: 2rem;
+                        font-size: 1.45rem;
+                        // tablet
+                        // font-size: 1.6rem;
+                        text-indent: 0;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+                .k-label {
+                    display: none;
+                }
+                // ~ 표시
+                + span{
+                    position: relative;
+                    display: block;
+                    width: 1rem;
+                    height: 100%;
+                    padding-bottom: 0.8rem;
+                    font-size: 1.2rem;
+                    color: $text-gray1;
+                &:before {
+                    content: "~";
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                } 
+                }
+                .k-textbox {
+                    padding-right: 2rem;
+                    cursor: pointer;
+                    // icon
+                    background: url('#{$img-path}/common/icon/icon_20_calendar.png') no-repeat top right / 2rem auto; 
+                }
+            }
+        }
+
+        // numeric textbox
+        .k-numerictextbox {
+            width: 100%;
+            .k-numeric-wrap {
+                display: block;
+                width: 100%;
+                padding: 0 0 0.8rem;
+                border-width: 0 0 0.1rem 0;
+                border-style: solid;
+                border-color: $line-input;
+                background-color: transparent;
+                &.k-state-hover, &.k-state-active {
+                    border-color: $black;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    border-bottom: 0.1rem dashed $line-input;
+                    cursor: default;
+                    .k-input {
+                        color: $text-placeholder;
+                    }
+                    .k-select {
+                        opacity: 0.3;
+                    }
+                }
+                .k-input {
+                    display: block;
+                    padding: 0 2rem 0 0;
+                    color: $black;
+                    line-height: 2.3rem;
+                    font-size: 1.45rem;
+                    // tablet
+                    // font-size: 1.6rem;
+                    text-indent: 0;
+                    // 21.11.11 개발팀 요청 - text 오른쪽 정렬
+                    text-align: right;
+                }
+                .k-select {
+                    top: -1.6rem;
+                    width: 1.6rem;
+                    height: 4rem;
+                    line-height: 4rem;
+                    border-left: 0;
+                    .k-link {
+                        height: 1.6rem;
+                        line-height: 1.6rem;
+                        +.k-link {
+                            margin-top: 0.8rem;
+                        }
+                        .k-icon {
+                            &::before {
+                                content: '';
+                                background: url('#{$img-path}/common/icon/icon_16_arr_select.png') no-repeat 0 0 / 1.6rem auto; 
+                            }
+                            &.k-i-arrow-60-up {
+                                &::before {
+                                    transform: rotate(-180deg);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // progressbar
+        .form-progressbar {
+            width: 100%;
+            height: 2.3rem;
+            margin-top: 0.9rem;
+            box-sizing: border-box;
+            border-radius: 0;
+            border: 0;
+            >.k-reset, >ul {
+                border-radius: 0;
+                box-sizing: border-box;
+            }
+            .k-item {
+                margin-left: 0;
+                border-radius: 0;
+                border: 0;
+                vertical-align: top;
+                background: $bg-default;
+                font-size: 1.2rem;
+                line-height: 2.3rem;
+                color: $text-gray2;
+                text-align: center;
+                box-sizing: border-box;
+                cursor: pointer;
+                &.k-state-selected {
+                    background: #1c69d4;
+                    color: $white;
+                }
+                +.k-item {
+                    border-left: 0.2rem solid $white;
+                }
+            }
+        }
+
+        // grid 있을 때 pager
+        .k-pager-wrap {
+            .k-pager-sizes {
+                margin: 0;
+                padding: 0;
+                color: $text-gray1;
+                font-size: 1.2rem;
+                .k-dropdown {
+                    display: block;
+                    width: 12.7rem;
+                    margin-right: 0;
+                    margin-top: 0;
+                    box-sizing: border-box;
+                }
+                .k-dropdown-wrap {
+                    height: 3.2rem;
+                    padding: 0 3.2rem 0 1.6rem;
+                    border: 0.1rem solid $line-blue-gray;
+                    border-radius: 0.4rem;
+                    box-sizing: border-box;
+                    .k-input {
+                        width: auto;
+                        padding: 0;
+                        text-indent: 0;
+                        color: $text-gray1;
+                        font-size: 1.2rem;
+                        line-height: 3rem;
+                        &:after {
+                            content: ' / page'
+                        }
+                    }
+                    .k-select {
+                        width: 1.6rem;
+                        padding-right: 1.6rem;
+                        .k-icon {
+                            width: 1.6rem;
+                            height: 3rem;
+                            text-align: left;
+                            &:before {
+                                content: '';
+                                width: 1.6rem;
+                                height: 1.6rem;
+                            }
+                            &.k-i-arrow-60-down {
+                                &:before {
+                                    background: url('#{$img-path}/common/icon/icon_16_arr_select.png') no-repeat 0 0 / 1.6rem auto; 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // validation message
+    .form-error-msg {
+        flex: none;
+        display: block;
+        margin-top: 0.4rem;
+        color: $error;
+        font-size: 1.2rem;
+    }
+
+    // search 버튼 (사용 안함)
+    .btn-input-search {
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+        height: 2.7rem;
+        padding:0 2.4rem 0.8rem 0;
+        border-bottom: 0.1rem solid $line-input;
+        text-indent: 0;
+        font-size: 1.45rem;
+        // tablet
+        // font-size: 1.6rem;
+        line-height: 2.7rem;
+        color: $black;
+        cursor: pointer;
+        background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat center right / 1.6rem auto; 
+        &:hover {
+            border-color: $black;
+        }
+    }
+}
+
+/* horizontal form 형식 */
+.hori-form {
+    max-width: 43rem;
+
+    // 견적서 전달 ET42000000
+    &.width-full {
+        .form-field {
+            .form-label {
+                margin-right: 0.4rem;
+            }
+            .form-input {
+                width: 37rem;
+            }
+            .form-input-search-area {
+                width: 37rem;
+            }
+            .form-textarea {
+                width: 37rem;
+            }
+            .form-input-btn-area {
+                width: 37rem;
+            }
+            .k-dropdown {
+                width: 37rem;
+            }
+            .form-select-flex {
+                width: 37rem;
+                .select-item {
+                    width: 18rem;
+                }
+            }
+            .form-select-triple {
+                width: 37rem;
+                .select-item {
+                    width: 12.5rem;
+                }
+            }
+            .k-dropdowntree {
+                width: 37rem;
+            }
+            .k-datepicker, .k-datetimepicker, .k-maskedtextbox {
+                width: 37rem;
+            }
+            .k-daterangepicker {
+                width: 37rem;
+            }
+            .k-numerictextbox {
+                width: 37rem;
+            }
+            .form-radio-group, .form-checkbox-group {
+                width: 37rem;
+            }
+        }
+    }
+
+    .form-grid-item {
+        +.form-grid-item {
+            padding-top: 0.8rem;
+        }
+    }
+    .form-field {
+        display: flex;
+        align-items: center;
+
+        &.form-required {
+            .form-label {
+                &::after {
+                    content: '';
+                    display: inline-block;
+                    width: 0.4rem;
+                    height: 0.4rem;
+                    margin-left: 0.2rem;
+                    border-radius: 50%;
+                    background-color: #f03e41;
+                    vertical-align: top;
+                }
+            }
+        }
+        &.form-error {
+            .form-input, .form-textarea {
+                border-color: $error !important;
+            }
+             // validation message
+            + .form-error-msg, .form-error-msg {
+                display: block;
+                width: 30rem;
+                margin-left: auto;
+                margin-top: 0.4rem;
+                color: $error;
+                font-size: 1.2rem;
+            }
+        }
+
+        // label
+        .form-label {
+            margin-right: 2.4rem;
+            font-size: 1.45rem;
+            color: #333;
+        }
+
+        // input text
+        .form-input {
+            display: block;
+            width: 30rem;
+            height: 4rem;
+            margin-left: auto;
+            padding: 1rem 1.2rem;
+            border-width: 0.1rem;
+            border-style: solid;
+            border-color: $line-input;
+            border-radius: 0.3rem;
+            color: $black;
+            font-size: 1.45rem;
+            line-height: 1.8rem;
+            text-indent: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            box-sizing: border-box;
+            &:hover, &:focus {
+                border-color: $black;
+            }
+            &::placeholder {
+                color: $text-placeholder;
+            }
+            &:disabled {
+                border-color: #d9d9d9;
+                color: $text-placeholder;
+                background-color: #f2f2f2;
+            }
+            &:read-only {
+                border-color: $line-input;
+            }
+
+            // date input reset
+            &.k-dateinput {
+                padding: 0;
+                border-width: 0;
+            }
+        }
+        
+        div.form-input {
+            display: flex;
+            align-items: center;
+            min-height: 3.1rem;
+            .form-input-text {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                + .label-release {
+                    margin-left: 0.8rem;
+                }
+                &.placeholder {
+                    color: $text-placeholder;
+                }
+            }
+            .label-release {
+                margin-bottom: -0.4rem;
+            }
+
+            // 검색
+            &.search {
+                padding-right: 4rem;
+                background: url('#{$img-path}/common/icon/icon_20_search.png') no-repeat center right 1.2rem / 2rem auto; 
+                cursor: pointer;
+            }
+        }
+
+        // search input
+        .form-input-search-area {
+            position: relative;
+            width: 30rem;
+            margin-left: auto;
+            .form-input {
+                padding-right: 3.4rem;
+            }
+            .btn-form-search {
+                position: absolute;
+                top: 50%;
+                right: 1.2rem;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                transform: translateY(-50%);
+                background: url('#{$img-path}/common/icon/icon_20_search.png') no-repeat 0 0 / 2rem auto; 
+            }
+        }
+
+        // textarea
+        .form-textarea {
+            display: block;
+            width: 30rem;
+            margin-left: auto;
+            padding: 1.4rem;
+            border: 0.1rem solid $line-input;
+            border-radius: 0.4rem;
+            font-size: 1.45rem;
+            line-height: 1.8rem;
+            resize: none;
+            &::placeholder {
+                color: $text-placeholder;
+            }
+        }
+
+        // input+button
+        .form-input-btn-area {
+            display: flex;
+            width: 30rem;
+            margin-left: auto;
+            .form-input {
+                width: 100%;
+            }
+        }
+
+        // select 
+        .k-dropdown {
+            width: 30rem;
+            margin-left: auto;
+            .k-dropdown-wrap {
+                border: 0.1rem solid $line-input;
+                border-radius: 0.3rem;
+                &.k-state-hover, &.k-state-active {
+                    border-color: $black;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    cursor: default;
+                    border-color: #d9d9d9;
+                    background-color: #f2f2f2;
+                    .k-input {
+                        color: $text-placeholder;
+                    }
+                    .k-select {
+                        opacity: 0.3;
+                    }
+                }
+                .k-input {
+                    padding: 1rem 1.2rem;
+                    color: $black;
+                    font-size: 1.45rem;
+                    line-height: 1.8rem;
+                    text-indent: 0;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    background-color: transparent;
+                }
+                .k-select {
+                    width: 2rem;
+                    padding-right: 1.2rem;
+                    line-height: 3.2rem;
+                    .k-icon {
+                        width: 100%;
+                        height: 2rem;
+                        &.k-i-arrow-60-down {
+                            &:before {
+                                background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                            }
+                        }
+                        &:before {
+                            content: '';
+                            display: inline-block;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+        }
+        // select 2개일때 묶음
+        .form-select-flex {
+            display: flex;
+            width: 30rem;
+            margin-left: auto;
+            justify-content: space-between;
+            .select-item {
+                width: 14rem;
+                +.select-item,
+                +.monthpicker-flex,
+                +.select-flex {
+                    margin-left: 2rem;
+                }
+                .form-input {
+                    width: 100%;
+                }
+                .k-dropdown {
+                    width: 100%;
+                }
+                .k-maskedtextbox {
+                    width: 100%;
+                }
+                &.at {
+                    display: flex;
+                    align-items: center;
+                    margin-left: 0.4rem;
+                    &::before {
+                        content: '@';
+                        padding-right: 0.4rem;
+                        font-size: 1.45rem;
+                    }
+                }
+            }
+        }
+        // select 3개일때 묶음
+        .form-select-triple {
+            display: flex;
+            width: 30rem;
+            margin-left: auto;
+            justify-content: space-between;
+            .select-item {
+                width: 9.5rem;
+                +.select-item,
+                +.monthpicker-flex,
+                +.select-flex {
+                    margin-left: 1rem;
+                }
+                .form-input {
+                    width: 100%;
+                }
+                .k-dropdown {
+                    width: 100%;
+                }
+                .k-maskedtextbox {
+                    width: 100%;
+                }
+                &.at {
+                    display: flex;
+                    align-items: center;
+                    margin-left: 0.4rem;
+                    &::before {
+                        content: '@';
+                        padding-right: 0.4rem;
+                        font-size: 1.45rem;
+                    }
+                }
+            }
+        }
+        
+        // multi select (dropdowntree)
+        .k-dropdowntree, .k-multiselect {
+            width: 30rem;
+            margin-left: auto;
+            .k-multiselect-wrap {
+                height: 2.2rem;
+                padding: 0.8rem 5.4rem 0.8rem 1.2rem;
+                border: 0.1rem solid $line-input;
+                border-radius: 0.3rem;
+                background: transparent url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat center right 1.2rem / 2rem auto;
+                
+                &.k-state-hover, &.k-state-active {
+                    border-color: $black;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    cursor: default;
+                    border-color: #d9d9d9;
+                    background-color: #f2f2f2;
+                    .k-input {
+                        color: $text-placeholder;
+                    }
+                    .k-select {
+                        opacity: 0.3;
+                    }
+                }
+                .k-input {
+                    padding: 0;
+                    color: $black;
+                    font-size: 1.45rem;
+                    line-height: 1.8rem;
+                    text-indent: 0;
+                }
+                .k-clear-value {
+                    position: absolute;
+                    top: 1.2rem;
+                    right: 3.6rem;
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    .k-icon {
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                        &::before {
+                            content: '';
+                            display: block;
+                            width: 100%;
+                            height: 100%;
+                            background: url('#{$img-path}/common/icon/icon_16_input_reset.png') no-repeat 0 0 / 1.6rem auto;
+                        }
+                    }
+                }
+
+                ul {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    line-height: 0;
+                    li {
+                        float: none;
+                        margin: 0;
+                        padding: 0.3rem 1.2rem 0.3rem;
+                        min-height: auto;
+                        border: 0;
+                        border-radius: 5rem;
+                        background-color: $bg-select;
+                        + li {
+                            margin-left: 0.4rem;
+                        }
+                        span {
+                            color: $text-gray1;
+                            font-size: 1.2rem;
+                            line-height: 1.6rem;
+                        }
+
+                        
+                        .k-select {
+                            width: 2rem;
+                            padding-right: 1.2rem;
+                            line-height: 3.2rem;
+                            .k-icon {
+                                width: 100%;
+                                height: 2rem;
+                                &.k-i-arrow-60-down {
+                                    &:before {
+                                        background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                                    }
+                                }
+                                &:before {
+                                    content: '';
+                                    display: inline-block;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                        }
+                    } 
+                }
+
+            }
+        }
+
+        // datepicker
+        .k-datepicker, .k-datetimepicker, .k-maskedtextbox {
+            width: 30rem;
+            margin-left: auto;
+            .k-picker-wrap {
+                height: 4rem;
+                border: 0.1rem solid $line-input;
+                border-radius: 0.3rem;
+                box-sizing: border-box;
+                &.k-state-hover, &.k-state-active {
+                    border-color: $black;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    cursor: default;
+                    border-color: #d9d9d9;
+                    background-color: #f2f2f2;
+                    .k-input {
+                        color: $text-placeholder;
+                    }
+                    .k-select {
+                        opacity: 0.3;
+                    }
+                }
+                .k-input {
+                    padding: 1rem 1.2rem;
+                    color: $black;
+                    font-size: 1.45rem;
+                    line-height: 1.8rem;
+                    text-indent: 0;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    background-color: transparent;
+                }
+                .k-select {
+                    width: 2rem;
+                    padding-right: 1.2rem;
+                    height: 3.8rem;
+                    border-left: 0;
+                    line-height: 3.4rem;
+                    .k-icon {
+                        width: 100%;
+                        height: 100%;
+                        &.k-i-calendar {
+                            &:before {
+                                background: url('#{$img-path}/common/icon/icon_20_calendar.png') no-repeat center / 2rem auto; 
+                            }
+                        }
+                        &.k-i-clock {
+                            &:before {
+                                background: url('#{$img-path}/common/icon/icon_20_time.png') no-repeat center / 2rem auto; 
+                            }
+                        }
+                        &:before {
+                            content: '';
+                            display: inline-block;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+
+
+                .k-maskedtextbox {
+                    &.k-input {
+                        padding: 0;
+                    }
+                }
+            }
+        }   
+        .k-datetimepicker {
+            .k-picker-wrap {
+                .k-select {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 5.2rem;
+                }
+            }
+        }
+        
+        // daterangepicker
+        .k-daterangepicker {
+            width: 30rem;
+            margin-left: auto;
+            display: flex;
+            justify-content: space-between;
+            &.k-state-border-down, &.k-state-border-up {
+                .k-textbox-container {
+                    .k-dateinput {
+                        .k-textbox {
+                            border-color: $black;
+                        }
+                    }
+                }
+            }
+            .k-textbox-container {
+                width: calc(50% - 1rem);
+                padding-top: 0;
+                .k-dateinput {
+                    .k-textbox {
+                        height: 4rem;
+                        padding: 1rem 3.2rem 1rem 1.2rem;
+                        border: 0.1rem solid $line-input;
+                        border-radius: 0.3rem;
+                        color: $black;
+                        font-size: 1.45rem;
+                        line-height: 1.8rem;
+                        text-indent: 0;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        background-color: transparent;
+                    }
+                }
+                .k-label {
+                    display: none;
+                }
+                // ~ 표시
+                + span{
+                    position: relative;
+                    display: block;
+                    width: 1rem;
+                    height: 100%;
+                    padding-bottom: 0.8rem;
+                    font-size: 1.2rem;
+                    color: $text-gray1;
+                    &:before {
+                        content: "~";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, 0%);
+                    } 
+                }
+                .k-textbox {
+                    cursor: pointer;
+                    // icon
+                    background: url('#{$img-path}/common/icon/icon_20_calendar.png') no-repeat top 0.9rem right 1.2rem / 2rem auto; 
+                }
+            }
+        }
+
+        // numeric textbox 
+        .k-numerictextbox {
+            width: 30rem;
+            margin-left: auto;
+            .k-numeric-wrap {
+                border: 0.1rem solid $line-input;
+                border-radius: 0.3rem;
+                &.k-state-hover, &.k-state-active {
+                    border-color: $black;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    cursor: default;
+                    border-color: #d9d9d9;
+                    background-color: #f2f2f2;
+                    .k-input {
+                        color: $text-placeholder;
+                    }
+                    .k-select {
+                        opacity: 0.3;
+                    }
+                }
+                .k-input {
+                    padding: 1rem 1.2rem;
+                    color: $black;
+                    font-size: 1.45rem;
+                    line-height: 1.8rem;
+                    text-indent: 0;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    background-color: transparent;
+                    // 21.11.11 개발팀 요청 - text 오른쪽 정렬
+                    text-align: right;
+                }
+                .k-select {
+                    top: 0.1rem;
+                    width: 1.6rem;
+                    height: 3.8rem;
+                    padding-right: 1.2rem;
+                    line-height: 3.8rem;
+                    border-left: 0;
+                    .k-link {
+                        height: 1.6rem;
+                        line-height: 1.6rem;
+                        +.k-link {
+                            margin-top: 0.4rem;
+                        }
+                        .k-icon {
+                            &::before {
+                                content: '';
+                                background: url('#{$img-path}/common/icon/icon_16_arr_select.png') no-repeat 0 0 / 1.6rem auto; 
+                            }
+                            &.k-i-arrow-60-up {
+                                &::before {
+                                    transform: rotate(-180deg);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    .form-radio-group, .form-checkbox-group {
+        width: 30rem;
+        min-height: 4rem;
+        margin-left: auto;
+    }
+
+    // 작은 사이즈 (tablet 검색영역 등에 사용)
+    &.small {
+        max-width: 36.5rem;
+        .form-grid-item {
+            +.form-grid-item {
+                padding-top: 1.2rem;
+            }
+        }
+        .form-field {
+            &.form-error {
+                 // validation message
+                + .form-error-msg {
+                    width: 26.5rem;
+                }
+            }
+    
+            // label
+            .form-label {
+                margin-right: 1.2rem;
+                color: $text-black;
+                white-space: nowrap;
+            }
+    
+            // input text
+            .form-input {
+                width: 26.5rem;
+                height: 3.2rem;
+                padding: 0.9rem 1.2rem;
+                font-size: 1.2rem;
+                line-height: 1.4rem;
+
+                // date input reset
+                &.k-dateinput {
+                    padding: 0;
+                    border-width: 0;
+                }
+            }
+    
+            // search input
+            .form-input-search-area {
+                position: relative;
+                width: 26.5rem;
+                margin-left: auto;
+                .form-input {
+                    padding-right: 3.4rem;
+                }
+                .btn-form-search {
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    background: url('#{$img-path}/common/icon/icon_16_search.png') no-repeat 0 0 / 1.6rem auto; 
+                }
+            }
+    
+            // textarea
+            .form-textarea {
+                width: 26.5rem;
+                font-size: 1.2rem;
+                line-height: 1.4rem;
+            }
+    
+            // input+button
+            .form-input-btn-area {
+                width: 26.5rem;
+            }
+    
+            // select 
+            .k-dropdown {
+                width: 26.5rem;
+                .k-dropdown-wrap {
+                    .k-input {
+                        padding: 0.8rem 1.2rem;
+                        font-size: 1.2rem;
+                        line-height: 1.4rem;
+                    }
+                    .k-select {
+                        width: 1.6rem;
+                        padding-right: 0.8rem;
+                        line-height: 2.8rem;
+                        .k-icon {
+                            height: 1.6rem;
+                            &.k-i-arrow-60-down {
+                                &:before {
+                                    background: url('#{$img-path}/common/icon/icon_16_arr_select.png') no-repeat 0 0 / 1.6rem auto; 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // select 2개일때 묶음
+            .form-select-flex {
+                width: 26.5rem;
+                .select-item {
+                    width: 12.1rem;
+                    .k-datepicker {
+                        width: 100%;
+                    }
+                    +.select-item {
+                        margin-left: 2.3rem;
+                    }
+                }
+            }
+            // select 3개일때 묶음
+            .form-select-triple {
+                width: 26.5rem;
+                .select-item {
+                    width: 8.5rem;
+                    .k-datepicker {
+                        width: 100%;
+                    }
+                    +.select-item {
+                        margin-left: .5rem;
+                    }
+                }
+            }
+            
+            // multi select (dropdowntree)
+            .k-dropdowntree, .k-multiselect {
+                width: 26.5rem;
+                .k-multiselect-wrap {
+                    height: 2.2rem;
+                    padding: 0.4rem 5rem 0.4rem 1.2rem;
+                    background: transparent url('#{$img-path}/common/icon/icon_16_arr_select.png') no-repeat center right 0.8rem / 1.6rem auto;
+                    
+                    .k-input {
+                        font-size: 1.2rem;
+                        line-height: 2rem;
+                    }
+                    .k-clear-value {
+                        top: 0.8rem;
+                        right: 3.2rem;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                    }
+    
+                    ul {
+                        li {
+                            padding: 0.3rem 1.2rem 0.3rem;
+                            span {
+                                font-size: 1.2rem;
+                                line-height: 1.4rem;
+                            }
+                            .k-select {
+                                width: 1.6rem;
+                                padding-right: 0.8rem;
+                                line-height: 3rem;
+                                .k-icon {
+                                    height: 1.6rem;
+                                    &.k-i-arrow-60-down {
+                                        &:before {
+                                            background: url('#{$img-path}/common/icon/icon_16_arr_select.png') no-repeat 0 0 / 1.6rem auto; 
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    }
+    
+                }
+            }
+    
+            // datepicker
+            .k-datepicker, .k-datetimepicker, .k-maskedtextbox {
+                width: 26.5rem;
+                .k-picker-wrap {
+                    height: 3.2rem;
+                    .k-input {
+                        padding: 0.8rem 1.2rem;
+                        font-size: 1.2rem;
+                        line-height: 1.4rem;
+                    }
+                    .k-select {
+                        width: 1.6rem;
+                        padding-right: 0.8rem;
+                        height: 3rem;
+                        border-left: 0;
+                        line-height: 2.4rem;
+                        .k-icon {
+                            &.k-i-calendar {
+                                &:before {
+                                    background: url('#{$img-path}/common/icon/icon_16_calendar.png') no-repeat center / 1.6rem auto; 
+                                }
+                            }
+                            &.k-i-clock {
+                                &:before {
+                                    background: url('#{$img-path}/common/icon/icon_16_time.png') no-repeat center / 1.6rem auto; 
+                                }
+                            }
+                        }
+                    }
+                    .k-maskedtextbox {
+                        &.k-input {
+                            padding: 0;
+                        }
+                    }
+                }
+            }   
+            .k-datetimepicker {
+                .k-picker-wrap {
+                    .k-select {
+                        width: 4.4rem;
+                    }
+                }
+            }
+            
+            // daterangepicker
+            .k-daterangepicker {
+                width: 26.5rem;
+                .k-textbox-container {
+                    width: calc(50% - 1.15rem);
+                    padding-top: 0;
+                    .k-dateinput {
+                        .k-textbox {
+                            height: 3.2rem;
+                            padding: 0.8rem 3.2rem 0.8rem 0.8rem;
+                            font-size: 1.2rem;
+                            line-height: 1.4rem;
+                        }
+                    }
+                    // ~ 표시
+                    + span{
+                        padding-bottom: 0;
+                        color: $text-black;
+                        &:before {
+                            content: "-";
+                        } 
+                    }
+                    .k-textbox {
+                        cursor: pointer;
+                        // icon
+                        background: url('#{$img-path}/common/icon/icon_16_calendar.png') no-repeat top 0.7rem right 0.8rem / 1.6rem auto; 
+                    }
+                }
+            }
+    
+            // numeric textbox 
+            .k-numerictextbox {
+                width: 26.5rem;
+                .k-numeric-wrap {
+                    .k-input {
+                        padding: 0.8rem 1.2rem;
+                        font-size: 1.2rem;
+                        line-height: 1.4rem;
+                        // 21.11.11 개발팀 요청 - text 오른쪽 정렬
+                        text-align: right;
+                    }
+                    .k-select {
+                        top: 0rem;
+                        width: 1.6rem;
+                        height: 3rem;
+                        padding-right: 0.8rem;
+                        line-height: 3rem;
+                        .k-link {
+                            +.k-link {
+                                margin-top: 0rem;
+                            }
+                        }
+                    }
+                }
+            }
+    
+        }
+        // radio
+        .form-radio-group, .form-checkbox-group {
+            width: 26.5rem;
+            min-height: 3.2rem;
+            align-items: center;
+            li {
+                margin-top: 0;
+            }
+        }
+
+        // daterange
+        .form-grid-item {
+            &.daterange-item {
+                .form-field {
+                    .form-select-flex {
+                        .select-item {
+                            +.select-item {
+                                position: relative;
+                                &::before {
+                                    content: "-";
+                                    position: absolute;
+                                    left: -1.4rem;
+                                    top: 0.5rem;
+                                    font-size: 1.45rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // table 형식 (tablet 고객카드 등록 에서 사용)
+    &.type2 {
+        max-width: 100%;
+        border-top: 0.1rem solid #d0d6e3;
+        border-bottom: 0.1rem solid #d0d6e3;
+        // form grid
+        .form-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 0 -0.1rem 0;
+            .form-grid-item {
+                padding: 0;
+                border-bottom: 0.1rem solid #d0d6e3;
+                &.colspan-full {
+                    width: 100% !important;
+                }
+                &.flex-item {
+                    display: flex;
+                    align-items: flex-end;
+                    .form-field {
+                        flex: 1;
+                        +.form-field {
+                            margin-left: 2rem;
+                        }
+                        +.btn {
+                            margin-left: 1rem;
+                        }
+                    }
+
+                    &.daterange-item {
+                        .form-field {
+                            + .form-field {
+                                position: relative;
+                                &:before {
+                                    content: "~";
+                                    position: absolute;
+                                    top: 0.3rem;
+                                    left: -1.4rem;
+                                    font-size: 1.2rem;
+                                    color: $text-gray1;
+                                }
+                            }
+                        }
+                    }
+                }
+                // 라벨 없을 때
+                &.label-none {
+                    display: flex;
+                    flex-direction: column;
+                    .form-field {
+                        margin-top: auto;
+                    }
+                }
+                +.form-grid-item {
+                    padding-top: 0rem;
+                }
+            }
+
+            // 1단
+            &.grid-col-1 {
+                .form-grid-item {
+                    width: 100%;
+                }
+            }
+            // 2단
+            &.grid-col-2 {
+                .form-grid-item {
+                    width: 50%;
+                }
+            }
+            // 3단
+            &.grid-col-3 {
+                .form-grid-item {
+                    width: 33.33%;
+                    &.colspan-2 {
+                        width: 66.66%;
+                    }
+                }
+            }
+            // 3단
+            &.grid-col-4 {
+                .form-grid-item {
+                    width: 25%;
+                    &.colspan-2 {
+                        width: 50%;
+                    }
+                    &.colspan-3 {
+                        width: 75%;
+                    }
+                }
+            }
+        }
+
+        .form-field {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            min-height: 5.2rem;
+            &.form-required {
+                .form-label {
+                    &::after {
+                        margin-top: -1.4rem;
+                    }
+                }
+            }
+            &.form-error {
+                 // validation message
+                + .form-error-msg, .form-error-msg {
+                    width: 100%;
+                }
+            }
+
+            // label
+            .form-label {
+                display: flex;
+                align-items: center;
+                flex: 0 0 12rem;
+                height: 100%;
+                padding: 0 2rem;
+                margin-right: 0;
+                background-color: #f5f6fa;
+                color: $primary2;
+            }
+
+            // form-input-area
+            .form-input-area {
+                flex: 1;
+                padding: 0.6rem 2rem;
+                &.flex-area {
+                    display: flex;
+                    .display-flex {
+                        flex: 1;
+                        &.at {
+                            display: flex;
+                            align-items: center;
+                            &::before {
+                                content: '@';
+                                padding-right: 0.6rem;
+                            }
+                        }
+                        &.dash {
+                            display: flex;
+                            align-items: center;
+                            &::before {
+                                content: '-';
+                                padding-right: 0.6rem;
+                            }
+                        }
+
+                        &.phone-select {
+                            flex: 0 0 10.1rem;
+                        }
+                        &.search {
+                            flex: 0 0 21rem;
+                        }
+                        &.md {
+                            flex: 0 0 24.7rem;
+                        }
+                        +.display-flex {
+                            padding-left: 0.6rem;
+                        }
+                    }
+                    .inline-flex {
+                        display: inline-flex;
+                        align-items: center;
+                        &.last {
+                            margin-left: auto;
+                        }
+                    }
+                    >.btn-group {
+                        flex: 1 0 auto;
+                        align-items: center;
+                        +.form-checkbox-group {
+                            padding-left: 2.4rem;
+                        }
+                    }
+                    .form-input, .form-input-unit {
+                        width: 100%;
+                        +.btn-group {
+                            padding-left: 0.6rem;
+                        }
+                    }
+                }
+            }
+    
+            // input text
+            .form-input {
+                width: 100%;
+                &:read-only {
+                    border: 0;
+                    padding: 0;
+                }
+            }
+    
+            // search input
+            .form-input-search-area {
+                width: 100%;
+            }
+    
+            // textarea
+            .form-textarea {
+                width: 100%;
+            }
+    
+            // input+button
+            .form-input-btn-area {
+                width: 100%;
+            }
+    
+            // select 
+            .k-dropdown {
+                width: 100%;
+            }
+            // select 2개일때 묶음
+            .form-select-flex {
+                width: 100%;
+                .select-item {
+                    width: calc(50% - 1rem);
+                    +.select-item {
+                        margin-left: 2rem;
+                    }
+                }
+            }
+            // select 3개일때 묶음
+            .form-select-triple {
+                width: 100%;
+                .select-item {
+                    width: calc(33.3333% - 1rem);
+                    +.select-item {
+                        margin-left: .5rem;
+                    }
+                }
+            }
+    
+            // multi select (dropdowntree)
+            .k-dropdowntree {
+                width: 100%;
+            }
+    
+            // datepicker
+            .k-datepicker, .k-datetimepicker, .k-maskedtextbox {
+                width: 100%;
+            } 
+            
+            // daterangepicker
+            .k-daterangepicker {
+                width: 100%;
+                .k-textbox-container {
+                    width: calc(50% - 1rem);
+                }
+            }
+    
+            // numeric textbox 
+            .k-numerictextbox {
+                width: 100%;
+            }
+
+            // 단위
+            .form-input-unit {
+                position: relative;
+                .form-input {
+                    padding-right: 5rem;
+                    &:hover, &:focus {
+                        +.unit-text {
+                            &::after {
+                                background: $black;
+                            }
+                        }
+                    }
+    
+                    &:read-only {
+                        +.unit-text {
+                            &::after {
+                                background: $line-input;
+                            }
+                        }
+                    }
+                }
+                .k-dropdown {
+                    .k-dropdown-wrap {
+                        border-bottom: 0 !important;
+                    }
+                }
+                .k-numerictextbox {
+                    .k-numeric-wrap {
+                        border-bottom: 0 !important;
+                    }
+                }
+                
+                .unit-text {
+                    position: absolute;
+                    top: 50%;
+                    right: 1.2rem;
+                    transform: translateY(-50%);
+                    font-size: 1.45rem;
+                    line-height: 2.3rem;
+                    color: $text-gray2;
+                    &.color1 {
+                        color: $point;
+                    }
+                }
+                &.disabled {
+                    border-style: dashed;
+                    .unit-text {
+                        color: $text-placeholder;
+                    }
+                }
+            }
+    
+        }
+
+        .form-radio-group, .form-checkbox-group {
+            width: 100%;
+        }
+
+    }
+
+    // vertical (반려사유)
+    &.vertical {
+        &.form-error {
+             // validation message
+            + .form-error-msg, .form-error-msg {
+                width: 100%;
+            }
+        }
+
+        // label
+        .form-label {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+
+        .form-field {
+            flex-direction: column;
+            align-items: flex-start;
+
+            // input text
+            .form-input {
+                width: 100%;
+            }
+
+            // search input
+            .form-input-search-area {
+                width: 100%;
+            }
+
+            // textarea
+            .form-textarea {
+                width: 100%;
+            }
+
+            // input+button
+            .form-input-btn-area {
+                width: 100%;
+            }
+
+            // select 
+            .k-dropdown {
+                width: 100%;
+            }
+            // select 2개일때 묶음
+            .form-select-flex {
+                width: 100%;
+            }
+            // select 3개일때 묶음
+            .form-select-triple {
+                width: 100%;
+            }
+            
+            // multi select (dropdowntree)
+            .k-dropdowntree {
+                width: 100%;
+            }
+
+            // datepicker
+            .k-datepicker, .k-datetimepicker, .k-maskedtextbox {
+                width: 100%;
+            }
+            
+            // daterangepicker
+            .k-daterangepicker {
+                width: 100%;
+            }
+
+            // numeric textbox 
+            .k-numerictextbox {
+                width: 100%;
+            }
+        }
+        .form-radio-group, .form-checkbox-group {
+            width: 100%;
+        }
+    }
+}
+
+/* radio , checkbox 공통 */
+.form-radio-group, .form-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    &.gap-lg {
+        li {
+            + li {
+                margin-left: 3.2rem;
+            }
+        }
+    }
+    &.gap-xl {
+        li {
+            flex: 1 0 auto;
+        }
+    }
+    &.gap-auto {
+        li {
+            flex: 1 0 auto;
+            margin-left: 0;
+        }
+    }
+    li {
+        flex: 0 0 auto;
+        margin-top: 1.5rem;
+        + li {
+            margin-left: 2rem;
+        }
+        // margin-right: 2rem;
+        .k-radio-label, .k-checkbox-label {
+            vertical-align: bottom;
+        }
+    }
+
+    // right 마진
+    &.gap-right {
+        li {
+            margin-right: 2rem;
+            + li {
+                margin-left: 0;
+            }
+        }
+        &.gap-lg {
+            li {
+                margin-right: 3.2rem;
+                + li {
+                    margin-left: 0rem;
+                }
+            }
+        }
+        &.gap-auto {
+            li {
+                margin-right: 0;
+            }
+        }
+    }
+}
+.k-radio-label, .k-checkbox-label {
+    display: block;
+    padding-left: 2.2rem;
+    font-size: 1.45rem;
+    color: $black;
+    box-sizing: border-box;
+    &:before {
+        width: 1.6rem;
+        height: 1.6rem;
+        box-sizing: border-box;
+    }
+}
+/* radio */
+.k-radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility:hidden;
+    &:checked {
+        + .k-radio-label {
+            &:before {
+                background-color: $primary2;
+                border:0;
+            }
+            &:after {
+                top: 0.5rem;
+                left: 0.5rem;
+                width: 0.6rem;
+                height: 0.6rem;
+                border-radius: 50%;
+                background-color: $white;
+            }
+        }
+    }
+
+    &:disabled {
+        + .k-radio-label {
+            &:before {
+                border-color:rgba(31, 38, 62, 0.2);
+                background-color:rgba(31, 38, 62, 0.1);
+            }
+        }
+        &:checked {
+            + .k-radio-label {
+                &:before {
+                    border:0;
+                    background-color:rgba(31, 38, 62, 0.2);
+                }
+            }
+        }
+    }
+}
+.k-radio-label {
+    &:before {
+        background-color: $white;
+        border: solid 0.1rem rgba(31, 38, 62, 0.2);
+        border-radius: 50%;
+    }
+}
+
+/* checkbox */
+input.k-checkbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility:hidden;
+    visibility:hidden;
+}
+.k-checkbox {
+    &:checked {
+        + .k-checkbox-label {
+            &:before {
+                content: '';
+                background: url(../images/common/icon/icon_checkbox_active.png) no-repeat center / 1.6rem auto;
+                border:0;
+            }
+            &:after {
+                top: 0.5rem;
+                left: 0.5rem;
+                width: 0.6rem;
+                height: 0.6rem;
+                background-color: $white;
+            }
+        }
+    }
+
+    &:disabled {
+        + .k-checkbox-label {
+            &:before {
+                content: '';
+                border-color:rgba(31, 38, 62, 0.2);
+                background-color:rgba(31, 38, 62, 0.1);
+            }
+        }
+        &:checked {
+            + .k-checkbox-label {
+                &:before {
+                    content: '';
+                    background: url(../images/common/icon/icon_checkbox_disabled.png) no-repeat center / 1.6rem auto;
+                    border:0;
+                }
+            }
+        }
+    }
+}
+.k-checkbox:indeterminate+.k-checkbox-label:after {
+    border: 0;
+    background-color: $primary2;
+}
+.k-checkbox-label {
+    &:before {
+        content: '';
+        background-color: $white;
+        border: solid 0.1rem rgba(31, 38, 62, 0.2);
+        color: $white;
+        border-radius: 0.1rem;
+        font-size: 1.2rem;
+        line-height: 1.6rem;
+    }
+}
+
+// rec-checkbox
+.rect-checkbox-group {
+    position: relative;
+    input[type="checkbox"].rect-checkbox {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        visibility:hidden;
+        + label.rect-checkbox-label {
+            content: "";
+            display: block;
+            cursor: pointer;
+            width: 1.6rem;
+            height: 1.6rem;
+            background: $white;
+            border: .1rem solid $white;
+            box-sizing: border-box;
+        }
+        
+        &:checked {
+            + label.rect-checkbox-label {
+                content: "";
+                display: block;
+                width: 1.6rem;
+                height: 1.6rem;
+                background: url(../images/common/icon/icon_checkbox_active.png) no-repeat center / 1.6rem auto;
+            }
+        }
+    }
+}
+
+/* select, datetime 선택 시 나오는 드롭다운 리스트 */
+.k-popup {
+    width: auto !important;
+    border: 0;
+    background-color: $white;
+    &.k-calendar-container {
+        padding: 0;
+        border: 0;
+    }
+    &.k-datetime-container {
+        padding: 0;
+        border: 0;
+    }
+    // pager, form select 공통사용 -> 클래스 추가 가능한지 봐야함
+    &.k-list-container {
+        padding: 0.8rem 0;
+        border: 0;
+        margin-top: 0.8rem;
+        border-radius: 0.3rem;
+        border: 0.1rem solid $line-blue-gray;
+        // 검색
+        .k-list-filter {
+            position: relative;
+            margin-bottom: 0;
+            padding: 0 1.6rem 0.8rem;
+            .k-textbox {
+                display: block;
+                width: 100% !important;
+                padding: 1rem 3.4rem 1rem 1.2rem;
+                border-width: 0.1rem;
+                border-style: solid;
+                border-color: #e2e2e2;
+                border-radius: 0.3rem;
+                color: #000;
+                font-size: 1.45rem;
+                line-height: 1.8rem;
+                text-indent: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                background-color: transparent;
+            }
+            >.k-icon {
+                top: 2rem;
+                right: 2.8rem;
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                &.k-i-zoom {
+                    &::before {
+                        content: '';
+                        width: 100%;
+                        height: 100%;
+                        background: url(../images/common/icon/icon_20_search.png) no-repeat 0 0/2rem auto;
+                    }
+                }
+            }
+        }
+        .k-list {
+            // padding: 0.8rem 0;
+            .k-item {
+                min-height: 1.8rem;
+                padding: 1rem 1.6rem;
+                color: $text-gray1;
+                line-height: 1.8rem;
+                font-size: 1.45rem;
+                &.k-state-selected, &.k-state-focused {
+                    color: $text-black;
+                    &:after {
+                        content: '';
+                        display: inline-block;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                        margin-left: 0.2rem;
+                        background: url('#{$img-path}/common/icon/icon_16_check.png') no-repeat top right / 1.6rem auto;
+                        vertical-align: text-top;
+                    }
+                }
+                &.k-state-hover {
+                    background: $bg-select;
+                }
+            }
+        }
+        // placeholder option
+        .k-list-optionlabel {
+            display: none;
+            padding: 0.5rem 1.1rem 0.3rem;
+            color: $text-gray1;
+            font-size: 1.2rem;
+            &.k-state-selected, &.k-state-focused {
+                border: 0;
+            }
+        }
+    }
+
+    // dropdowntree
+    &.k-popup-dropdowntree {
+        margin-top: 0.8rem;
+        border-radius: 0.3rem;
+        border: 0.1rem solid $line-blue-gray;
+        .k-check-all {
+            margin: 1rem 1.5rem 0;
+            +.k-treeview {
+                padding-top: 1.3rem;
+                padding-left: 3.1rem;
+            }
+            .k-checkbox:indeterminate+.k-checkbox-label:after {
+                border: 0;
+                background-color: $primary2;
+            }
+        }
+        .k-treeview {
+            padding: 0 1.5rem 1rem;
+            .k-item {
+                padding: 0;
+                > div {
+                    display: flex;
+                }
+                + .k-item {
+                    margin-top: 1.3rem;
+                }
+                .k-group {
+                    padding-left: 2rem; 
+                    margin-top: 1.3rem;
+                }
+        
+                // +, - 버튼
+                .k-icon {
+                    display: block;
+                    margin-top: 0;
+                    margin-left: 0;
+                    text-indent: 0;
+                    overflow: visible;
+                    &::before {
+                        content: '';
+                        // position: static;
+                        display: block;
+                        // flex: 0 0 auto;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                        line-height: 1.6rem;
+                        margin: 0;
+                    }
+        
+                    // .k-in {
+                    //     padding-left: 0.6rem;
+                    // }
+                    +.k-checkbox-wrapper {
+                        padding-left: 0.7rem;
+                        // + .k-in {
+                        //     font-size: 1.45rem;
+                        //     .k-sprite {
+                        //         font-size: 1.45rem;
+                        //     }
+                        // }
+                    }
+                }
+                .k-i-expand {
+                    &::before {
+                        background: url('#{$img-path}/common/icon/icon_16_tree_open.png') no-repeat 0 0 / 1.6rem auto;
+                    }
+                }
+                .k-i-collapse {
+                    &::before {
+                        background: url('#{$img-path}/common/icon/icon_16_tree_close.png') no-repeat 0 0 / 1.6rem auto;
+                    }
+                }
+        
+                // checkbox 
+                .k-checkbox-wrapper {
+                    display: block;
+                    width: 1.6rem;
+                    + .k-in {
+                        padding-left: 0.6rem;
+                    }
+                }
+                .k-checkbox-label {
+                    padding-left: 2.2rem;
+                }
+        
+                // text 
+                .k-in {
+                    display: block;
+                    width: 100%;
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    text-align: left;
+                    line-height: 2rem;
+                    font-family:'BMWTypeNext','Noto Sans Korean', sans-serif;
+                    font-weight: 400;
+                    font-size: 1.2rem;
+                    line-height: 1.6rem;
+                    // color: $black;
+                    color: $text-gray1;
+                    .k-sprite {
+                        width: auto;
+                        margin-right: 0;
+                        text-align: left;
+                        font-size: 1.45rem;
+                        line-height: 1.6rem;
+                        &.item, &.pdf, &.html, &.image {
+                            &::before {
+                                content: '';
+                                display: inline-block;
+                                vertical-align: top;
+                                width: 1.6rem;
+                                height: 1.6rem;
+                                margin-right: 0.4rem;
+                                background: url('#{$img-path}/common/icon/icon_16_tree_doc.png') no-repeat 0 0 / 1.6rem auto;
+                            }
+                        }
+                        &.btn {
+                            &::before {
+                                content: '';
+                                display: inline-block;
+                                vertical-align: top;
+                                width: 1.6rem;
+                                height: 1.6rem;
+                                margin-right: 0.4rem;
+                                background: url('#{$img-path}/common/icon/icon_16_tree_set.png') no-repeat 0 0 / 1.6rem auto;
+                            }
+                        }
+                    }
+                }
+        
+                // depth 상위 폰트 크기
+                .k-icon {
+                    +.k-in {
+                        font-size: 1.45rem;
+                        .k-sprite {
+                            font-size: 1.45rem;
+                        }
+                    }
+                    +.k-checkbox-wrapper {
+                        +.k-in {
+                            font-size: 1.45rem;
+                            .k-sprite {
+                                font-size: 1.45rem;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    // maskedDateTimePicker time
+    .time-container {
+        // position: static !important;
+        top: 5.9rem;
+        right: -14.3rem !important;
+        width: 14rem !important;
+        height: 33.4rem !important;
+        background-color: $white;
+        border-radius: 0.3rem;
+        border: 0.1rem solid $line-blue-gray !important;
+        box-shadow: 0.2rem 0.2rem 0.4rem 0 rgba(0, 0, 0, 0.1);
+        .k-list {
+            padding: 0.8rem 0;
+            .k-item {
+                min-height: 1.8rem;
+                padding: 1rem 1.6rem;
+                color: $text-gray1;
+                line-height: 1.8rem;
+                font-size: 1.45rem;
+                &.k-state-selected, &.k-state-focused {
+                    color: $text-black;
+                    &:after {
+                        content: '';
+                        display: inline-block;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                        margin-left: 0.2rem;
+                        background: url('#{$img-path}/common/icon/icon_16_check.png') no-repeat top right / 1.6rem auto;
+                        vertical-align: text-top;
+                    }
+                }
+                &.k-state-hover {
+                    background: $bg-select;
+                }
+            }
+        }
+    }
+
+    // color picker
+    .k-hsv-rectangle {
+        width: 27rem;
+    }
+}
+
+/* calendar */
+.k-calendar {
+    border: 0;
+    box-sizing: border-box;
+    .k-header {
+        padding: 0;
+        border: 0;
+        .k-link {
+            padding: 0;
+        }
+        .k-button {
+            span, &::before, &::after {
+                background: transparent !important;
+            }
+            &:hover, &:active ,&:focus {
+                span, &::before, &::after {
+                    background: transparent !important;
+                }
+            }
+        }
+        .k-nav-prev, .k-nav-next {
+            top: 0.6rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            box-sizing: border-box;
+            border: 0.1rem solid $line-calendar !important;
+            box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.05) !important;
+            background-color: $white;
+            .k-icon {
+                width: 3.2rem;
+                height: 3.2rem;
+                vertical-align: middle;
+                &::before {
+                    content: '';
+                    display: block;
+                    width: 2rem;
+                    height: 2rem;
+                }
+                &.k-i-arrow-60-left {
+                    &::before {
+                        background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                        transform: rotate(-270deg);
+                    }
+                }
+                &.k-i-arrow-60-right {
+                    &::before {
+                        background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                        transform: rotate(-90deg);
+                    }
+                }
+            }
+        }
+        .k-nav-prev {
+            left: 0;
+        }
+        .k-nav-next {
+            right: 0;
+        }
+        .k-nav-fast {
+            padding: 1.3rem 0;
+            color: $primary2;
+            font-weight: $font-bold;
+            font-size: 1.45rem;
+        }
+    }
+    .k-calendar-header {
+        padding: 1.8rem 0;
+        .k-title {
+            color: $primary2;
+            font-weight: $font-bold;
+            font-size: 1.45rem;
+            &.k-state-hover {
+                &::before, &::after {
+                    opacity: 0;
+                }
+            }
+        }
+        .k-calendar-nav {
+            .k-today {
+                padding: 0 1rem;
+                color: $primary2;
+                font-size: 1.2rem;
+            }
+            .k-button {
+                width: 3.5rem;
+                height: 3.5rem;
+                box-sizing: border-box;
+                border: 0.1rem solid $line-calendar !important;
+                box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.05) !important;
+                background-color: $white;
+                .k-icon {
+                    width: 2rem;
+                    height: 2rem;
+                    vertical-align: middle;
+                    &::before {
+                        content: '';
+                        display: block;
+                        width: 2rem;
+                        height: 2rem;
+                    }
+                    &.k-i-arrow-60-left {
+                        &::before {
+                            background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                            transform: rotate(-270deg);
+                        }
+                    }
+                    &.k-i-arrow-60-right {
+                        &::before {
+                            background: url('#{$img-path}/common/icon/icon_20_arr_select.png') no-repeat 0 0 / 2rem auto; 
+                            transform: rotate(-90deg);
+                        }
+                    }
+                }
+                &::before, &::after {
+                    background-color: $white;
+                }
+            }
+        }
+    }
+    .k-calendar-view {
+        width: 33rem;
+        height: auto;
+        .k-content {
+            width: 100%;
+            box-sizing: border-box;
+            height: 33.6rem;
+            border-collapse: collapse;
+            border-top: 0.1rem solid $line-calendar;
+            border-left: 0.1rem solid $line-calendar;
+            border-right: 0.1rem solid $line-calendar;
+            border-spacing: 0;
+            &.k-year {
+                height: 22rem;
+            }
+            thead {
+                background-color: $primary2;
+                th {
+                    height: 4.8rem;
+                    padding: 0;
+                    opacity: 0.6;
+                    border: 0;
+                    color: $white;
+                    font-weight: $font-bold;
+                    font-size: 1.2rem;
+                }
+            }
+            td {
+                width: 4.6rem;
+                height: 4.6rem;
+                border-bottom: 0.1rem solid $line-calendar;
+                border-right: 0.1rem solid $line-calendar;
+                border-radius: 0;
+                .k-link {
+                    width: auto;
+                    height: auto;
+                    padding: 0;
+                    color: #43425d;
+                    font-family: "sans-serif";
+                    font-size: 1.5rem;
+                    line-height: 2.1rem;
+                }
+                &.k-state-selected {
+                    background-color: $point;
+                    .k-link {
+                        color: $white;
+                    }
+                }
+                &.k-state-hover {
+                    background-color: $bg-default;
+                    &.k-state-selected {
+                        background-color: $point;
+                    }
+                }
+                &.k-other-month {
+                    .k-link {
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+    .k-footer {
+        .k-nav-today {
+            display: none;
+        }
+    }
+
+    // range
+    &.k-calendar-range {
+        .k-calendar-view {
+            width: 67rem;
+            .k-content {
+                width: 33rem;
+                td {
+                    &.k-range-mid {
+                        background-color: rgba(38, 128, 235, 0.06);
+                    }
+                    &.k-range-start, &.k-range-end  {
+                        background-color: $point !important;
+                        .k-link {
+                            color: $white;
+                        }
+                    }
+                }
+                +.k-content {
+                    margin-left: 1rem;
+                }
+            }  
+        }
+        
+    }
+
+    // tab
+    .k-calendar-decadeview, .k-calendar-monthview, .k-calendar-yearview {
+        padding: 0;
+    }
+}
+/* datetime */
+.k-datetime-wrap {
+    .k-datetime-buttongroup {
+        .k-button {
+            border: 0.1rem solid $line-panel;
+            border-radius: 0;
+            color: $text-gray1;
+            font-size: 1.45rem;
+            &.k-state-active {
+                border: 2px solid $black;
+                color: $black;
+                font-weight: $font-bold;
+            }
+        }
+        .k-group-start {
+            border-top-left-radius: 0.4rem;
+            border-bottom-left-radius: 0.4rem;
+        }
+        .k-group-end{
+            border-top-right-radius: 0.4rem;
+            border-bottom-right-radius: 0.4rem;
+        }
+    }
+    .k-datetime-selector {
+        .k-datetime-time-wrap {
+            .k-time-header {
+                padding: 1rem 0.8rem 1.8rem;
+                .k-title {
+                    color: $primary2;
+                    font-weight: $font-bold;
+                    font-size: 1.45rem;
+                }
+                .k-time-now {
+                    padding: 0 1rem;
+                    color: $primary2;
+                    font-size: 1.2rem;
+                }
+                .k-button {
+                    border: 0.1rem solid $line-calendar !important;
+                    box-shadow: 0 0.2rem 0.3rem 0 rgba(0, 0, 0, 0.05) !important;
+                    &::before, &::after {
+                        background-color: transparent;
+                    }
+                }
+            }
+            .k-time-highlight {
+                border-color: $line-calendar;
+            }
+            .k-time-list-wrapper {
+                .k-time-list {
+                    &::before, &::after {
+                        box-shadow: 0 0 3rem 2.5rem $white;
+                    }
+                    .k-item {
+                        &:hover {
+                            color: $point;
+                        }
+                    }
+                }
+                &.k-state-focused {
+                    &::before, &::after {
+                        background-color: rgba(0,0,0,.04);
+                    }
+                }
+            }
+        }
+    }
+    .k-datetime-footer {
+        &.k-action-buttons {
+            .k-button {
+                height: 3.2rem;
+                padding: 0 1.6rem;
+                font-weight: 700;
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+
+// 약관동의 agreement
+.agreement-area-wrap {
+    .agreement-area {
+        +.agreement-area {
+            margin-top: 1.6rem;
+            padding-top: 1.6rem;
+            border-top: 0.1rem solid #e5e5e5;
+        }
+    }
+
+    .agreement-area.line-none {
+        +.agreement-area.line-none {
+            margin-top: 0;
+            padding-top: 2rem;
+            border-top: 0;
+        }
+        .agreement-caption {
+            color: $text-gray1;
+        }
+        .agreement-text + .agreement-caption {
+            padding-top: 1.2rem;
+        }
+    }
+    // text
+    .agreement-title {
+        font-weight: $font-bold;
+        font-size: 1.6rem;
+        color: $black;
+        &.depth2 {
+            font-size: 1.45rem;
+        }
+    }
+    .agreement-text {
+        display: flex;
+        font-size: 1.45rem;
+        color: $text-gray1;
+        word-break: keep-all;
+        .text-num {
+            display: block;
+            flex-shrink: 0;
+            padding-right: 0.4rem;
+            font-size: 1.45rem;
+            color: $text-gray1;
+        }
+        +.agreement-text-group {
+            margin-top: 0.4rem;
+        }
+        &.space {
+            padding-bottom: 1rem;
+        }
+    }
+    .agreement-caption {
+        display: flex;
+        font-size: 1.45rem;
+        color: $text-gray2;
+        word-break: keep-all;
+        + .agreement-caption {
+            margin-top: 1.3rem;
+        }
+        .caption-icon {
+            display: block;
+            flex-shrink: 0;
+            padding-right: 0.4rem;
+            font-size: 1.45rem;
+            color: $text-gray2;
+        }
+    }
+
+    // header, body 
+    .agreement-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding-bottom: 1.2rem;
+        &-left {
+            display: flex;
+            align-items: center;
+        }
+        &-right {
+            display: flex;
+            margin-left: auto;
+        }
+    }
+    .agreement-body {
+        &-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 1.2rem;
+        }
+        +.agreement-body {
+            padding-top: 1.2rem;
+        }
+
+        &.flex-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            &.col-2 {
+                .body-item {
+                    width: 50%;
+                    +.body-item {
+                        padding-left: 1rem;
+                    }
+                }
+            }
+        }
+    }
+
+    // check
+    .agreement-check-area {
+        padding-bottom: 0.8rem;
+        .agreement-check-all {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            +.agreement-check-con {
+                padding-top: 2rem;
+            }
+        }
+        .agreement-check-con {
+            li {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                +li {
+                    padding-top: 1.2rem;
+                }
+            }
+        }
+
+        .link-text {
+            font-weight: $font-bold;
+            font-size: 1.45rem;
+            line-height: 1.6rem;
+            color: $black;
+            text-decoration: underline;
+        }
+        .sort {
+            padding-right: 0.4rem;
+            color: $text-gray2;
+            &.required {
+                color: $point;
+            }
+        }
+        +.agreement-text, +.agreement-caption {
+            margin-top: 0.4rem;
+        }
+    }
+
+    // 고객서명란
+    .customer-sign {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        height: 5.7rem;
+        border-radius: .3rem;
+        background-color: $bg-select;
+        .sign-info {
+            &-group {
+                display: flex;
+                margin-left: 2rem;
+            }
+            &-date {
+                font-size: 1.45rem;
+                line-height: 1.3rem;
+                color: $line-gray1;
+                + .sign-info-name {
+                    margin-left: 2.4rem;
+                }
+            }
+            &-name {
+                font-size: 1.45rem;
+                line-height: 1.3rem;
+                .sign-title {
+                    color: $text-gray2;
+                    + .sign-name {
+                        margin-left: .8rem;
+                    }
+                }
+                .sign-name {
+                    font-weight: $font-bold;
+                    color: $black;
+                }
+            }
+        }
+        .sign-img {
+            &-area {
+                flex: 0 0 auto;
+                margin-left: auto;
+                margin-right: .6rem;
+                width: 18.1rem;
+                height: 4.5rem;
+                border-radius: .3rem;
+                background: $sign-gray;
+            }
+            &-con {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                padding: 0.9rem;
+                border-radius: .3rem;
+                overflow: hidden;
+                box-sizing: border-box;
+                img {
+                    width: auto;
+                    height: 100%;
+                }
+                &:empty {
+                    &::before {
+                        content: "서명하기";
+                        font-size: 1.45rem;
+                        color: $text-gray2;
+                    }
+                }
+            }
+        }
+    }
+
+    // table layout
+    .agreement-table {
+        table {
+            width: 100%;
+            thead {
+                tr {
+                    height: 4rem;
+                    box-sizing: border-box;
+                    background-color: $table-bg;
+                    th {
+                        position: relative;
+                        font-size: 1.45rem;
+                        font-weight: $font-regular;
+                        color: rgba(0, 0, 0, 0.6);
+                        border: solid .1rem $table-line1;
+                        &:last-child::after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            tbody {
+                tr {
+                    box-sizing: border-box;
+                    td {
+                        position: relative;
+                        padding: 1.2rem 1rem 1.2rem 1.2rem;
+                        font-size: 1rem;
+                        font-weight: $font-regular;
+                        color: $text-gray1;
+                        border: 0.1rem solid $table-line2;
+                        .table-caption {
+                            position:relative;
+                            padding-left: 1rem;
+                            font-size: 1rem;
+                            color: $text-gray1;
+                            &::before {
+                                content: "*";
+                                display: block;
+                                position: absolute;
+                                top: 0.2rem;
+                                left: 0;
+                                font-size: 1rem;
+                                color: $text-gray1;
+                            }
+                        }
+                    }
+                }
+                tr:first-child {
+                    td:last-child {
+                        &::after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            + .agreement-caption {
+                margin-top: 1.3rem;
+            }
+        }
+    }
+
+    // button
+    .agreement-btn {
+        margin-top: 1.2rem;
+        display: flex;
+        flex: 0 0 auto;
+        button, .btn-group {
+            margin-left: auto;
+        }
+    }
+
+    // agreement box
+    .agreement-text + .agreement-box {
+        margin-top: 1.2rem;
+    }
+    .agreement-box {
+        height: auto;
+        padding: 1.2rem;
+        border: .1rem solid $table-line2;
+        
+        .box {
+            &-title {
+                font-size: 1.2rem;
+                font-weight: $font-bold;
+                color: $black;
+                + .box-con-head {
+                    margin-top: .8rem;
+                }
+            }
+            &-con {
+                &-head {
+                    .box-text {
+                        display: block;
+                        font-size: 1.2rem;
+                        font-weight: $font-regular;
+                        color: $text-gray1;
+                        + .box-text {
+                            padding-top: .8rem;
+                        }
+                    }
+                    + .box-con-body {
+                        margin-top: .8rem;
+                    }
+                }
+                &-body {
+                    .box-text {
+                        display: block;
+                        font-size: 1.2rem;
+                        font-weight: $font-regular;
+                        color: $text-gray1;
+                        + .box-text {
+                            padding-top: .4rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.grid-col-2 {
+            display: flex;
+            height: auto;
+            padding: 1.2rem;
+            border: .1rem solid $table-line2;
+            .box-con {
+                &-left {
+                    width: 50%;
+                    padding-right: .6rem;
+                }
+                &-right {
+                    width: 50%;
+                    padding-left: .6rem;
+                }
+            }
+            .box-con-left, .box-con-right {
+                .box-textarea {
+                    + .box-textarea {
+                        padding-top: 1.6rem;
+                    }
+                    .box-title {
+                        + .box-text-group {
+                            padding-top: .8rem;
+                        }
+                        sup {
+                            padding-left: .2rem;
+                            font-size: .9rem;
+                            font-weight: $font-bold;
+                            color: $black;
+                        }
+                    }
+                    .box-text-group {
+                        .box-text {
+                            + .box-text {
+                                padding-top: .4rem;
+                            }
+                            display: block;
+                            font-size: 1.2rem;
+                            font-weight: $font-regular;
+                            color: $text-gray1;
+                            sup {
+                                padding-left: .2rem;
+                                font-size: .9rem;
+                                font-weight: $font-bold;
+                                color: $black;
+                            }
+                        }
+                    }
+                    .box-sup-group {
+                        .sup-text {
+                            display: flex;
+                            font-size: .9rem;
+                            font-weight: $font-regular;
+                            color: $black;
+                            .text-num {
+                                display: block;
+                                flex-shrink: 0;
+                                padding-right: .8rem;
+                                font-weight: $font-bold;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

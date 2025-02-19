@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">-->
+        <meta name="viewport" content="user-scalable=no,width=375">
+        <title>My DMS STG</title>
+     <!-- css -->
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://m.bmwdmsi.co.kr/resources/css/libs/slick.css">
+        <!-- js -->
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/jquery.fileDownload.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/mob/js/pub-ui.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/crm/crm.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/sal/sal.common.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/slick.min.js"></script>
+        <script type="text/javascript" src="https://m.bmwdmsi.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+        <script src="../../resources/mob/js/jquery-ui.min.js"></script>
+        <script>
+            var _contextPath = "";
+            $(function() {
+                $("button.btn.btn-util.back").not(".btn-close-gnb").on("click", function() {
+                    // window.history.back();
+                    window.location.replace("/selectHome.do");
+                });
+            });
+        </script>
+    </head>
+
+
+<body>
+    <!--MO07030100-->
+    <div id="wrap">
+        <header id="header" class="header">
+            <div class="header-left">
+                <button class="btn btn-util back">
+                    <span class="sr-only">뒤로가기</span>
+                </button>
+            </div>
+            <h1 class="header-title">시승신청</h1>
+            <div class="header-right">
+                <button class="btn btn-util menu">
+                    <span class="sr-only">메뉴</span>
+                </button>
+            </div>
+        </header>
+        <div id="content" class="bg scroll-hidden">
+            <div class="cont-body mo-body">
+                <div class="info-wrap">
+                    <div class="user-info-area info-content">
+                        <div class="step-nav">
+                            <ul class="col04">
+                                <li>시승차량선택</li>
+                                <li>스케쥴선택</li>
+                                <li>고객정보입력</li>
+                                <li class="active">신청상세내용</li>
+                            </ul>
+                        </div>
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <p class="title">시승신청상세내용</p>
+                            </div>
+                            <ul class="accordion" id="accordion1">
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title title-flex">
+                                            <div class="title-left">
+                                                <p class="title">시승신청현황</p>
+                                            </div>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                        <div class="user-info-detail">
+                                            <!-- slide image -->
+                                            <div class="slide-area">
+                                                <!-- data 있을 때 -->
+                                                <!-- slick -->
+                                                <div class="slick-area slick-evt">
+                                                    <div class="slick-slide">
+                                                        <img src="../images/temp/@car_info_img.png" alt="">
+                                                    </div>
+                                                    <div class="slick-slide">
+                                                        <img src="../images/temp/@car_info_img.png" alt="">
+                                                    </div>
+                                                    <div class="slick-slide">
+                                                        <img src="../images/temp/@car_info_img.png" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="slick-area-nav">
+                                                    <button class="slick-area-prev"><span
+                                                            class="sr-only">이전</span></button>
+                                                    <div class="slick-area-nav-dots"></div>
+                                                    <button class="slick-area-next"><span
+                                                            class="sr-only">다음</span></button>
+                                                </div>
+                                                <!-- // slick -->
+                                                <!-- // data 있을 때 -->
+                                                <!-- nodata 일 때 -->
+                                                <!-- <div class="nodata">
+                                                            <p class="nodata-text">차량 선택이 필요합니다.</p>
+                                                        </div> -->
+                                                <!-- // nodata 일 때 -->
+                                            </div>
+                                            <!--// slide image -->
+                                            <div class="car-title-area">
+                                                <p class="title">BMW 330i M Spt Shadow LCI</p>
+                                                <div class="label-group">
+                                                    <span class="label-tag label-text3 color3">3 Series</span>
+                                                    <span class="label-tag label-text3 color3">330i</span>
+                                                    <span class="label-tag label-text3 color3">2020</span>
+                                                </div>
+                                            </div>
+                                            <div class="info-dl">
+                                                <dl class="info-dl-item">
+                                                    <dt>외장색</dt>
+                                                    <dd>(C1M) Phytonic</dd>
+                                                </dl>
+                                                <dl class="info-dl-item">
+                                                    <dt>내장색</dt>
+                                                    <dd>(LCMY) Leather</dd>
+                                                </dl>
+                                                <dl class="info-dl-item">
+                                                    <dt>차대번호</dt>
+                                                    <dd>123456789</dd>
+                                                </dl>
+                                                <dl class="info-dl-item">
+                                                    <dt>프로모션</dt>
+                                                    <dd>로열티 / 10,000,000</dd>
+                                                </dl>
+                                                <dl class="info-dl-item">
+                                                    <dt>Individual</dt>
+                                                    <dd>Y</dd>
+                                                </dl>
+                                                <dl class="info-dl-item">
+                                                    <dt>권장소비자가</dt>
+                                                    <dd>65,000,000</dd>
+                                                </dl>
+                                                <dl class="info-dl-item">
+                                                    <dt>프로모션</dt>
+                                                    <dd>10,000,000</dd>
+                                                </dl>
+                                                <dl class="info-dl-item bold">
+                                                    <dt>판매가격</dt>
+                                                    <dd>55,000,000</dd>
+                                                </dl>
+                                            </div>
+                                            <p class="info-caption text-right" style="display:none;">
+                                                *상기 이미지는 대표 이미지로 실제 차량과 다를 수 있습니다.
+                                            </p>
+                                        </div><!--user-info-detail-->
+                                    </div>
+                                </li>
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title title-flex">
+                                            <div class="title-left">
+                                                <p class="title">시승동의서작성</p>
+                                            </div>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                        <div class="info-dl">
+                                            <dl class="info-dl-item">
+                                                <dt>담당자</dt>
+                                                <dd id="">김규리 SC</dd>
+                                            </dl>
+                                            <dl class="info-dl-item">
+                                                <dt>작성일</dt>
+                                                <dd id="">2024년 1월 1일 </dd>
+                                            </dl>
+                                            <dl class="info-dl-item">
+                                                <dt>성명</dt>
+                                                <dd id="">김은지</dd>
+                                            </dl>
+                                            <form class="form-type">
+                                                <ul class="agreement-check-con bt1">
+                                                    <li>
+                                                        <div class="check-con-left">
+                                                            <input type="checkbox" id="checkboxBtn1" class="k-checkbox">
+                                                            <label class="k-checkbox-label"
+                                                                for="checkboxBtn1">차량시승동의서</label>
+                                                        </div>
+                                                        <div class="check-con-right">
+                                                            <!-- 22.01.13 수정 : link-arr 을 btn-sub 로 변경 -->
+                                                            <button type="button" class="btn btn-txt"
+                                                                data-role="button"><span
+                                                                    class="km-text">보기</span></button>
+                                                            <!-- // 22.01.13 수정 -->
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <div class="form-group">
+                                                    <div class="form-item">
+                                                        <label class="form-label">운전면허증 확인 여부</label>
+                                                        <div class="form-item-inner">
+                                                            <div class="form-upload-area box">
+                                                                <input type="text" id="uploadInput" class="form-upload-text" value="" placeholder="파일을 첨부하세요" disabled>
+                                                                <label class=form-upload-label>
+                                                                    <input class="form-upload" name="files" id="files" type="file" aria-label="files" />
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!--//form-group-->
+                                                <div class="customer-sign">
+                                                    <a href="javascript:;" class="sign-area">
+                                                        <div class="sign-img-con">
+                                                            <img src="/resources/images/temp/@sign.png" alt="">
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- //info-content -->
+                </div>
+            </div>
+        </div>
+        <footer id="footer" class="footer">
+            <div class="footer-btn">
+                <button type="button" class="btn btn-primary">승인요청</button>
+            </div>
+        </footer>
+    </div>
+    <script>
+        // 파일업로드
+        $("#files").getKendoUpload();
+        var fileTarget = $('.form-upload-area .form-upload');
+        fileTarget.on('change', function () {
+            if (window.FileReader) {
+                var filename = $(this)[0].files[0].name;
+            } else {
+                var filename = $(this).val().split('/').pop().split('\\').pop();
+            }
+            $(this).parent('.form-upload-label').siblings('.form-upload-text').val(filename);
+            $(this).parent('.form-upload-label').addClass('up');
+        });
+        $('.uploadInput').on('click', function () {
+            $('.form-upload').click();
+        });
+
+        var acc1 = document.querySelector("#accordion1");
+        accordionEvent(acc1);
+        var groupedData3 = [
+            {
+                title: "main title",
+                txt: "sub title",
+                stxt: "text",
+                next: "NEXT SVC",
+                date: "0000.00.00",
+            },
+            {
+                title: "",
+                txt: "sub title",
+                stxt: "text",
+                next: "",
+                date: "",
+            },
+            {
+                title: "main title",
+                txt: "",
+                stxt: "",
+                next: "",
+                date: "",
+            },
+        ];
+        $(document).ready(function () {
+
+            // slide - slick 
+            $('.slick-evt').slick({
+                dots: true,
+                appendDots: $('.slick-area-nav-dots'),
+                infinite: false,
+                customPaging: function (slick, index) {
+                    return '<span class="slick-dots-num">' + (index + 1) + '</span>';
+                },
+                prevArrow: $('.slick-area-prev'),
+                nextArrow: $('.slick-area-next')
+            });
+
+
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

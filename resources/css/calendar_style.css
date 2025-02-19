@@ -1,0 +1,419 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* background-color: #F0F0F0; */
+}
+
+a {
+	text-decoration: none;
+	color: #327CCB;
+}
+
+section {
+	display: block;
+}
+
+header {
+	display: block;
+	height: 50px;
+	width: 100%;
+	background: #E3E3E3;
+	text-align: center;
+	color: #999999;
+	font-size: 26px;
+	padding-top: 15px;
+	border-bottom: 1px dashed #999;
+	letter-spacing: 2px;
+}
+
+/* ----------- */
+/* HOURS STYLE */
+/* ----------- */
+
+#hoursList {
+    float: left;
+    color: #666;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    
+    border-spacing: 0;
+}
+
+#hoursList tr td {
+    vertical-align: top;
+}
+
+/* ------------ */
+/* LIMITS STYLE */
+/* ------------ */
+
+/* Slider container */
+#limitsChoice {
+    float: left;
+}
+
+#limitsChoiceHorizontal {
+    float: left;
+}
+
+.ui-slider { position: relative; text-align: left; }
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; outline: none;}
+.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
+
+.ui-slider-vertical { width: .8em; }
+.ui-slider-vertical .ui-slider-handle { left: -.3em; margin-left: 0; margin-bottom: -.6em; }
+.ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
+.ui-slider-vertical .ui-slider-range-min { bottom: 0; }
+.ui-slider-vertical .ui-slider-range-max { top: 0; }
+
+.ui-slider-horizontal { height: .8em; }
+.ui-slider-horizontal .ui-slider-handle { top: -.6em; margin-top: 0; margin-right: -.6em; }
+.ui-slider-horizontal .ui-slider-range { top: 0; height: 100%; }
+.ui-slider-horizontal .ui-slider-range-min { left: 0; }
+.ui-slider-horizontal .ui-slider-range-max { right: 0; }
+
+/* Slider */
+.ui-widget-content {
+    width: 2px;
+    background: #666;
+    margin-left: 10px;
+}
+
+#limitsChoiceHorizontal.ui-widget-content {
+    height: 2px;
+    background: #666;
+}
+
+/* Line between the two slider buttons */
+.ui-widget-header {
+    border: 1px solid #AAA;
+    background: #569DE8;
+}
+
+/* Slider buttons */
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid #D3D3D3;
+    background: #E6E6E6;
+    font-weight: normal;
+    color: #555555;
+    margin-left: -4px;
+}
+
+/* Slider buttons corner */
+.ui-corner-all {
+    border-radius: 10px;
+}
+
+/* --------- */
+/* TAB STYLE */
+/* --------- */
+
+#nav {
+	width: 63px;
+	height: 30px;
+	margin-bottom: 10px;
+}
+
+#nav_previous {
+	float: left;
+	width: 28px;
+	height: 28px;
+	line-height: 28px;
+	text-align: center;
+    background: #F3F3F3;
+    border: 1px solid #DADADA;
+    color: #327CCB;
+}
+
+#nav_next {
+	float: right;
+	width: 28px;
+	height: 28px;
+	line-height: 28px;
+	text-align: center;
+	background: #F3F3F3;
+    border: 1px solid #DADADA;
+    color: #327CCB;
+}
+
+#nav_previous:hover, #nav_next:hover {
+    background: #E8E8E8;
+	border: 1px solid #AAA;
+}
+
+#nav_previous:active, #nav_next:active {
+    background: #D8D8D8;
+	border: 1px solid #AAA;
+}
+
+#agenda {
+    float: left;
+    border-spacing: 0px;
+	color: #666;
+	background: #E5E5E5;
+	border: 1px solid #CCC;
+	margin-bottom: 2px; /* Bugfix */
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+	-moz-box-shadow: 0px 1px 2px #D0D0D0;
+	-webkit-box-shadow: 0px 1px 2px #D0D0D0;
+	box-shadow: 0px 1px 2px #D0D0D0;
+}
+
+#agenda th {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+#agenda tr td div {
+    float: left;
+}
+
+.hour {
+    display: block;
+    
+    background: #F0F0F0;
+    border-top: 1px solid #CCC;
+}
+
+.hourZebra {
+    /*background: #ECECEC;*/
+    border-top: 1px dotted #CCC;
+}
+
+.hourSelected {
+    position: absolute;
+    background: #327CCB;
+    border-top: 1px solid #327CCB;
+}
+
+#agenda tr td div[class~="evtName"] {
+    float: left;
+    border-left: 0px;
+}
+
+.evtName {
+    text-align: center;
+    color: white;
+	font-family: Arial, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+/* Draggable */
+#agenda tr td div[class~="ui-draggable"] {
+    border-left: 0px;
+}
+
+.ui-draggable-dragging {
+    opacity: 0.5;
+	z-index: 100;
+}
+
+/* Selectable */
+#agenda tbody span.ui-selecting {
+    opacity: 0.5;
+    background: #569DE8;
+    border-top: 1px solid #569DE8;
+    margin-left: 1px;
+}
+
+/* Resizable */
+#agenda tr td div[class~="ui-resizable-s"] {
+    position: absolute;
+    
+    height: 2px;
+    bottom: 0px;
+    border: none;
+}
+
+#agenda tr td div[class~="ui-resizable-s"]:hover {
+    cursor: s-resize;
+}
+
+/* ----------- */
+/* MASKS STYLE */
+/* ----------- */
+
+#topMask {
+    position: absolute;
+    
+    background: #DDD;
+    opacity: 0.6;
+    
+    z-index: 10;
+}
+
+#bottomMask {
+    position: absolute;
+    
+    background: #DDD;
+    opacity: 0.6;
+    
+    z-index: 10;
+}
+
+#leftMask {
+    position: absolute;
+    
+    width: 0px;
+    
+    background: #DDD;
+    opacity: 0.6;
+    
+    z-index: 10;
+}
+
+#rightMask {
+    position: absolute;
+    
+    width: 0px;
+    
+    background: #DDD;
+    opacity: 0.6;
+    
+    z-index: 10;
+}
+
+/* --------------------- */
+/* EVENT PROPERTIES FORM */
+/* --------------------- */
+
+input.field, textarea.field {
+    width: 300px;
+    padding: 3px;
+    margin: 2px auto 20px;
+    border: 1px solid #DDD;
+}
+
+input.error {
+    border: 1px solid red;
+}
+
+input.validate {
+    width: 150px;
+    height: 25px;
+    font-size: 12px;
+    background: #EEE;
+    border: 1px solid #DDD;
+    color: #327CCB;
+}
+
+input.validate:hover {
+    background: #DDD;
+}
+
+input.validate:active {
+    border: 1px solid #BBB;
+    background: #CCC;
+}
+
+#sb-container input[disabled].validate {
+    background: #CCC;
+    border: none;
+    color: #777;
+}
+
+/* ----------------- */
+/* MONTHS MANAGEMENT */
+/* ----------------- */
+
+#miniMonthCalendarContainer {
+	margin: 0px 0px 30px 72px;
+	font-family: Arial;
+	font-size: 11px;
+}
+
+#monthManagement {
+	margin: 0px 0px 10px 2px;
+}
+
+#monthManagement #currentMonth {
+	display: inline-block;
+	width: 120px;
+	height: 24px;
+	line-height: 24px;
+	vertical-align: middle;
+	text-align: center;
+	background: #F3F3F3;
+	border: 1px solid #DADADA;
+	color: #333;
+}
+
+#monthManagement input {
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	vertical-align: middle;
+	text-align: center;
+	background: #F3F3F3;
+	border: 1px solid #DADADA;
+	color: #327CCB;
+}
+
+#monthManagement input:hover {
+	background: #E8E8E8;
+	border: 1px solid #AAA;
+}
+
+#monthManagement input:active {
+	background: #D8D8D8;
+	border: 1px solid #AAA;
+}
+
+#miniMonthCalendar td {
+	padding: 3px 3px 3px 2px;
+	text-align: center;
+	background: transparent;
+	border: none;
+	color: #fff;
+	cursor: pointer;
+	
+}
+
+#miniMonthCalendar tr:first-child td {
+	color: #44495f;
+	cursor: default;
+	font-weight:bold;
+	padding: 3px 3px 3px 2px;
+}
+
+#miniMonthCalendar td.isEvent {
+	background: #4F9DF0;
+	color: white;
+}
+
+#miniMonthCalendar td.today {
+	background: red;
+	color: white;
+}
+
+#miniMonthCalendar td.clickDay {
+	background: orange;
+	color: white;
+}
+
+/* 예약접수 */	
+.rnb{width:auto;height:auto;text-align:left;vertical-align:top;}
+.rnb .sales_calendar{position:relative;top:0px;left:0px;width:100%;height:43px;background:#66b9d7;margin-bottom:10px;border-radius:10px;vertical-align:middle;line-height:0px;}
+.rnb .sales_calendar .cal_cont{position:relative;width:860px;height:43px;overflow:hidden;clear:both;margin:0 auto;}
+.rnb .sales_calendar .cal_cont_fl{float:left;position:relative;top:0px;left:0px;width:160px;height:43px;vertical-align:middle;line-height:40px;}
+.rnb .sales_calendar .cal_cont_fl ul li{display:inline;}
+.rnb .sales_calendar .cal_cont_fl ul li em{color:#fff;font-weight:bold;margin-right:2px;line-height:18px;}
+.rnb .sales_calendar .cal_cont_fr{float:right;position:relative;top:0px;right:0px;width:700px;height:43px;vertical-align:middle;background:url(../img/line.png);background-repeat:repeat-x;}
+.rnb .sales_calendar .cal_cont_fr ul li{float:left;}
+.rnb .sales_calendar .cal_cont_fr ul li.cal_btn{width:7px;padding-top:9px;}
+.rnb .sales_calendar .cal_cont_fr ul li.cal_date{width:686px;}
+.rnb .sales_calendar .cal_cont_fr ul li.cal_date .cal_section{width:100%;height:30px;line-height:12px;position:relative;margin-top:3px;text-align:center;}
+.rnb .sales_calendar .cal_cont_fr ul li.cal_date .cal_section div.week{position:relative;width:100%;height:15px;}
+.rnb .sales_calendar .cal_cont_fr ul li.cal_date .cal_section div.week dl dd{width:22px !important;display:inline;color:#444a62;text-align:center !important;}
+.rnb .sales_calendar .cal_cont_fr ul li.cal_date .cal_section div.day{position:relative;width:100%;height:15px;}
+.rnb .sales_calendar .cal_cont_fr ul li.cal_date .cal_section div.day dl dd{width:22px !important;display:inline;color:#fff;text-align:center !important;}
+.rnb .graph{position:top:0px;left:0px;margin-bottom:10px;}

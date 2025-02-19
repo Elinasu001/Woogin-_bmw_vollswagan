@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wdms.dms.mob.sal.esti.service.dao.NextEstimateMobDAO">
+
+<!-- 견적서현황 화면 검색조건 -->
+<sql id="selectEstimateSearch">
+	<if test='sDlrCd != null and sDlrCd != ""'>
+		AND T1.DLR_CD = #{sDlrCd}
+	</if>
+	<if test='sEstTp != null and sEstTp != ""'>
+		AND T1.EST_TP = #{sEstTp}
+	</if>
+	<if test='sEstNo != null and sEstNo != ""'>
+		AND T1.EST_NO = #{sEstNo}
+	</if>
+	<if test='sBrandCd != null and sBrandCd != ""'>
+		AND T1.BRAND_CD = #{sBrandCd}
+	</if>
+	<if test='sModelCd != null and sModelCd != ""'>
+		AND T1.MODEL_CD = #{sModelCd}
+	</if>
+	<if test='sSeries1Cd != null and sSeries1Cd != ""'>
+		AND T1.SERIES_CD = #{sSeries1Cd}
+	</if>
+	<if test='sPkgGrpCd != null and sPkgGrpCd != ""'>
+		AND T1.PKG_GRP_CD = #{sPkgGrpCd}
+	</if>
+	<if test='sCustNm != null and sCustNm != ""'>
+		AND T1.CUST_NM = #{sCustNm}
+	</if>
+	<if test='sCustNo != null and sCustNo != ""'>
+		AND T1.CUST_NO = #{sCustNo}
+	</if>
+	<if test='sScId != null and sScId != ""'>
+		AND T1.SC_ID = #{sScId}
+	</if>
+	<if test='sEstDtFrom != null'>
+		AND T1.EST_DT <![CDATA[ >=  ]]> #{sEstDtFrom}
+	</if>
+	<if test='sEstDtTo != null'>
+		AND T1.EST_DT <![CDATA[ <= ]]> #{sEstDtTo}
+	</if>
+</sql>
+
+	<!-- 견적서 리스트(PC) -->
+	<select id="selectEstimateList" parameterType="NextEstimateSearchVO" resultType="NextEstimateVO">
+	/* [ com.wdms.dms.mob.sal.esti.service.dao.NextEstimateMobDAO.selectEstimateList ] */
+	<include refid="common.pagingPre" />
+		SELECT
+			T1.DLR_CD				/* 딜러코드 */
+			,T1.BIZ_AREA_CD				/* 사업소코드 */
+			,T1.BRCH_CD				/* 대리점코드 */
+			,T1.EST_NO				/* 견적번호 */
+			,T1.EST_DT				/* 견적일자 */
+			,T1.SALE_OPTY_ID				/* 판매기회ID */
+			,T1.SC_ID				/* 영업담당자ID */
+			,T1.DIVI_CD				/* 사업부코드 */
+			,T1.DEPT_CD				/* 조직코드 */
+			,T1.CUST_NO				/* 고객 번호 */
+			,T1.CUST_NM				/* 고객명 */
+			,T1.EST_TP				/* 견적유형 (SAL025) */
+			,T1.BRAND_CD				/* 브랜드코드 */
+			,T1.SERIES_CD				/* 시리즈코드 */
+			,T1.MODEL_CD				/* 모델코드 */
+			,T1.MODEL_YEAR				/* 모델년도 */
+			,T1.PKG_GRP_CD				/* 패키지그룹코드 */
+			,T1.EX_COLOR_CD				/* 외장색상코드 */
+			,T1.INT_COLOR_CD				/* 내장색상코드 */
+			,T1.DPM				/* 배기량 */
+			,T1.REMARK				/* 비고 */
+			,T1.PRC_EDIT_YN				/* 가격편집여부 */
+			,T1.RETL_PRC				/* 리테일가격 */
+			,T1.PRMT_AMT				/* 프로모션금액 */
+			,T1.PRMT_TP				/* 프로모션유형( SAL022)-사용안함 */
+			,T1.SPCL_PRMT_AMT				/* 특별프로모션금액(사용안함) */
+			,T1.AQ_TAX_AMT				/* 취득세 */
+			,T1.REG_AREA_CD				/* 등록지역코드 (SAL030) */
+			,T1.BOND_TP				/* 공채유형 (SAL023) */
+			,T1.BOND_DC_RATE				/* 공채할인율 */
+			,T1.BOND_AMT				/* 공채금액 */
+			,T1.CONS_AMT				/* 탁송금액 */
+			,T1.REG_COST				/* 등록비용 */
+			,T1.OTHR_REMARK				/* 기타비고 (사용안함) */
+			,T1.TOT_AMT				/* 총금액 */
+			,T1.CONT_AMT				/* 계약금액 */
+			,T1.RMN_AMT				/* 잔여금액 */
+			,T1.DEL_YN				/* 삭제여부 */
+			,T1.REG_USR_ID				/* 등록자ID */
+			,T1.REG_DT				/* 등록일자 */
+			,T1.UPDT_USR_ID				/* 수정자ID */
+			,T1.UPDT_DT				/* 수정일자 */
+			,T1.NCAR_DSTIN_CD				/* 신차량구분코드 (SAL013) */
+			,T2.HP_NO 				/* 휴대전화 */
+			,T3.CORP_SHOT_CD 			/* 딜러숏코드 */
+			,T4.MODEL_DISP_NM 			/* 모델명 */
+		FROM
+			SAL_ESTM T1
+		INNER JOIN CRM_CUST T2
+			ON T1.DLR_CD = T2.DLR_CD
+			AND T1.CUST_NO = T2.CUST_NO
+		INNER JOIN CMM_CORP T3
+			ON T1.DLR_CD = T3.CORP_CD
+		INNER JOIN SAL_MODEL T4
+			ON T1.BRAND_CD = T4.BRAND_CD
+			AND T1.SERIES_CD = T4.SERIES1_CD
+			AND T1.MODEL_CD = T4.MODEL_CD
+		WHERE 1=1
+			<include refid="selectEstimateSearch" />
+			ORDER BY
+ 			<choose>
+				<when test='sort != null'>
+				<foreach item="item" index="index" collection="sort" open="" separator="," close="">
+					<choose>
+						<when test='item.field == "estNo"'>T1.EST_NO</when>
+						<when test='item.field == "estDt"'>T1.EST_DT</when>
+						<when test='item.field == "corpShotCd"'>T3.CORP_SHOT_CD</when>
+						<when test='item.field == "scId"'>T1.SC_ID</when>
+						<when test='item.field == "custNm"'>T2.CUST_NM</when>
+						<when test='item.field == "hpNo"'>T2.HP_NO </when>
+						<when test='item.field == "brandCd"'>T1.BRAND_CD</when>
+						<when test='item.field == "seriesCd"'>T1.SERIES_CD</when>
+						<when test='item.field == "modelCd"'>T1.MODEL_CD</when>
+						<when test='item.field == "modelDispNm"'>T4.MODEL_DISP_NM</when>
+						<when test='item.field == "modelYear"'>T1.MODEL_YEAR</when>
+						<when test='item.field == "estTp"'>T1.EST_TP</when>
+						<otherwise>
+							T1.EST_DT
+						</otherwise>
+					</choose>
+					${item.dir}
+			  	</foreach>
+			  	</when>
+			  	<otherwise>
+			  		T1.EST_DT DESC
+			  	</otherwise>
+			</choose>
+			<include refid="common.pagingSuf" />
+	</select>
+
+	<!-- 견적서현황 리스트 건수 조회 -->
+	<select id="selectEstimateListCnt" parameterType="NextEstimateSearchVO" resultType="long">
+	/* [ com.wdms.dms.mob.sal.esti.service.dao.NextEstimateMobDAO.selectEstimateListCnt ] */
+	SELECT COUNT(*) FROM(
+		SELECT
+			T1.DLR_CD				/* 딜러코드 */
+			,T1.BIZ_AREA_CD				/* 사업소코드 */
+			,T1.BRCH_CD				/* 대리점코드 */
+			,T1.EST_NO				/* 견적번호 */
+			,T1.EST_DT				/* 견적일자 */
+			,T1.SALE_OPTY_ID				/* 판매기회ID */
+			,T1.SC_ID				/* 영업담당자ID */
+			,T1.DIVI_CD				/* 사업부코드 */
+			,T1.DEPT_CD				/* 조직코드 */
+			,T1.CUST_NO				/* 고객 번호 */
+			,T1.CUST_NM				/* 고객명 */
+			,T1.EST_TP				/* 견적유형 (SAL025) */
+			,T1.BRAND_CD				/* 브랜드코드 */
+			,T1.SERIES_CD				/* 시리즈코드 */
+			,T1.MODEL_CD				/* 모델코드 */
+			,T1.MODEL_YEAR				/* 모델년도 */
+			,T1.PKG_GRP_CD				/* 패키지그룹코드 */
+			,T1.EX_COLOR_CD				/* 외장색상코드 */
+			,T1.INT_COLOR_CD				/* 내장색상코드 */
+			,T1.DPM				/* 배기량 */
+			,T1.REMARK				/* 비고 */
+			,T1.PRC_EDIT_YN				/* 가격편집여부 */
+			,T1.RETL_PRC				/* 리테일가격 */
+			,T1.PRMT_AMT				/* 프로모션금액 */
+			,T1.PRMT_TP				/* 프로모션유형( SAL022)-사용안함 */
+			,T1.SPCL_PRMT_AMT				/* 특별프로모션금액(사용안함) */
+			,T1.AQ_TAX_AMT				/* 취득세 */
+			,T1.REG_AREA_CD				/* 등록지역코드 (SAL030) */
+			,T1.BOND_TP				/* 공채유형 (SAL023) */
+			,T1.BOND_DC_RATE				/* 공채할인율 */
+			,T1.BOND_AMT				/* 공채금액 */
+			,T1.CONS_AMT				/* 탁송금액 */
+			,T1.REG_COST				/* 등록비용 */
+			,T1.OTHR_REMARK				/* 기타비고 (사용안함) */
+			,T1.TOT_AMT				/* 총금액 */
+			,T1.CONT_AMT				/* 계약금액 */
+			,T1.RMN_AMT				/* 잔여금액 */
+			,T1.DEL_YN				/* 삭제여부 */
+			,T1.REG_USR_ID				/* 등록자ID */
+			,T1.REG_DT				/* 등록일자 */
+			,T1.UPDT_USR_ID				/* 수정자ID */
+			,T1.UPDT_DT				/* 수정일자 */
+			,T1.NCAR_DSTIN_CD				/* 신차량구분코드 (SAL013) */
+			,T2.CUST_NM 			/* 고객명 */
+			,T2.HP_NO 				/* 휴대전화 */
+			,T3.CORP_SHOT_CD 			/* 딜러숏코드 */
+			,T4.MODEL_DISP_NM 			/* 모델명 */
+		FROM
+			SAL_ESTM T1
+		INNER JOIN CRM_CUST T2
+			ON T1.DLR_CD = T2.DLR_CD
+			AND T1.CUST_NO = T2.CUST_NO
+		INNER JOIN CMM_CORP T3
+			ON T1.DLR_CD = T3.CORP_CD
+		INNER JOIN SAL_MODEL T4
+			ON T1.BRAND_CD = T4.BRAND_CD
+			AND T1.SERIES_CD = T4.SERIES1_CD
+			AND T1.MODEL_CD = T4.MODEL_CD
+		WHERE 1=1
+			<include refid="selectEstimateSearch" />
+	)
+	</select>
+
+</mapper>

@@ -1,0 +1,646 @@
+#=== local, dev, stg, prod 공통 설정 ===
+server:
+  name : mobile
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      force: true
+    session.cookie.http-only: true
+  tomcat:
+    connection-timeout: 180000
+    additional-tld-skip-patterns: "xercesImpl.jar, xml-apis.jar, xbean.jar"
+  compression:
+    enabled: true
+    mime-types: text/css,text/javascript,application/javascript
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+spring:
+  profiles:
+    active: local  # [local, stg, prd]
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  # templates 디렉토리 사용안함
+  freemarker:
+    checkTemplateLocation: false
+  # 중복된 Bean 생성 허용
+  main:
+    allow-bean-definition-overriding: false
+  cache:
+    type: NONE
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2000MB
+      max-request-size: 2000MB
+  #hot swapping(저장시 자동 재시작)
+  devtools:
+    restart:
+      enabled: false
+  cloud:
+    circuitbreaker:
+      hystrix:
+        enabled: true
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health
+        #exclude: bean,dev
+      base-path: '/actuator'
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+feign:
+  circuitbreaker:
+    enabled: true
+
+wdms:
+  aes256Cipher:
+    secretKey: ENC(GlIkfn80xy5dkHlzbV1W/oIuy7NPYvGg4R+BSvdFIeErE5ZeNo6e85QL6BEpgc26)
+    sboSecretKey: ENC(NigqZj+/SIcNtNiQdBcHU1vdTvAir0M+mvxHyMAlDgMROLqqlKVhiib6ZnsG+ONV)
+    fileSecretKey: ENC(VDlvchP1xug4S/muYQD/rs/5i7z9LIo9qjKsYO/p1LIr6uBp/IV+nApDL6rjo+0+)
+  #tab open 갯수
+  tab:
+    maxCount: 100
+  license:
+    url: https://slime-rest.wdms.it
+    customerId: volkswagen
+    private-key: b880732453964957b5b29bb4f4cb72e9
+#ses email전용 키
+aws:
+  accessKeyId: AKIA6GBMCLUBTM72KFCA
+  SecretKey: ENC(5w4uufY61S4ETkU8bAdG2dhkyGvg82ff5JM1f2yqFI7dSmtt4dusv/0rk/0SJ3LG+YlDKTVzl2o=)
+
+fcm:
+  accessKey: ENC(8Mx4PQnBsI86HPsC+iwlD49xM4ZVe0MxfRm1Ki+OneSlV3MjQXGY9sLaS2GuMWe5O9GJa+8h4rKlV0q1dv+63yr5DJ5sXjvVG/sA0L5mNzPdu7vi4RE+pwYUSAaQRMYf5R7+9Dvd65KDZt+E+sLW1XjmKJFxSoMGhPjUPbEDOqEErS77UorPImzYgLd8YvlzJoVAPoeMGqBnA0KcRctGXSuds3TkjqfU)
+  sendUrl: https://fcm.googleapis.com/v1/projects/wdms-fac1d/messages:send
+  serviceAccount: wdms-fac1d-firebase-adminsdk-pfayv-c3573dacd7.json
+view-auth:
+  not-check:
+    url: /wdmsHealth/isOk,/cmm/sci/excelDownloadByPoi.do,/cmm/ath/otp/selectAuthPopup.do
+kakao:
+  url: https://talkapi.woongjin.com/
+wjsms:
+  url: https://wsms.woongjin.com
+
+juso:
+  api:
+    key: U01TX0FVVEgyMDIzMDMyNDEwNDUyMDExMzYyMzM=
+
+---
+#local 환경
+server:
+  port: 8081
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: C:/LOG/mob/access/
+      max-days: 30
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 3600
+    password:
+  session:
+    timeout: 3600
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: wdmsmobile:session
+  datasource:
+    hikari:
+      jdbc-url: jdbc:log4jdbc:oracle:thin:@qa-vwgk-oracle.c50imaygy8a0.ap-northeast-2.rds.amazonaws.com:15001:WDMS
+      username: ENC(qKTBJ9QxujdJ3GwddzIHWJogOSx2aexB)
+      password: ENC(SzTTfEKLb1VdplNgIreek1AdWYndiPwY)
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      maximumPoolSize: 5
+      connectionTimeout: 30000
+      maxLifetime: 300000
+      leakDetectionThreshold: 100000
+      #idleTimeout: 60000
+      #connectionTestQuery: SELECT 1 FROM DUAL
+      #minimumIdle: 20
+  security:
+    oauth2:
+      client:
+        registration:
+          ris-m2m-auth:
+            client-id: 04c2f810-82fe-4df1-95e2-7c1cefe0feee
+            client-secret: ENC(f/hqzwELUtt2ejRRsqH8oM+A9LtPukOeQSYxBAKdz5YSFt8vNDYtv6A4CzNa7IpRaPZeaXb4nyQ=)
+            scope: machine2machine
+            authorization-grant-type: client_credentials
+        provider:
+          ris-m2m-auth:
+            token-uri: https://auth-i.bmwgroup.net/auth/oauth2/realms/root/realms/machine2machine/access_token
+
+ris:
+  bmw-ris-system-id: Woongjin
+  b2d:
+    authUrl: https://auth-i.bmwgroup.com/auth
+    apiUrl: https://ris.api-uat.bmw.com/b2d
+    redirect-uri: https://www.bmwdmsi.co.kr/cmm/ath/oauth2/getRisReceivedCode.do
+    realmsPath: "/realms/root/realms/internetb2x"
+    scope: openid profile email address phone organization b2xroles bmwids b2d
+  m2m:
+    apiUrl: https://ris.api-uat.bmw.com/m2m
+
+logging:
+  file:
+    path: C:/LOG/mob
+  config: classpath:logback-wdms-mob.xml
+  statsFile:
+    path: C:/LOG/mob/stats
+
+wdms:
+  web:
+    url: http://localhost:8080
+  rest:
+    url: http://localhost:8000
+    key: ef51306214d9a6361ee1d5b452e6d2bb70dc7ebb85bf9e02c3d4747fb57d6bec
+  file:
+    upload-common-dir: C:\wdms_package\uploadFiles\volkswagen\cmm
+    upload-sales-dir: C:\wdms_package\uploadFiles\volkswagen\sal
+    upload-service-dir: C:\wdms_package\uploadFiles\volkswagen\ser
+    upload-crm-dir: C:\wdms_package\uploadFiles\volkswagen\crm
+    upload-dss-dir: C:\wdms_package\uploadFiles\volkswagen\dssfiles
+    upload-tmp-path: C:\wdms_package\uploadFiles\volkswagen\tmp
+    allowExtention: jpg,gif,png,jpeg,bmp,xls,xlsx,ppt,pptx,doc,docx,zip,rar,pdf,txt
+    subdir:
+      bbs: /bbs
+    streaming:
+      url: http://bmw.tigensoft.co.kr:8565
+      upload: "/api/bmw/vodUpload.do"
+  fca:
+    url: https://test.bmwkrapisvc.com/fca/api
+    key: 180580cafb3f2ac2066d8d8dd24dec0dacc3a77bcc6a1a0223a6b549f847c8f6ebe004727e1341438fc180dbef962de4577f8492033e4c0ca1677a16164ea34c
+  corpRegChk:
+    url: http://api.odcloud.kr/api/nts-businessman/v1
+    key: s%2BQPPvCI%2Fs3nZB0%2BcJReSkO9AHvk%2FKXOsFzD0AEDdG8MarR9MKhfzxFdL5YAy5pdfj%2FO1dNiVSUNMbT9uHz3TA%3D%3D
+  ubiReport:
+    url: http://localhost:8085/ubiReport/ubi4
+    pdf-image-dir: C:\wdms_package\uploadFiles\volkswagen\cmm\pdfImage\
+  mobile:
+    url: http://localhost:8081
+  ocr:
+    api-key: SNOCR-3ef29e4afd4141c3971a6f952b65d30c
+    engine-addr: 10.20.52.132:62975
+    ocr-file-dir: C:\wdms_package\uploadFiles\volkswagen\sal\regInfo
+  kmc:
+    web:
+      url: http://localhost:8080
+    WWWweb:
+      url: http://localhost:8080
+    mob:
+      url: http://localhost:8081
+  fileServer:
+    url: http://localhost:8083
+  froala:
+    key: SDB17hD8D7C5D3G3F3B2c1JWSDBCQJ1ZGDa1F1c1JXDAAOZWJhB3D3C10D6C3C4A4F3E3H3==
+
+kcp:
+  api:
+    targetUrl: https://spl.kcp.co.kr
+    siteCd: T0000
+    certInfo: -----BEGIN CERTIFICATE-----MIIDjDCCAnSgAwIBAgIHBy8HFY/bxDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMjAzMjMwMTUyMDFaFw0yNzAzMjIwMTUyMDFaMHsxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTEWMBQGA1UECgwNTkhOIEtDUCBDb3JwLjEXMBUGA1UECwwOUEdXRUJERVYgVGVhbS4xGTAXBgNVBAMMEDIwMjIwMzIzMTAwMDA0NjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDbimOCkzmwFkmZTIqsIOhf2ozVvvRoAxdGN8ehfHZaxYGyARPFehnUfitlABg97bAVSGdvNbMickqvCTXdUrkVOEL0FI3U6RoxTbbxo0/vXCnkVevAMZvkJWcouQ4ovf+5d2TEDO3aWJVt0wunHaify/I8Xf8bWULhnh59/09cTrYsYuRKCF0p8pfFcsmr7c5irOF5cJXpw0qoJfAf1V5toaekNzoYZ+kAwTHQiN7GsXaUlvYSBPbKUZ/JeJSmo+9BXUG1zySh/c/fDrt9tYKf/wX8M848OFtPT9lK6Yg+Cc6PHaA7CELA4i72UpS7yJjOH1UUlNoqGdF1V4UjPgvzAgMBAAGjHTAbMA4GA1UdDwEB/wQEAwIHgDAJBgNVHRMEAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQBnGdC+IjtoWZT9nizWh65A3hu7A0Wx840uCVBj2UDjMTkfrJksK7MnR2bEUHSpvJheYuQy4Swu7yZEBg0L84xPYLxZAMlSDnF40wHlHA1o1LpsJ8JpU9v8CpH2vUsKb3nSsCEjEDDuY2tq9eeISVidiqjcvgnFUNqrXwlktiiTcWMh4of5dYzuDJ3mq0uVhnNSDDp+gAMMRNYK8m1xaFSNkcO99CclidTTOBCrDFwMIDtgCif7+jZKNh4LsctFcFY1AbqTgZJOsDBH80CJnTO0GVGZ3oJfOHdC3wuFUIrxxf37f+JbHtp6xPI0WMtwYUg50b0CzR0B86ZY6H66U1+R-----END CERTIFICATE-----
+    signKey: -----BEGIN ENCRYPTED PRIVATE KEY-----MIIE9jAoBgoqhkiG9w0BDAEDMBoEFDic33XYmlc9/niuFyb34SkE1xagAgIIAASCBMhzHuCjaaHIeeKma7roM+XwoZQqyZzNXbgZSCq2rqzOPlitDPQRMEFepx/Ha/hfnMzqKgmzZ/LXD6EVsAdShOBX/+ItsAhPjz0WXcZtIuUj+4bAIgb99PVgMAJUdFXyEW0U4f1NnI1SNaR61aUy75sK/5EudPlC9n2J9eK1HuIixOIH2wuMESAw9uwiE+CFdD9EXg+wIy2C+QPi3LPpq2ITWEPnofnq7MdwJ0D4+fxVXCgxMkCFpSCaWtZzrNPxQExRdt3WW3OJACIoZewcK6FSz+paErEQGb7CAHV9X37iaRWyMH4+1BSNwcOSa18kfHvLoM0u4QTPHz5D4FC9+oC5O7RMNukB5HguBWe5fHGvrltpPhv5z0df3MPckSDbFMB/Ln9Q++BvEWZL7ueEwM3pARB2FzISZbHvY/9uKeEiPR9d+A+UedFhukxIz28+X2xnOtOmeU/8+4+y1Kiv0Ie4hZjcIBK4zm6SrPryDA0pML2tczsy2/y7rpGkPUFihb8LZCv0Oi114KW8Dy/jCZqkqASCOXI9N4zs/xyZwDa06pXXU2JnsKaZqWBIiS0K8jueBdxB94JFkvCXLvwlr7FYVkei0nniImCenW7zAGdOG3I4VYTYy/NnSPyfjmk8oOBXvt3jc0qttUlp3FaJwcF3+hKbS+glh5wwCMnhlGJQA2ehGUmPIXpS709Wv5+gCcCpXTjs4fiLQNYSYiW8Q0TXXUdyl3k30wOHX0wHhd5722OV5cl0scgSMPW4leWee1eTeptCNQ6ssQVOgLzcx2Ds67SzbpO2j7lAfe/mCXiXcaC3xfpOTtb2iItPdQMCUu6togNGB9ud6+kmEIoMQ/z4PcJkbNDmeWjGGAt+6UBxI+nJuyRzDGf8T5d3MAtLCwJllW11fSKaDAwa1tsM86K1lxoc2pv8Zg1GvksmIyd4Zqwf+jyAoJvYQEbyGxvHFagPysplHY/0YsULCIuSeYr31ok8nIzZmwl79+oyyDNHQSopMKoeZztfOZqXf2WT/4/Cu3swAjFMx+NGhpWlu9NXLltEsVWjj9cq9fK8HQwP+YAJgp06/VofnqivnlRffVIPDf1qrvb9wvute4IsFoDHUbl9LHWSj5gR0vnF2Vq7nH/V1WCSjItD34JeEdVELzNjmDm+qaz57oyq/cPYTTrvxR9kIpTlUNnwxEzJ8Ab3rpdhzViYc+zC2c3XWn0/j5Qjj5421vxINjzsemK0d0MTs0nZx5t2VzWUJOkM/DKcW5uxmwJ8Cd1/xpXfZeygVMK9HusZ1xU6AvO9GIkbAFP1pYkANrmbGs0S27XPooXgof3vdC2UsBHbgy0RiI+RaSOBFKiLTuWAraSx+fEMw5pdR2INbgfI9e9NPf3nECiKRLwceGC+AM+wgUaEAt9PbF6rwwjPD5ilcz39ceXMN5GLgpQZDHTaBJwrDB0e0E9kNDspxfJjnDoNJFWgZLq9OwCDlFgA0QjxKpHHDfn0BQ/Zcst+dRwCJjJBl8p17Fp9NY02pjj6mtFSLjJhRov1T8e7e8E5UluR/gZcwGewt/SXyEkuIq+FT2YsdseyAePREr8yBLNUYOVdM1XQYUa3bFUcAjxKxNnJk60tzwF/l4gzSDlmV0ZYuR4=-----END ENCRYPTED PRIVATE KEY-----
+    keyPw: BMWKorea123!@#
+    retUrl: http://m.bmwdmsd.co.kr/mob/cmm/pay/selectPayView.do
+  acnt:
+    #url: https://stg-spl.kcp.co.kr/gw/hub/v1 #개발
+    url: https://spl.kcp.co.kr/gw/hub/v1 #운영
+    site_cd: T0000 #테스트용. 실제 site_cd는 동적으로 DB에서 가져옴
+    kcp_cert_info: -----BEGIN CERTIFICATE-----MIIDjDCCAnSgAwIBAgIHBy8HFY/bxDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMjAzMjMwMTUyMDFaFw0yNzAzMjIwMTUyMDFaMHsxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTEWMBQGA1UECgwNTkhOIEtDUCBDb3JwLjEXMBUGA1UECwwOUEdXRUJERVYgVGVhbS4xGTAXBgNVBAMMEDIwMjIwMzIzMTAwMDA0NjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDbimOCkzmwFkmZTIqsIOhf2ozVvvRoAxdGN8ehfHZaxYGyARPFehnUfitlABg97bAVSGdvNbMickqvCTXdUrkVOEL0FI3U6RoxTbbxo0/vXCnkVevAMZvkJWcouQ4ovf+5d2TEDO3aWJVt0wunHaify/I8Xf8bWULhnh59/09cTrYsYuRKCF0p8pfFcsmr7c5irOF5cJXpw0qoJfAf1V5toaekNzoYZ+kAwTHQiN7GsXaUlvYSBPbKUZ/JeJSmo+9BXUG1zySh/c/fDrt9tYKf/wX8M848OFtPT9lK6Yg+Cc6PHaA7CELA4i72UpS7yJjOH1UUlNoqGdF1V4UjPgvzAgMBAAGjHTAbMA4GA1UdDwEB/wQEAwIHgDAJBgNVHRMEAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQBnGdC+IjtoWZT9nizWh65A3hu7A0Wx840uCVBj2UDjMTkfrJksK7MnR2bEUHSpvJheYuQy4Swu7yZEBg0L84xPYLxZAMlSDnF40wHlHA1o1LpsJ8JpU9v8CpH2vUsKb3nSsCEjEDDuY2tq9eeISVidiqjcvgnFUNqrXwlktiiTcWMh4of5dYzuDJ3mq0uVhnNSDDp+gAMMRNYK8m1xaFSNkcO99CclidTTOBCrDFwMIDtgCif7+jZKNh4LsctFcFY1AbqTgZJOsDBH80CJnTO0GVGZ3oJfOHdC3wuFUIrxxf37f+JbHtp6xPI0WMtwYUg50b0CzR0B86ZY6H66U1+R-----END CERTIFICATE----- #Test용 #-----BEGIN CERTIFICATE-----MIIDgTCCAmmgAwIBAgIHBy4lYNG7ojANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMTA2MjkwMDM0MzdaFw0yNjA2MjgwMDM0MzdaMHAxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTERMA8GA1UECgwITG9jYWxXZWIxETAPBgNVBAsMCERFVlBHV0VCMRkwFwYDVQQDDBAyMDIxMDYyOTEwMDAwMDI0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAppkVQkU4SwNTYbIUaNDVhu2w1uvG4qip0U7h9n90cLfKymIRKDiebLhLIVFctuhTmgY7tkE7yQTNkD+jXHYufQ/qj06ukwf1BtqUVru9mqa7ysU298B6l9v0Fv8h3ztTYvfHEBmpB6AoZDBChMEua7Or/L3C2vYtU/6lWLjBT1xwXVLvNN/7XpQokuWq0rnjSRThcXrDpWMbqYYUt/CL7YHosfBazAXLoN5JvTd1O9C3FPxLxwcIAI9H8SbWIQKhap7JeA/IUP1Vk4K/o3Yiytl6Aqh3U1egHfEdWNqwpaiHPuM/jsDkVzuS9FV4RCdcBEsRPnAWHz10w8CX7e7zdwIDAQABox0wGzAOBgNVHQ8BAf8EBAMCB4AwCQYDVR0TBAIwADANBgkqhkiG9w0BAQsFAAOCAQEAg9lYy+dM/8Dnz4COc+XIjEwr4FeC9ExnWaaxH6GlWjJbB94O2L26arrjT2hGl9jUzwd+BdvTGdNCpEjOz3KEq8yJhcu5mFxMskLnHNo1lg5qtydIID6eSgew3vm6d7b3O6pYd+NHdHQsuMw5S5z1m+0TbBQkb6A9RKE1md5/Yw+NymDy+c4NaKsbxepw+HtSOnma/R7TErQ/8qVioIthEpwbqyjgIoGzgOdEFsF9mfkt/5k6rR0WX8xzcro5XSB3T+oecMS54j0+nHyoS96/llRLqFDBUfWn5Cay7pJNWXCnw4jIiBsTBa3q95RVRyMEcDgPwugMXPXGBwNoMOOpuQ==-----END CERTIFICATE-----
+    pay_method: CERT:ACNT
+    mod_type: STAU
+    mod_sub_type: MDSC02
+
+interface:
+  sal:
+    url: http://localhost:8000
+    key: testkeytobemodified
+    X-API-KEY: rWAG7RbvgGpu34MBS1pkPdo2bg1dct6AA0BurlLLGmI=
+  sbo:
+    salUrl : https://b1api.bmwdms.co.kr:4337/WJS_SD_RemoteSVCHost/
+    assUrl : https://b1api.bmwdms.co.kr:4336/WJS_TR_RemoteSVCHost/
+    salPartUrl : https://b1api.bmwdms.co.kr:4331/WJS_AD_RemoteSVCHost/
+  ris:
+    url: https://ris.api-uat.bmw.com/b2d
+  vts:
+    domain: https://pilot.vts.bmw.co.kr
+    cons_key: 755f76c218b6bf7be42dadf3098e8738d349a9a3c4cb774a73f5497d36c50b3c83925ce7cd40f4f0fe60a28266d0946cbe991c97149b6b1c6324a26ab93916df
+  iws:
+    url: https://iws-dev-api.epikar.com
+    userHost: 123.456.7.890
+    userKey: abc123!@#
+  oas:
+    url: https://oas-api-dev.epikar.com
+    userHost: 52.79.203.145
+    userKey: cddcafd30c7d233c2b910cf1baec70569d038f2ce1739a1a51b9711531e6b058
+  scp:
+    url: https://primestg.bmw-plus.co.kr/api/v1DmsNext
+    secretKey: ENC(43QeLKh4GOhJZ4Nu8YQl6A344oqy1R7o9SUxG5jJ4QXinUWgAmVJIv2KgCk7QvXZx2Zc5wKXXEH3676kIitVY61eb01CVBxeHaiKjibO0Rv3ciTlPKNxr5TGt/fxjSaMzyTRdOVgxWbWw0HwTkufn3GGdKSPPPN+zb1zpxdvp0x03vYVSmcJkzLTBHsxB2Frlrn4V2ZjQdFxIQvf4HeTfZpVDT0FoB5oDDc7TZyym2snjghcuDzi0wzDF/iRVMQIws9ZFCscvHUzWbxVgd6C59JvxQjHRug9IKpE0FSREqvRv2zGVT/BVqt8GA/a2GCXmGgsw34a0imTxa1scHrWLw==)
+  dealer:
+    id: wdms
+    secret: JMIFXJm5bsqiXKTRIOH1t4n1LZnHPAoh
+  oneX :
+    url: https://avk-onex-service-test/api/WDMSService/
+
+app:
+  android:
+    version: 2.0
+    updateUrl: https://app.stg-vwgkwdms.co.kr/resources/app/dev/android/dms_next.apk
+  ios:
+    version: 2.2
+    updateUrl: itms-services://?action=download-manifest&url=https://app.stg-vwgkwdms.co.kr/resources/app/dev/apple/manifest.plist
+
+async:
+  config:
+    core-pool-size: 3
+    max-pool-size: 6
+    queue-capacity: 150
+
+---
+#stg 환경
+spring:
+  config:
+    activate:
+      on-profile: stg
+  redis:
+    host: ENC(WDR7WGsIiLwJdggljz6/yatC7knmFl3Rwn1ev60gJTuUVEj9HGqdKGfYiSmHPmGrJgvVVHpCG8CPI4Lrn/RaCvcFR97jMIvb)
+    port: 6379
+    timeout: 3600
+    password:
+  session:
+    timeout: 3600
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: wdmsmobile:session
+  datasource:
+    hikari:
+      jdbc-url: jdbc:log4jdbc:oracle:thin:@qa-vwgk-oracle.c50imaygy8a0.ap-northeast-2.rds.amazonaws.com:15001:WDMS
+      username: ENC(qKTBJ9QxujdJ3GwddzIHWJogOSx2aexB)
+      password: ENC(SzTTfEKLb1VdplNgIreek1AdWYndiPwY)
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      maximumPoolSize: 100
+      connectionTimeout: 30000
+      maxLifetime: 300000
+      leakDetectionThreshold: 100000
+      #idleTimeout: 60000
+      #connectionTestQuery: SELECT 1 FROM DUAL
+      #minimumIdle: 20
+  security:
+    oauth2:
+      client:
+        registration:
+          ris-m2m-auth:
+            client-id: 04c2f810-82fe-4df1-95e2-7c1cefe0feee
+            client-secret: ENC(f/hqzwELUtt2ejRRsqH8oM+A9LtPukOeQSYxBAKdz5YSFt8vNDYtv6A4CzNa7IpRaPZeaXb4nyQ=)
+            scope: machine2machine
+            authorization-grant-type: client_credentials
+        provider:
+          ris-m2m-auth:
+            token-uri: https://auth-i.bmwgroup.net/auth/oauth2/realms/root/realms/machine2machine/access_token
+
+ris:
+  bmw-ris-system-id: Woongjin
+  b2d:
+    authUrl: https://auth-i.bmwgroup.com/auth
+    apiUrl: https://ris.api-uat.bmw.com/b2d
+    redirect-uri: https://www.stg-vwgkwdms.co.kr/cmm/ath/oauth2/getRisReceivedCode.do
+    realmsPath: "/realms/root/realms/internetb2x"
+    scope: openid profile email address phone organization b2xroles bmwids b2d
+  m2m:
+    apiUrl: https://ris.api-uat.bmw.com/m2m
+
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
+  port: 8080
+  tomcat:
+    remoteip:
+      protocol-header: X-Forwarded-Proto
+      host-header: X-Forwarded-Header
+    accesslog:
+      enabled: true
+      directory: /wdms_log/mob/access/
+      max-days: 30
+  forward-headers-strategy: framework
+
+logging:
+  file:
+    path: /wdms_log/mob/
+  config: classpath:logback-wdms-mob.xml
+  statsFile:
+    path: /wdms_log/mob/stats
+wdms:
+  web:
+    url: https://www.stg-vwgkwdms.co.kr
+  rest:
+    url: https://rest.stg-vwgkwdms.co.kr
+    key: ef51306214d9a6361ee1d5b452e6d2bb70dc7ebb85bf9e02c3d4747fb57d6bec
+  file:
+    upload-common-dir: /wdms_upload/cmm
+    upload-sales-dir: /wdms_upload/sal
+    upload-service-dir: /wdms_upload/ser
+    upload-crm-dir: /wdms_upload/crm
+    upload-dss-dir: /wdms_upload/dssfiles
+    upload-tmp-dir: /wdms_upload/tmp
+    allowExtention: jpg,gif,png,jpeg,bmp,xls,xlsx,ppt,pptx,doc,docx,zip,rar,pdf,txt
+    subdir:
+      bbs: /bbs
+    streaming:
+      url: http://bmw.tigensoft.co.kr:8565
+      upload: "/api/bmw/vodUpload.do"
+  fca:
+    url: https://test.bmwkrapisvc.com/fca/api
+    key: 180580cafb3f2ac2066d8d8dd24dec0dacc3a77bcc6a1a0223a6b549f847c8f6ebe004727e1341438fc180dbef962de4577f8492033e4c0ca1677a16164ea34c
+  corpRegChk:
+    url: https://api.odcloud.kr/api/nts-businessman/v1
+    key: s%2BQPPvCI%2Fs3nZB0%2BcJReSkO9AHvk%2FKXOsFzD0AEDdG8MarR9MKhfzxFdL5YAy5pdfj%2FO1dNiVSUNMbT9uHz3TA%3D%3D
+  ubiReport:
+    url: https://report.stg-vwgkwdms.co.kr/ubiReport/ubi4
+    pdf-image-dir: /wdms_upload/cmm/pdfImage/
+  mobile:
+    url: https://m.bmwdmsd.co.kr
+  ocr:
+    api-key: SNOCR-3ef29e4afd4141c3971a6f952b65d30c
+    engine-addr: 10.20.52.132:62975
+    ocr-file-dir: /data/dev/regInfo
+  kmc:
+    web:
+      url: https://bmwdmsd.co.kr
+    WWWweb:
+      url: https://www.stg-vwgkwdms.co.kr
+    mob:
+      url: https://m.bmwdmsd.co.kr
+  fileServer:
+    url: https://file.stg-vwgkwdms.co.kr
+  froala:
+    key: SDB17hD8D7C5D3G3F3B2c1JWSDBCQJ1ZGDa1F1c1JXDAAOZWJhB3D3C10D6C3C4A4F3E3H3==
+
+kcp:
+  api:
+    targetUrl: https://spl.kcp.co.kr
+    siteCd: T0000
+    certInfo: -----BEGIN CERTIFICATE-----MIIDjDCCAnSgAwIBAgIHBy8HFY/bxDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMjAzMjMwMTUyMDFaFw0yNzAzMjIwMTUyMDFaMHsxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTEWMBQGA1UECgwNTkhOIEtDUCBDb3JwLjEXMBUGA1UECwwOUEdXRUJERVYgVGVhbS4xGTAXBgNVBAMMEDIwMjIwMzIzMTAwMDA0NjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDbimOCkzmwFkmZTIqsIOhf2ozVvvRoAxdGN8ehfHZaxYGyARPFehnUfitlABg97bAVSGdvNbMickqvCTXdUrkVOEL0FI3U6RoxTbbxo0/vXCnkVevAMZvkJWcouQ4ovf+5d2TEDO3aWJVt0wunHaify/I8Xf8bWULhnh59/09cTrYsYuRKCF0p8pfFcsmr7c5irOF5cJXpw0qoJfAf1V5toaekNzoYZ+kAwTHQiN7GsXaUlvYSBPbKUZ/JeJSmo+9BXUG1zySh/c/fDrt9tYKf/wX8M848OFtPT9lK6Yg+Cc6PHaA7CELA4i72UpS7yJjOH1UUlNoqGdF1V4UjPgvzAgMBAAGjHTAbMA4GA1UdDwEB/wQEAwIHgDAJBgNVHRMEAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQBnGdC+IjtoWZT9nizWh65A3hu7A0Wx840uCVBj2UDjMTkfrJksK7MnR2bEUHSpvJheYuQy4Swu7yZEBg0L84xPYLxZAMlSDnF40wHlHA1o1LpsJ8JpU9v8CpH2vUsKb3nSsCEjEDDuY2tq9eeISVidiqjcvgnFUNqrXwlktiiTcWMh4of5dYzuDJ3mq0uVhnNSDDp+gAMMRNYK8m1xaFSNkcO99CclidTTOBCrDFwMIDtgCif7+jZKNh4LsctFcFY1AbqTgZJOsDBH80CJnTO0GVGZ3oJfOHdC3wuFUIrxxf37f+JbHtp6xPI0WMtwYUg50b0CzR0B86ZY6H66U1+R-----END CERTIFICATE-----
+    signKey: -----BEGIN ENCRYPTED PRIVATE KEY-----MIIE9jAoBgoqhkiG9w0BDAEDMBoEFDic33XYmlc9/niuFyb34SkE1xagAgIIAASCBMhzHuCjaaHIeeKma7roM+XwoZQqyZzNXbgZSCq2rqzOPlitDPQRMEFepx/Ha/hfnMzqKgmzZ/LXD6EVsAdShOBX/+ItsAhPjz0WXcZtIuUj+4bAIgb99PVgMAJUdFXyEW0U4f1NnI1SNaR61aUy75sK/5EudPlC9n2J9eK1HuIixOIH2wuMESAw9uwiE+CFdD9EXg+wIy2C+QPi3LPpq2ITWEPnofnq7MdwJ0D4+fxVXCgxMkCFpSCaWtZzrNPxQExRdt3WW3OJACIoZewcK6FSz+paErEQGb7CAHV9X37iaRWyMH4+1BSNwcOSa18kfHvLoM0u4QTPHz5D4FC9+oC5O7RMNukB5HguBWe5fHGvrltpPhv5z0df3MPckSDbFMB/Ln9Q++BvEWZL7ueEwM3pARB2FzISZbHvY/9uKeEiPR9d+A+UedFhukxIz28+X2xnOtOmeU/8+4+y1Kiv0Ie4hZjcIBK4zm6SrPryDA0pML2tczsy2/y7rpGkPUFihb8LZCv0Oi114KW8Dy/jCZqkqASCOXI9N4zs/xyZwDa06pXXU2JnsKaZqWBIiS0K8jueBdxB94JFkvCXLvwlr7FYVkei0nniImCenW7zAGdOG3I4VYTYy/NnSPyfjmk8oOBXvt3jc0qttUlp3FaJwcF3+hKbS+glh5wwCMnhlGJQA2ehGUmPIXpS709Wv5+gCcCpXTjs4fiLQNYSYiW8Q0TXXUdyl3k30wOHX0wHhd5722OV5cl0scgSMPW4leWee1eTeptCNQ6ssQVOgLzcx2Ds67SzbpO2j7lAfe/mCXiXcaC3xfpOTtb2iItPdQMCUu6togNGB9ud6+kmEIoMQ/z4PcJkbNDmeWjGGAt+6UBxI+nJuyRzDGf8T5d3MAtLCwJllW11fSKaDAwa1tsM86K1lxoc2pv8Zg1GvksmIyd4Zqwf+jyAoJvYQEbyGxvHFagPysplHY/0YsULCIuSeYr31ok8nIzZmwl79+oyyDNHQSopMKoeZztfOZqXf2WT/4/Cu3swAjFMx+NGhpWlu9NXLltEsVWjj9cq9fK8HQwP+YAJgp06/VofnqivnlRffVIPDf1qrvb9wvute4IsFoDHUbl9LHWSj5gR0vnF2Vq7nH/V1WCSjItD34JeEdVELzNjmDm+qaz57oyq/cPYTTrvxR9kIpTlUNnwxEzJ8Ab3rpdhzViYc+zC2c3XWn0/j5Qjj5421vxINjzsemK0d0MTs0nZx5t2VzWUJOkM/DKcW5uxmwJ8Cd1/xpXfZeygVMK9HusZ1xU6AvO9GIkbAFP1pYkANrmbGs0S27XPooXgof3vdC2UsBHbgy0RiI+RaSOBFKiLTuWAraSx+fEMw5pdR2INbgfI9e9NPf3nECiKRLwceGC+AM+wgUaEAt9PbF6rwwjPD5ilcz39ceXMN5GLgpQZDHTaBJwrDB0e0E9kNDspxfJjnDoNJFWgZLq9OwCDlFgA0QjxKpHHDfn0BQ/Zcst+dRwCJjJBl8p17Fp9NY02pjj6mtFSLjJhRov1T8e7e8E5UluR/gZcwGewt/SXyEkuIq+FT2YsdseyAePREr8yBLNUYOVdM1XQYUa3bFUcAjxKxNnJk60tzwF/l4gzSDlmV0ZYuR4=-----END ENCRYPTED PRIVATE KEY-----
+    keyPw: BMWKorea123!@#
+    retUrl: https://m.bmwdmsd.co.kr/mob/cmm/pay/selectPayView.do
+  acnt:
+    #url: https://stg-spl.kcp.co.kr/gw/hub/v1 #개발
+    url: https://spl.kcp.co.kr/gw/hub/v1 #운영
+    site_cd: T0000 #테스트용. 실제 site_cd는 동적으로 DB에서 가져옴
+    kcp_cert_info: -----BEGIN CERTIFICATE-----MIIDjDCCAnSgAwIBAgIHBy8HFY/bxDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMjAzMjMwMTUyMDFaFw0yNzAzMjIwMTUyMDFaMHsxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTEWMBQGA1UECgwNTkhOIEtDUCBDb3JwLjEXMBUGA1UECwwOUEdXRUJERVYgVGVhbS4xGTAXBgNVBAMMEDIwMjIwMzIzMTAwMDA0NjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDbimOCkzmwFkmZTIqsIOhf2ozVvvRoAxdGN8ehfHZaxYGyARPFehnUfitlABg97bAVSGdvNbMickqvCTXdUrkVOEL0FI3U6RoxTbbxo0/vXCnkVevAMZvkJWcouQ4ovf+5d2TEDO3aWJVt0wunHaify/I8Xf8bWULhnh59/09cTrYsYuRKCF0p8pfFcsmr7c5irOF5cJXpw0qoJfAf1V5toaekNzoYZ+kAwTHQiN7GsXaUlvYSBPbKUZ/JeJSmo+9BXUG1zySh/c/fDrt9tYKf/wX8M848OFtPT9lK6Yg+Cc6PHaA7CELA4i72UpS7yJjOH1UUlNoqGdF1V4UjPgvzAgMBAAGjHTAbMA4GA1UdDwEB/wQEAwIHgDAJBgNVHRMEAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQBnGdC+IjtoWZT9nizWh65A3hu7A0Wx840uCVBj2UDjMTkfrJksK7MnR2bEUHSpvJheYuQy4Swu7yZEBg0L84xPYLxZAMlSDnF40wHlHA1o1LpsJ8JpU9v8CpH2vUsKb3nSsCEjEDDuY2tq9eeISVidiqjcvgnFUNqrXwlktiiTcWMh4of5dYzuDJ3mq0uVhnNSDDp+gAMMRNYK8m1xaFSNkcO99CclidTTOBCrDFwMIDtgCif7+jZKNh4LsctFcFY1AbqTgZJOsDBH80CJnTO0GVGZ3oJfOHdC3wuFUIrxxf37f+JbHtp6xPI0WMtwYUg50b0CzR0B86ZY6H66U1+R-----END CERTIFICATE----- #Test용 #-----BEGIN CERTIFICATE-----MIIDgTCCAmmgAwIBAgIHBy4lYNG7ojANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMTA2MjkwMDM0MzdaFw0yNjA2MjgwMDM0MzdaMHAxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTERMA8GA1UECgwITG9jYWxXZWIxETAPBgNVBAsMCERFVlBHV0VCMRkwFwYDVQQDDBAyMDIxMDYyOTEwMDAwMDI0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAppkVQkU4SwNTYbIUaNDVhu2w1uvG4qip0U7h9n90cLfKymIRKDiebLhLIVFctuhTmgY7tkE7yQTNkD+jXHYufQ/qj06ukwf1BtqUVru9mqa7ysU298B6l9v0Fv8h3ztTYvfHEBmpB6AoZDBChMEua7Or/L3C2vYtU/6lWLjBT1xwXVLvNN/7XpQokuWq0rnjSRThcXrDpWMbqYYUt/CL7YHosfBazAXLoN5JvTd1O9C3FPxLxwcIAI9H8SbWIQKhap7JeA/IUP1Vk4K/o3Yiytl6Aqh3U1egHfEdWNqwpaiHPuM/jsDkVzuS9FV4RCdcBEsRPnAWHz10w8CX7e7zdwIDAQABox0wGzAOBgNVHQ8BAf8EBAMCB4AwCQYDVR0TBAIwADANBgkqhkiG9w0BAQsFAAOCAQEAg9lYy+dM/8Dnz4COc+XIjEwr4FeC9ExnWaaxH6GlWjJbB94O2L26arrjT2hGl9jUzwd+BdvTGdNCpEjOz3KEq8yJhcu5mFxMskLnHNo1lg5qtydIID6eSgew3vm6d7b3O6pYd+NHdHQsuMw5S5z1m+0TbBQkb6A9RKE1md5/Yw+NymDy+c4NaKsbxepw+HtSOnma/R7TErQ/8qVioIthEpwbqyjgIoGzgOdEFsF9mfkt/5k6rR0WX8xzcro5XSB3T+oecMS54j0+nHyoS96/llRLqFDBUfWn5Cay7pJNWXCnw4jIiBsTBa3q95RVRyMEcDgPwugMXPXGBwNoMOOpuQ==-----END CERTIFICATE-----
+    pay_method: CERT:ACNT
+    mod_type: STAU
+    mod_sub_type: MDSC02
+
+interface:
+  sal:
+    url: http://localhost:8000
+    key: testkeytobemodified
+    X-API-KEY: rWAG7RbvgGpu34MBS1pkPdo2bg1dct6AA0BurlLLGmI=
+  sbo:
+    salUrl : https://b1api.bmwdms.co.kr:4337/WJS_SD_RemoteSVCHost/
+    assUrl : https://b1api.bmwdms.co.kr:4336/WJS_TR_RemoteSVCHost/
+    salPartUrl : https://b1api.bmwdms.co.kr:4331/WJS_AD_RemoteSVCHost/
+  ris:
+    url: https://ris.api-uat.bmw.com/b2d
+  vts:
+    domain: https://pilot.vts.bmw.co.kr
+    cons_key: 755f76c218b6bf7be42dadf3098e8738d349a9a3c4cb774a73f5497d36c50b3c83925ce7cd40f4f0fe60a28266d0946cbe991c97149b6b1c6324a26ab93916df
+  iws:
+    url: https://iws-dev-api.epikar.com
+    userHost: 123.456.7.890
+    userKey: abc123!@#
+  oas:
+    url: https://oas-api-dev.epikar.com
+    userHost: 52.79.203.145
+    userKey: cddcafd30c7d233c2b910cf1baec70569d038f2ce1739a1a51b9711531e6b058
+  scp:
+    url: https://primestg.bmw-plus.co.kr/api/v1DmsNext
+    secretKey: ENC(43QeLKh4GOhJZ4Nu8YQl6A344oqy1R7o9SUxG5jJ4QXinUWgAmVJIv2KgCk7QvXZx2Zc5wKXXEH3676kIitVY61eb01CVBxeHaiKjibO0Rv3ciTlPKNxr5TGt/fxjSaMzyTRdOVgxWbWw0HwTkufn3GGdKSPPPN+zb1zpxdvp0x03vYVSmcJkzLTBHsxB2Frlrn4V2ZjQdFxIQvf4HeTfZpVDT0FoB5oDDc7TZyym2snjghcuDzi0wzDF/iRVMQIws9ZFCscvHUzWbxVgd6C59JvxQjHRug9IKpE0FSREqvRv2zGVT/BVqt8GA/a2GCXmGgsw34a0imTxa1scHrWLw==)
+  dealer:
+    id: wdms
+    secret: JMIFXJm5bsqiXKTRIOH1t4n1LZnHPAoh
+  oneX :
+    url: https://avk-onex-service-test/api/WDMSService/
+
+app:
+  android:
+    version: 2.0
+    updateUrl: https://app.stg-vwgkwdms.co.kr/resources/app/dev/android/dms_next.apk
+  ios:
+    version: 2.2
+    updateUrl: itms-services://?action=download-manifest&url=https://app.stg-vwgkwdms.co.kr/resources/app/dev/apple/manifest.plist
+
+async:
+  config:
+    core-pool-size: 3
+    max-pool-size: 6
+    queue-capacity: 150
+---
+#prod 환경
+spring:
+  config:
+    activate:
+      on-profile: prd
+  redis:
+    host: prd-vwgk-redis-ro.3afoez.ng.0001.apn2.cache.amazonaws.com
+    port: 6379
+    timeout: 7200
+    password:
+  session:
+    timeout: 7200
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: wdmsmobile:session
+  datasource:
+    hikari:
+      jdbc-url: jdbc:oracle:thin:@prd-vwgk-oracle.c50imaygy8a0.ap-northeast-2.rds.amazonaws.com:15001:WDMS
+      username: ENC(qKTBJ9QxujdJ3GwddzIHWJogOSx2aexB)
+      password: ENC(SzTTfEKLb1VdplNgIreek1AdWYndiPwY)
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      maximumPoolSize: 100
+      connectionTimeout: 30000
+      maxLifetime: 300000
+      leakDetectionThreshold: 100000
+      #idleTimeout: 60000
+      #connectionTestQuery: SELECT 1 FROM DUAL
+      #minimumIdle: 20
+  security:
+    oauth2:
+      client:
+        registration:
+          ris-m2m-auth:
+            client-id: 1bc7ac0a-c744-4356-9129-43d50c11737b
+            client-secret: ENC(hsyTAk6vCMxmr23894VZSIdpDGBWz+UaYG6xuHfCPKMMJZncO1jW6mflA6tJBtnDBMKNrqUcR84=)
+            scope: machine2machine
+            authorization-grant-type: client_credentials
+        provider:
+          ris-m2m-auth:
+            token-uri: https://auth.bmwgroup.net/auth/oauth2/realms/root/realms/machine2machine/access_token
+
+ris:
+  bmw-ris-system-id: Woongjin
+  b2d:
+    authUrl: https://auth.bmwgroup.com/auth
+    apiUrl: https://ris.api.bmw.com/b2d
+    redirect-uri: https://www.bmwdms.co.kr/cmm/ath/oauth2/getRisReceivedCode.do
+    realmsPath: "/realms/root/realms/internetb2x"
+    scope: openid profile email address phone organization b2xroles bmwids b2d
+  m2m:
+    apiUrl: https://ris.api.bmw.com/m2m
+
+server:
+  servlet.session.cookie.secure: true
+  port: 8080
+  tomcat:
+    remoteip:
+      protocol-header: X-Forwarded-Proto
+      host-header: X-Forwarded-Header
+    accesslog:
+      enabled: true
+      directory: /wdms_log/mob/access/
+      max-days: 30
+  forward-headers-strategy: framework
+
+logging:
+  file:
+    path: /wdms_log/mob/
+  config: classpath:logback-wdms-mob.xml
+  statsFile:
+    path: /wdms_log/mob/stats
+wdms:
+  web:
+    url: https://www.vwgkwdms.co.kr
+  rest:
+    url: https://rest.vwgkwdms.co.kr
+    key: ef51306214d9a6361ee1d5b452e6d2bb70dc7ebb85bf9e02c3d4747fb57d6bec
+  file:
+    upload-common-dir: /wdms_upload/cmm
+    upload-sales-dir: /wdms_upload/sal
+    upload-service-dir: /wdms_upload/ser
+    upload-crm-dir: /wdms_upload/crm
+    upload-dss-dir: /wdms_upload/dssfiles
+    upload-tmp-dir: /wdms_upload/tmp
+    allowExtention: jpg,gif,png,jpeg,bmp,xls,xlsx,ppt,pptx,doc,docx,zip,rar,pdf,txt
+    subdir:
+      bbs: /bbs
+    streaming:
+      url: https://streaming.bmwdms.co.kr
+      upload: "/api/bmw/vodUpload.do"
+  fca:
+    url: https://www.bmwkrapisvc.com/fca/api
+    key: 180580cafb3f2ac2066d8d8dd24dec0dacc3a77bcc6a1a0223a6b549f847c8f6ebe004727e1341438fc180dbef962de4577f8492033e4c0ca1677a16164ea34c
+  corpRegChk:
+    url: https://api.odcloud.kr/api/nts-businessman/v1
+    key: s%2BQPPvCI%2Fs3nZB0%2BcJReSkO9AHvk%2FKXOsFzD0AEDdG8MarR9MKhfzxFdL5YAy5pdfj%2FO1dNiVSUNMbT9uHz3TA%3D%3D
+  ubiReport:
+    url: https://report.stg-vwgkwdms.co.kr/ubiReport/ubi4
+    pdf-image-dir: /wdms_upload/cmm/pdfImage/
+  mobile:
+    url: https://m.vwgkwdms.co.kr
+  ocr:
+    api-key: SNOCR-3ef29e4afd4141c3971a6f952b65d30c
+    engine-addr: 10.20.52.132:62975
+    ocr-file-dir: /data/prd/regInfo
+  kmc:
+    web:
+      url: https://www.vwgkwdms.co.kr
+    WWWweb:
+      url: https://www.vwgkwdms.co.kr
+    mob:
+      url: https://m.vwgkwdms.co.kr
+  fileServer:
+    url: https://file.vwgkwdms.co.kr
+  froala:
+    key: SDB17hD8D7C5D3G3F3B2c1JWSDBCQJ1ZGDa1F1c1JXDAAOZWJhB3D3C10D6C3C4A4F3E3H3==
+
+kcp:
+  api:
+    targetUrl: https://spl.kcp.co.kr
+    siteCd: T0000
+    certInfo: -----BEGIN CERTIFICATE-----MIIDjDCCAnSgAwIBAgIHBy8HFY/bxDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMjAzMjMwMTUyMDFaFw0yNzAzMjIwMTUyMDFaMHsxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTEWMBQGA1UECgwNTkhOIEtDUCBDb3JwLjEXMBUGA1UECwwOUEdXRUJERVYgVGVhbS4xGTAXBgNVBAMMEDIwMjIwMzIzMTAwMDA0NjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDbimOCkzmwFkmZTIqsIOhf2ozVvvRoAxdGN8ehfHZaxYGyARPFehnUfitlABg97bAVSGdvNbMickqvCTXdUrkVOEL0FI3U6RoxTbbxo0/vXCnkVevAMZvkJWcouQ4ovf+5d2TEDO3aWJVt0wunHaify/I8Xf8bWULhnh59/09cTrYsYuRKCF0p8pfFcsmr7c5irOF5cJXpw0qoJfAf1V5toaekNzoYZ+kAwTHQiN7GsXaUlvYSBPbKUZ/JeJSmo+9BXUG1zySh/c/fDrt9tYKf/wX8M848OFtPT9lK6Yg+Cc6PHaA7CELA4i72UpS7yJjOH1UUlNoqGdF1V4UjPgvzAgMBAAGjHTAbMA4GA1UdDwEB/wQEAwIHgDAJBgNVHRMEAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQBnGdC+IjtoWZT9nizWh65A3hu7A0Wx840uCVBj2UDjMTkfrJksK7MnR2bEUHSpvJheYuQy4Swu7yZEBg0L84xPYLxZAMlSDnF40wHlHA1o1LpsJ8JpU9v8CpH2vUsKb3nSsCEjEDDuY2tq9eeISVidiqjcvgnFUNqrXwlktiiTcWMh4of5dYzuDJ3mq0uVhnNSDDp+gAMMRNYK8m1xaFSNkcO99CclidTTOBCrDFwMIDtgCif7+jZKNh4LsctFcFY1AbqTgZJOsDBH80CJnTO0GVGZ3oJfOHdC3wuFUIrxxf37f+JbHtp6xPI0WMtwYUg50b0CzR0B86ZY6H66U1+R-----END CERTIFICATE-----
+    signKey: -----BEGIN ENCRYPTED PRIVATE KEY-----MIIE9jAoBgoqhkiG9w0BDAEDMBoEFDic33XYmlc9/niuFyb34SkE1xagAgIIAASCBMhzHuCjaaHIeeKma7roM+XwoZQqyZzNXbgZSCq2rqzOPlitDPQRMEFepx/Ha/hfnMzqKgmzZ/LXD6EVsAdShOBX/+ItsAhPjz0WXcZtIuUj+4bAIgb99PVgMAJUdFXyEW0U4f1NnI1SNaR61aUy75sK/5EudPlC9n2J9eK1HuIixOIH2wuMESAw9uwiE+CFdD9EXg+wIy2C+QPi3LPpq2ITWEPnofnq7MdwJ0D4+fxVXCgxMkCFpSCaWtZzrNPxQExRdt3WW3OJACIoZewcK6FSz+paErEQGb7CAHV9X37iaRWyMH4+1BSNwcOSa18kfHvLoM0u4QTPHz5D4FC9+oC5O7RMNukB5HguBWe5fHGvrltpPhv5z0df3MPckSDbFMB/Ln9Q++BvEWZL7ueEwM3pARB2FzISZbHvY/9uKeEiPR9d+A+UedFhukxIz28+X2xnOtOmeU/8+4+y1Kiv0Ie4hZjcIBK4zm6SrPryDA0pML2tczsy2/y7rpGkPUFihb8LZCv0Oi114KW8Dy/jCZqkqASCOXI9N4zs/xyZwDa06pXXU2JnsKaZqWBIiS0K8jueBdxB94JFkvCXLvwlr7FYVkei0nniImCenW7zAGdOG3I4VYTYy/NnSPyfjmk8oOBXvt3jc0qttUlp3FaJwcF3+hKbS+glh5wwCMnhlGJQA2ehGUmPIXpS709Wv5+gCcCpXTjs4fiLQNYSYiW8Q0TXXUdyl3k30wOHX0wHhd5722OV5cl0scgSMPW4leWee1eTeptCNQ6ssQVOgLzcx2Ds67SzbpO2j7lAfe/mCXiXcaC3xfpOTtb2iItPdQMCUu6togNGB9ud6+kmEIoMQ/z4PcJkbNDmeWjGGAt+6UBxI+nJuyRzDGf8T5d3MAtLCwJllW11fSKaDAwa1tsM86K1lxoc2pv8Zg1GvksmIyd4Zqwf+jyAoJvYQEbyGxvHFagPysplHY/0YsULCIuSeYr31ok8nIzZmwl79+oyyDNHQSopMKoeZztfOZqXf2WT/4/Cu3swAjFMx+NGhpWlu9NXLltEsVWjj9cq9fK8HQwP+YAJgp06/VofnqivnlRffVIPDf1qrvb9wvute4IsFoDHUbl9LHWSj5gR0vnF2Vq7nH/V1WCSjItD34JeEdVELzNjmDm+qaz57oyq/cPYTTrvxR9kIpTlUNnwxEzJ8Ab3rpdhzViYc+zC2c3XWn0/j5Qjj5421vxINjzsemK0d0MTs0nZx5t2VzWUJOkM/DKcW5uxmwJ8Cd1/xpXfZeygVMK9HusZ1xU6AvO9GIkbAFP1pYkANrmbGs0S27XPooXgof3vdC2UsBHbgy0RiI+RaSOBFKiLTuWAraSx+fEMw5pdR2INbgfI9e9NPf3nECiKRLwceGC+AM+wgUaEAt9PbF6rwwjPD5ilcz39ceXMN5GLgpQZDHTaBJwrDB0e0E9kNDspxfJjnDoNJFWgZLq9OwCDlFgA0QjxKpHHDfn0BQ/Zcst+dRwCJjJBl8p17Fp9NY02pjj6mtFSLjJhRov1T8e7e8E5UluR/gZcwGewt/SXyEkuIq+FT2YsdseyAePREr8yBLNUYOVdM1XQYUa3bFUcAjxKxNnJk60tzwF/l4gzSDlmV0ZYuR4=-----END ENCRYPTED PRIVATE KEY-----
+    keyPw: BMWKorea123!@#
+    retUrl: https://m.bmwdms.co.kr/mob/cmm/pay/selectPayView.do
+  acnt:
+    #url: https://stg-spl.kcp.co.kr/gw/hub/v1 #개발
+    url: https://spl.kcp.co.kr/gw/hub/v1 #운영
+    site_cd: T0000 #테스트용. 실제 site_cd는 동적으로 DB에서 가져옴
+    kcp_cert_info: -----BEGIN CERTIFICATE-----MIIDjDCCAnSgAwIBAgIHBy8HFY/bxDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMjAzMjMwMTUyMDFaFw0yNzAzMjIwMTUyMDFaMHsxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTEWMBQGA1UECgwNTkhOIEtDUCBDb3JwLjEXMBUGA1UECwwOUEdXRUJERVYgVGVhbS4xGTAXBgNVBAMMEDIwMjIwMzIzMTAwMDA0NjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDbimOCkzmwFkmZTIqsIOhf2ozVvvRoAxdGN8ehfHZaxYGyARPFehnUfitlABg97bAVSGdvNbMickqvCTXdUrkVOEL0FI3U6RoxTbbxo0/vXCnkVevAMZvkJWcouQ4ovf+5d2TEDO3aWJVt0wunHaify/I8Xf8bWULhnh59/09cTrYsYuRKCF0p8pfFcsmr7c5irOF5cJXpw0qoJfAf1V5toaekNzoYZ+kAwTHQiN7GsXaUlvYSBPbKUZ/JeJSmo+9BXUG1zySh/c/fDrt9tYKf/wX8M848OFtPT9lK6Yg+Cc6PHaA7CELA4i72UpS7yJjOH1UUlNoqGdF1V4UjPgvzAgMBAAGjHTAbMA4GA1UdDwEB/wQEAwIHgDAJBgNVHRMEAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQBnGdC+IjtoWZT9nizWh65A3hu7A0Wx840uCVBj2UDjMTkfrJksK7MnR2bEUHSpvJheYuQy4Swu7yZEBg0L84xPYLxZAMlSDnF40wHlHA1o1LpsJ8JpU9v8CpH2vUsKb3nSsCEjEDDuY2tq9eeISVidiqjcvgnFUNqrXwlktiiTcWMh4of5dYzuDJ3mq0uVhnNSDDp+gAMMRNYK8m1xaFSNkcO99CclidTTOBCrDFwMIDtgCif7+jZKNh4LsctFcFY1AbqTgZJOsDBH80CJnTO0GVGZ3oJfOHdC3wuFUIrxxf37f+JbHtp6xPI0WMtwYUg50b0CzR0B86ZY6H66U1+R-----END CERTIFICATE----- #Test용 #-----BEGIN CERTIFICATE-----MIIDgTCCAmmgAwIBAgIHBy4lYNG7ojANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0d1cm8tZ3UxFTATBgNVBAoMDE5ITktDUCBDb3JwLjETMBEGA1UECwwKSVQgQ2VudGVyLjEWMBQGA1UEAwwNc3BsLmtjcC5jby5rcjAeFw0yMTA2MjkwMDM0MzdaFw0yNjA2MjgwMDM0MzdaMHAxCzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR3Vyby1ndTERMA8GA1UECgwITG9jYWxXZWIxETAPBgNVBAsMCERFVlBHV0VCMRkwFwYDVQQDDBAyMDIxMDYyOTEwMDAwMDI0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAppkVQkU4SwNTYbIUaNDVhu2w1uvG4qip0U7h9n90cLfKymIRKDiebLhLIVFctuhTmgY7tkE7yQTNkD+jXHYufQ/qj06ukwf1BtqUVru9mqa7ysU298B6l9v0Fv8h3ztTYvfHEBmpB6AoZDBChMEua7Or/L3C2vYtU/6lWLjBT1xwXVLvNN/7XpQokuWq0rnjSRThcXrDpWMbqYYUt/CL7YHosfBazAXLoN5JvTd1O9C3FPxLxwcIAI9H8SbWIQKhap7JeA/IUP1Vk4K/o3Yiytl6Aqh3U1egHfEdWNqwpaiHPuM/jsDkVzuS9FV4RCdcBEsRPnAWHz10w8CX7e7zdwIDAQABox0wGzAOBgNVHQ8BAf8EBAMCB4AwCQYDVR0TBAIwADANBgkqhkiG9w0BAQsFAAOCAQEAg9lYy+dM/8Dnz4COc+XIjEwr4FeC9ExnWaaxH6GlWjJbB94O2L26arrjT2hGl9jUzwd+BdvTGdNCpEjOz3KEq8yJhcu5mFxMskLnHNo1lg5qtydIID6eSgew3vm6d7b3O6pYd+NHdHQsuMw5S5z1m+0TbBQkb6A9RKE1md5/Yw+NymDy+c4NaKsbxepw+HtSOnma/R7TErQ/8qVioIthEpwbqyjgIoGzgOdEFsF9mfkt/5k6rR0WX8xzcro5XSB3T+oecMS54j0+nHyoS96/llRLqFDBUfWn5Cay7pJNWXCnw4jIiBsTBa3q95RVRyMEcDgPwugMXPXGBwNoMOOpuQ==-----END CERTIFICATE-----
+    pay_method: CERT:ACNT
+    mod_type: STAU
+    mod_sub_type: MDSC02
+
+interface:
+  sal:
+    url: http://localhost:8000
+    key: testkeytobemodified
+    X-API-KEY: rWAG7RbvgGpu34MBS1pkPdo2bg1dct6AA0BurlLLGmI=
+  sbo:
+    salUrl : https://b1api.bmwdms.co.kr:4337/WJS_SD_RemoteSVCHost/
+    assUrl : https://b1api.bmwdms.co.kr:4336/WJS_TR_RemoteSVCHost/
+    salPartUrl : https://b1api.bmwdms.co.kr:4331/WJS_AD_RemoteSVCHost/
+  ris:
+    url: https://ris.api.bmw.com/m2m
+  vts:
+    domain: https://vts.bmw.co.kr
+    cons_key: 7c5b323a599ed5948b96b00992f3dc2edde6d3d04c64c564c6d2fb115a1c9ee3231a704a9faf873b18d7d30ee9adc923676cf509681df1cd1eaaac485d07ec86
+  iws:
+    url: https://iws-api.bmw.co.kr
+    userHost: WDMS
+    userKey: 0b9a33cebbbdd8fe2007642db5a9f2ac6255ca804b484e0b63733fae0121b519
+  oas:
+    url: https://oas-api.bmw-plus.co.kr
+    userHost: WDMS
+    userKey: 4f75fc88ce03d2ae1d3b3ea9be394f7a43ef8401747f5f89e76e54432b492503
+  scp:
+    url: https://primestg.bmw-plus.co.kr/api/v1DmsNext
+    secretKey: ENC(43QeLKh4GOhJZ4Nu8YQl6A344oqy1R7o9SUxG5jJ4QXinUWgAmVJIv2KgCk7QvXZx2Zc5wKXXEH3676kIitVY61eb01CVBxeHaiKjibO0Rv3ciTlPKNxr5TGt/fxjSaMzyTRdOVgxWbWw0HwTkufn3GGdKSPPPN+zb1zpxdvp0x03vYVSmcJkzLTBHsxB2Frlrn4V2ZjQdFxIQvf4HeTfZpVDT0FoB5oDDc7TZyym2snjghcuDzi0wzDF/iRVMQIws9ZFCscvHUzWbxVgd6C59JvxQjHRug9IKpE0FSREqvRv2zGVT/BVqt8GA/a2GCXmGgsw34a0imTxa1scHrWLw==)
+  dealer:
+    id: wdms
+    secret: JMIFXJm5bsqiXKTRIOH1t4n1LZnHPAoh
+  oneX :
+    url: https://avk-onex-service-test/api/WDMSService/
+
+async:
+  config:
+    core-pool-size: 3
+    max-pool-size: 6
+    queue-capacity: 150
+
+app:
+  android:
+    version: 1.5
+    updateUrl: https://app.stg-vwgkwdms.co.kr/resources/app/prd/android/dms_next.apk
+  ios:
+    version: 1.8
+    updateUrl: itms-services://?action=download-manifest&url=https://app.stg-vwgkwdms.co.kr/resources/app/prd/apple/manifest.plist

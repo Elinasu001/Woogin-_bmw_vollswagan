@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wdms.dms.mob.ser.base.service.dao.WorkerManageMobDAO">
+	
+	<!-- Foreman, 테크니션 목록 조회 -->
+	<select id="selectForemanTechnicianInfo" parameterType="WorkerManageSearchMobVO" resultType="WorkerManageMobVO">
+ 		/* [com.wdms.dms.mob.ser.base.service.dao.WorkerManageMobDAO.selectForemanTechnicianInfo] */
+        <include refid="common.pagingPre" />
+       		SELECT 
+        		 DISTINCT EMPL_NO
+        		,EMPL_NM
+        		,OPER_USR_NM 
+  			  FROM (
+	       		SELECT
+				     A.CORP_CD
+				    ,B.CORP_NM
+				  	,A.BIZ_AREA_CD 
+				  	,C.BIZ_AREA_NM 
+				  	,A.BRCH_CD
+				  	,D.BRCH_NM
+				  	,F.USR_ID AS EMPL_NO 
+				  	,A.EMPL_NM 
+				  	,A.GENDER 
+				  	,A.CELL_NO
+				  	,A.E_MAIL 
+				  	,TO_CHAR(TO_DATE(A.ENTER_DATE,'YYYY-MM-DD'),'YYYY-MM-DD') AS ENTER_DATE
+				  	,G.OPER_USR_ID
+				  	,FN_GET_USR_NM(G.DLR_CD, G.OPER_USR_ID) AS OPER_USR_NM
+				  FROM CMM_EMPL A
+				 INNER JOIN CMM_CORP B
+				    ON A.CORP_CD = B.CORP_CD
+				 INNER JOIN CMM_BIZ_AREA C
+				    ON A.CORP_CD = C.CORP_CD
+				   AND A.BIZ_AREA_CD = C.BIZ_AREA_CD
+				 INNER JOIN CMM_BRCH D
+				    ON A.CORP_CD = D.CORP_CD
+				   AND A.BIZ_AREA_CD = D.BIZ_AREA_CD
+				   AND A.BRCH_CD = D.BRCH_CD
+				 INNER JOIN CMM_EMPL_PSTN_MAP E
+				    ON A.CORP_CD = E.CORP_CD 
+				   AND A.EMPL_NO = E.EMPL_NO 
+				 INNER JOIN CMM_USER F
+				    ON A.CORP_CD = F.CORP_CD
+				   AND A.EMPL_NO = F.EMPL_NO
+				  LEFT OUTER JOIN SER_OPER_USR_MNG G
+				    ON A.CORP_CD = G.DLR_CD
+				   AND A.BIZ_AREA_CD = G.BIZ_AREA_CD
+				   AND A.BRCH_CD = G.BRCH_CD
+				   AND F.USR_ID = G.OPER_USR_ID
+				   AND G.MNGR_ID = #{sLoginEmplNo}
+				 WHERE A.DEL_YN = 'N'
+				   AND B.DEL_YN = 'N'
+				   AND C.DEL_YN = 'N'
+				   AND D.DEL_YN = 'N'
+				   AND E.PSTN_ID IN ('A03', 'A09', 'A15', 'A16', 'A17') <!-- Workshop Manager, Foreman, Technician, Body Tech, Paint Tech -->
+	             <if test='sCorpCd != null and sCorpCd != ""'>
+	               AND A.CORP_CD = #{sCorpCd}
+	             </if>
+	             <if test='sBizAreaCd != null and sBizAreaCd != ""'>
+	               AND A.BIZ_AREA_CD = #{sBizAreaCd}
+	             </if>
+	             <if test='sBrchCd != null and sBrchCd != ""'>
+	               AND A.BRCH_CD = #{sBrchCd}
+	             </if>
+	             <if test='sEmplNo != null and sEmplNo != ""'>
+		           AND A.EMPL_NO LIKE '%' || #{sEmplNo} || '%'
+		         </if>
+		         <if test='sEmplNm != null and sEmplNm != ""'>
+		           AND A.EMPL_NM LIKE '%' || #{sEmplNm} || '%'
+		         </if>
+		         ORDER BY A.EMPL_NM
+			  )
+			ORDER BY OPER_USR_NM
+	    <include refid="common.pagingSuf" />
+	</select>
+	
+</mapper>

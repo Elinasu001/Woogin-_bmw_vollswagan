@@ -1,0 +1,57 @@
+/* 변수 값 정리 */
+
+/* images url */
+$img-path : "../images";
+
+/* color */ 
+$primary1: #1C69D4;
+$primary2: #1F263E;
+$black: #000;
+$white: #fff;
+$point: #2680EB;
+
+$bg-default: #F2F4F8;
+
+$text-black: #222; 
+$text-gray1: #666; //102 102 102
+$text-gray2: #999; //153 153 153
+$text-placeholder: #ccc;
+
+$line-gray1 : #666;
+$line-gray2 : #ddd;
+$line-gray3 : #eee;
+$line-blue-gray: #DEE2E6;
+$line-input : #e2e2e2;
+$line-panel : #d7dade;
+$line-hori-input : #bbbdc4;
+
+$btn-primary: $primary2;
+$btn-secondary : #212741;
+
+$error :#ee3c57;
+
+$label-blue1: #1c69d4;
+$label-blue2: #053981;
+$label-purple1: #5b6df5;
+$label-purple2: #30229f;
+$label-gray: #515c76;
+$label-teal: #00b5ad;
+$label-pink: #f55b8a;
+$label-orange: #f57f5b;
+$label-ocher: #c48b0a;
+
+$tooltip-customer: #e9ebef;
+$tooltip-text: #fbfbfb;
+
+/* font */
+$font-bold: 700;
+$font-regular: 400;
+$font-light: 300;
+
+/* spacing */
+$gap-xs: .8rem;
+$gap-sm: 1.6rem;
+$gap-nm: 2.4rem;
+$gap-md: 3.2rem;
+$gap-lg: 4.8rem;
+$gap-xl: 6.4rem;

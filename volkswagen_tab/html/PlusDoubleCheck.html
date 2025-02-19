@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <title>WDMS STG</title>
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/css/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/css/kendo/kendo.rtl.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/style.css">
+
+
+    <script type="text/javascript">var _contextPath = "";</script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript"
+        src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.alphanum.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/dms.common-1.0.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/jquery.ext-1.0.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/stomp/stomp.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/dms.nms.client-1.0.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- header -->
+        <header id="header" class="header">
+            <!-- gnb -->
+            <nav class="gnb">
+                <ul class="gnb-ul gnb-top">
+                    <li>
+                        <a href="javascript:;" class="gnb-top-icon icon-main">
+                            <span class="sr-only">메인</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#lnbFavorite" class="gnb-ul-link gnb-top-icon icon-favorite">
+                            <span class="sr-only">즐겨찾기메뉴</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="gnb-menu-wrap">
+                    <ul class="gnb-ul gnb-menu">
+                        <li>
+                            <a href="#lnbCustomer" class="gnb-ul-link gnb-menu-icon icon-customer">
+                                <span class="gnb-menu-text">Customer</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbActivity" class="gnb-ul-link gnb-menu-icon icon-activity">
+                                <span class="gnb-menu-text">Activity</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbSales" class="gnb-ul-link gnb-menu-icon icon-sales">
+                                <span class="gnb-menu-text">Sales</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbVehicle" class="gnb-ul-link gnb-menu-icon icon-vehicle">
+                                <span class="gnb-menu-text">Vehicle</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbBps" class="gnb-ul-link gnb-menu-icon icon-bps">
+                                <span class="gnb-menu-text">BPS</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbSupport" class="gnb-ul-link gnb-menu-icon icon-support">
+                                <span class="gnb-menu-text">Support</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbStock" class="gnb-ul-link gnb-menu-icon icon-stock">
+                                <span class="gnb-menu-text">Stock</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbService" class="gnb-ul-link gnb-menu-icon icon-service">
+                                <span class="gnb-menu-text">Service</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbParts" class="gnb-ul-link gnb-menu-icon icon-parts">
+                                <span class="gnb-menu-text">Parts</span>
+                            </a>
+                        </li>
+                        <!-- 21.12.24 수정 : 메뉴 추가 -->
+                        <li>
+                            <a href="#lnbCommunity" class="gnb-ul-link gnb-menu-icon icon-community">
+                                <span class="gnb-menu-text">Community</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbCompany" class="gnb-ul-link gnb-menu-icon icon-company">
+                                <span class="gnb-menu-text">Company</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#lnbCriteria" class="gnb-ul-link gnb-menu-icon icon-criteria">
+                                <span class="gnb-menu-text">Criteria</span>
+                            </a>
+                        </li>
+                        <!-- // 21.12.24 수정 : 메뉴 추가 -->
+                        <li>
+                            <a href="#lnbSystem" class="gnb-ul-link gnb-menu-icon icon-system">
+                                <span class="gnb-menu-text">System</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- // gnb -->
+            <!-- user profile-->
+        </header>
+        <!-- //header -->
+
+        <!-- content -->
+        <div id="content" class="category">
+            <iframe src="./PlusDoubleCheck_con.html" style="width:100%; height:100%;"></iframe>
+            </div>
+        </div>
+        <!-- //content -->
+    </div>
+ 
+</body>
+
+</html>

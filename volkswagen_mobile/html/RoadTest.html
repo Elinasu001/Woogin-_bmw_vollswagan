@@ -1,0 +1,246 @@
+<html lang="ko" class="k-webkit k-webkit128 k-mobile">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <title>WDMS STG</title>
+    
+    <!-- css -->
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css?ver=1.3">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/css/libs/slick.css">
+    <!-- js -->
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.fileDownload.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/crm/crm.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/sal/sal.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/slick.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+
+    
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+        let viewportMeta = document.querySelector('meta[name="viewport"]');
+        
+        if (!viewportMeta) {
+            viewportMeta = document.createElement('meta');
+            viewportMeta.name = 'viewport';
+            document.head.appendChild(viewportMeta);
+        }
+
+        // 화면 너비가 768px 미만일 경우 (모바일)
+        if (window.innerWidth < 768) {
+            viewportMeta.content = 'user-scalable=no,width=375';
+        } else {
+            // 태블릿 및 그 이상일 경우
+            viewportMeta.content = 'width=device-width,initial-scale=1,user-scalable=no';
+        }
+    });
+
+    </script>
+    </head>
+<body>
+    <!--MO07030100-->
+    <div id="wrap">
+        <header id="header" class="header">
+            <div class="header-left">
+                <button class="btn btn-util back">
+                    <span class="sr-only">뒤로가기</span>
+                </button>
+            </div>
+            <h1 class="header-title">Road Test</h1>
+            <div class="header-right">
+                <button class="btn btn-util menu">
+                    <span class="sr-only">메뉴</span>
+                </button>
+            </div>
+        </header>
+        <div id="content" class="bg scroll-hidden">
+            <div class="cont-body mo-body">
+                <div class="card-list">
+                    <!-- 22.01.11 수정 : list-header 검색 영역 수정 -->
+                    <div class="search-header">
+                        <div class="search-area">
+                            <input type="text" class="search-input" placeholder="Placeholder Text">
+                            <button class="search-input-btn">
+                                <span class="sr-only">검색</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="search-list-wrap">
+                        <div class="list-header">
+                            <div class="list-header-left">
+                                <p class="total-count-area">총 <span class="num">16</span>건</p>
+                            </div>
+                        </div>
+                        <ul id="listview" class="list-group type3" data-role="listview"></ul>
+                    </div>
+                    <!-- // 22.01.11 수정 : list-header 검색 영역 수정 -->
+                </div>
+            </div>
+        </div>
+        <footer id="footer" class="footer">
+           
+        </footer>
+    </div>
+    <script id="tmp" type="text/x-kendo-template">
+        <div class="item-area vertical">
+            <div class="item-area-con item-flex">
+                <div class="item-left">
+                    <!-- label 클래스 
+                        진행중 : label-half ing
+                        완료 : label-half end
+                    -->
+                    <div class="label-half horizontal">
+                        <span class="label-con label-text1">#: label1.text1 #</span>
+                        <span class="label-con label-text1">#: label1.text2 #</span>
+                    </div>
+                </div>
+            </div>
+            <div class="item-area-con">
+                <div class="item-text-group">
+                    <p class="item-text">#: roNum #</p>
+                    <p class="item-text">#: sa #</p>
+                </div>
+            </div>
+            <div class="item-area-con text-group-flex item-flex flex-end">
+                <div class="item-left">
+                    <div class="item-text-group">
+                        <p class="item-text">#: user #</p>
+                        <p class="item-text">#: carNum #</p>
+                    </div>
+                </div>
+                <div class="item-right item-flex">
+                    <p class="item-sub-text">2021</p>
+                    <p class="item-text">06.28</p>
+                </div>
+            </div>
+        </div>
+        <!-- nodata 일 때 -->
+        <!-- <div class="item-area">
+            <p class="nodata">조회된 데이터가 없습니다.</p>
+        </div> -->
+        <!-- nodata 일 때 -->
+        <ol id="sublistview03_#: id #" class="listnum" data-role="listview"></ol>
+    </script>
+    
+    <script id="subTemplate3" type="text/x-kendo-template">
+        <div class="item-area">
+            <div class="item-area-con item-flex">
+                <div class="item-left">
+                    <div class="item-text-group">
+                        <p class="item-text">#: subTxt #</p>
+                    </div>
+                </div>
+                <div class="item-right item-flex">
+                    <p class="item-text fontW-200">2024.01.01 17:30</p>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script>
+        var groupedData = [
+            {
+                    id: "03_001",
+                    label1: { text1: "장비시작", text2: "사고수리"},
+                    roNum: "RO2307000002",
+                    sa: "나웅진",
+                    user: "김연승",
+                    carNum: "47더1234",
+                    /*subData3: [
+                        {
+                            id: "1",
+                            itemNm: "STICKER", 
+                            itemCd: "000010006E",
+                            qty: "1.00TU",
+                            utpe: "1,400",
+                            amt: "1,400",
+                        },
+                        {
+                            id: "2",
+                            itemNm: "STICKER", 
+                            itemCd: "000010006E",
+                            qty: "1.00TU",
+                            utpe: "1,400",
+                            amt: "1,400",
+                        }
+                    ]*/
+                },
+                {
+                    id: "03_002",
+                    label1: { text1: "장비시작", text2: "사고수리"},
+                    roNum: "RO2307000002",
+                    sa: "나웅진",
+                    user: "김연승",
+                    carNum: "47더1234",
+                    subData3: [
+                        {
+                            id: "1",
+                            subTxt:"RoadTest 진행중",
+                        },
+                        {
+                            id: "2",
+                            subTxt:"RoadTest 진행중",
+                        }
+                    ]
+                },
+                {
+                    id: "03_003",
+                    label1: { text1: "장비시작", text2: "사고수리"},
+                    roNum: "RO2307000002",
+                    sa: "나웅진",
+                    user: "김연승",
+                    carNum: "47더1234",
+                    subData3: [
+                        {
+                            id: "1",
+                            subTxt:"RoadTest 진행중",
+                        },
+                        {
+                            id: "2",
+                            subTxt:"RoadTest 진행중",
+                        }
+                    ]
+                }
+            ];
+
+        $(document).ready(function () {
+            $("#listview").kendoMobileListView({
+                dataSource: kendo.data.DataSource.create({ data: groupedData }),
+                template: kendo.template($("#tmp").html()),
+
+                dataBound: function () {
+                    var view = this.dataSource.view();
+
+                    view.forEach(function(item) {
+                        var subList = $("#sublistview03_" + item.id);
+
+                        if (subList.length && item.subData3) {
+                            setTimeout(function() {
+                                subList.kendoMobileListView({
+                                    dataSource: kendo.data.DataSource.create({ data: item.subData3 }),
+                                    template: kendo.template($("#subTemplate3").html())
+                                });
+                            }, 0);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

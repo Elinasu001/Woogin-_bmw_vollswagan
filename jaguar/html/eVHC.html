@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>My DMS DEVELOP</title>
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/kendo/kendo.rtl.min.css">
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/jquery.mCustomScrollbar.min.css">
+    <link href="../resources/css/style.css" rel="stylesheet">
+
+    <!-- 마우스 우클릭 방지 -->
+    <script type="text/javascript">document.oncontextmenu = function () { return false; }</script>
+
+
+    <script type="text/javascript">var _contextPath = "";</script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript"
+        src="https://bmwdmsd.co.kr/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/jquery.alphanum.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/dms.common-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/jquery.ext-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/stomp/stomp.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/dms.nms.client-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/sockjs/sockjs-1.1.1.min.js"></script>
+</head>
+
+<body style="padding:1rem;">
+    <!--s: 그리드 신규-->
+    <div class="table-area-wrap">
+        <div class="table-area-header">
+            <div class="table-header-left">
+                <p class="table-title">eVHC 목록</p>
+            </div>
+        </div>
+        <!-- pc-table 클래스 추가 -->
+        <div id="grid3" class="table-area pc-table accordion-type list"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            // Kendo Grid 설정
+            // selectedOption: 1 - 즉시조치, 2 - 추후조치, 3 - 이상없음
+            $("#grid3").kendoGrid({
+                dataSource: {
+                    group: [{ field: "column1" }],
+                    data: [
+                        {
+                            column1: "Scheduled Services",
+                            items: [
+                                {
+                                    column2: "Service Interval Schedules-Biennial",
+                                    selectedOption: 2,
+                                    column3: "실 사용시 문제가 있습니다. 해결이 필요한 사항 입니다. 즉시조치 바랍니다."
+                                }
+                            ]
+                        },
+                        {
+                            column1: "WIPER BLADE/ARMSWIPER BLADE/ARMS ",
+                            items: [
+                                {
+                                    column2: "dfdf",
+                                    selectedOption: 3,
+                                    column3: ""
+                                },
+                                {
+                                    column2: "Windscreen Wipers –Arms – Wipers – Set – Remove& Replace",
+                                    selectedOption: 1,
+                                    column3: ""
+                                }
+                            ]
+                        }
+                    ],
+                    schema: {
+                        model: {
+                            fields: {
+                                column1: { type: "string" },
+                                column2: { type: "string" },
+                                column3: { type: "string" },
+                                selectedOption: { type: "number" }
+                            }
+                        }
+                    },
+                    pageSize: 10
+                },
+                columns: [
+                    {
+                        field: "column1",
+                        title: "선택",
+                        width: 0,
+                        hidden: true,
+                        groupHeaderTemplate: "#= value #"
+                    },
+                    {
+                        field: "items",
+                        title: "form",
+                        width: "100%",
+                        template: function (dataItem) {
+                            let itemsHtml = '';
+                            dataItem.items.forEach((item, index) => {
+                                const uniqueName = `radioGroup_${dataItem.column1}_${index}`;
+                                itemsHtml += `
+                                <div class="grid-group" data-index="${index}">
+                                    <div>
+                                        <ul class="radio-group">
+                                            <li>
+                                                <input type="radio" id="option1_${item.column2}" name="${uniqueName}" value="1" 
+                                                    ${item.selectedOption === 1 ? "checked" : ""}>
+                                                <label for="option1_${item.column2}">즉시조치</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="option2_${item.column2}" name="${uniqueName}" value="2" 
+                                                    ${item.selectedOption === 2 ? "checked" : ""}>
+                                                <label for="option2_${item.column2}">추후조치</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="option3_${item.column2}" name="${uniqueName}" value="3" 
+                                                    ${item.selectedOption === 3 ? "checked" : ""}>
+                                                <label for="option3_${item.column2}">이상없음</label>
+                                            </li>
+                                        </ul>
+                                        <ul class="form-group">
+                                            <li>
+                                                <input type="text" value="${item.column2}" readonly>
+                                            </li>
+                                            <li>
+                                                <ul class="">
+                                                    <li><button class="more">펼치기</button></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="view" style="display: none;">
+                                        <div>
+                                            <textarea class="textarea" readonly>${item.column3}</textarea> 
+                                        </div>
+                                        <ul class="image-list">
+                                            <li>
+                                                <img src="../resources/images/temp/@eVHC_img1.png" />
+                                                <button class="icon sch">상세보기</button>
+                                            </li>
+                                            <li>
+                                                <img src="../resources/images/temp/@eVHC_img2.png" />
+                                                <button class="icon sch">상세보기</button>
+                                            </li>
+                                            <li>
+                                                <img src="../resources/images/temp/@eVHC_img3.png" />
+                                                <button class="icon sch">상세보기</button>
+                                            </li>
+                                            <li class="more"><button>더보기</button></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                `;
+                            });
+                            return itemsHtml;
+                        }
+                    },
+                ],
+                /*pageable: {
+                    alwaysVisible: false,
+                    buttonCount: 5,
+                    pageSize: 10,
+                    pageSizes: ["10 / page", "20 / page", "30 / page"]
+                }*/
+            });
+
+            // 헤더 숨기기
+            $(".k-grid-header").hide();
+        });
+
+        $(document).on("click", "button.more", function () {
+            const $view = $(this).closest(".grid-group").find(".view");
+            const $imageList = $view.find(".image-list");
+            $view.slideToggle();
+            if ($imageList.children("li").length >= 5) {
+                $view.addClass("break");
+            }
+
+        });
+    </script>
+    <!--e :그리드 신규-->
+
+    </div>
+</body>
+
+</html>

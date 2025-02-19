@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO">
+
+	<!--  추가작업 목록 카운트 조회 -->
+	<select id="selectAddWrkListCnt" parameterType="AddWrkSearchMobVO" resultType="int">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.selectAddWrkListCnt] */
+		SELECT COUNT(*) AS VALUE
+		FROM SER_RO_MNG T1
+		    INNER JOIN SER_ADD_WRK_REQ T2 
+		      ON T1.DLR_CD = T2.DLR_CD
+		     AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD
+		     AND T1.BRCH_CD = T2.BRCH_CD
+		     AND T1.RO_NO = T2.RO_NO
+		    LEFT OUTER JOIN CMM_CODE T3
+		      ON T2.REQ_STAT_CD = T3.CMM_CD
+		     AND T3.CMM_GRP_CD = 'SER060' /*요청상태코드(SER060)*/
+		WHERE 1=1
+		AND T1.DLR_CD 		= #{sDlrCd}
+        AND T1.BIZ_AREA_CD	= #{sBizAreaCd}
+		AND T1.BRCH_CD     = #{sBrchCd}
+	</select>
+	
+	<!--  추가작업 목록 데이터 조회 -->
+	<select id="selectAddWrkList" parameterType="AddWrkSearchMobVO" resultType="AddWrkMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.selectAddWrkList] */
+		<include refid="common.pagingPre" />
+		SELECT *
+		  FROM (
+		    SELECT
+		         NVL(T1.CAR_NO,' ') AS CAR_NO
+		        ,T2.DLR_CD            /*딜러코드*/
+		        ,T2.BIZ_AREA_CD       /*사업소코드*/
+		        ,T2.BRCH_CD           /*대리점코드*/
+		        ,T2.RO_NO             /*RO번호*/
+		        ,T2.REQ_SEQ           /*요청순번*/
+		        ,T2.REQ_STAT_CD       /*요청상태코드(SER060)*/
+		        ,T2.ADD_WRK_REMARK    /*추가작업비고*/
+		        ,T2.ADD_WRK_USR_ID    /*추가작업요청자ID*/
+		        ,T2.ADD_WRK_DTIME     /*추가작업요청일시*/
+		        ,T2.APRV_REQ_REMARK   /*승인요청비고*/
+		        ,T2.APRV_REQ_USR_ID   /*승인요청자ID*/
+		        ,T2.APRV_REQ_DTIME    /*승인요청일시*/
+		        ,T2.CUST_NO           /*고객번호*/
+		        ,T2.CUST_APRV_DTIME   /*고객승인일시*/
+		        ,T2.FILE_DOC_NO       /*첨부문서번호*/
+		        ,T2.REG_USR_ID        /*등록자ID*/
+		        ,T2.REG_DT            /*등록일자*/
+		        ,T2.UPDT_USR_ID       /*수정자ID*/
+		        ,T2.UPDT_DT           /*수정일자*/
+		        ,T3.CMM_CD_NM AS REQ_STAT_CD_NM     /*요청상태코드명(SER060)*/
+		        ,CASE WHEN T1.DRIVER_CUST_NO = 'PDI' THEN 'PDI'
+			          WHEN FN_GET_CUST_NM(T2.DLR_CD, T1.DRIVER_CUST_NO) IS NULL THEN '(고객정보없음)'
+			          ELSE FN_GET_CUST_NM(T2.DLR_CD, T1.DRIVER_CUST_NO)
+			           END DRIVER_CUST_NM  /*고객명*/
+		    FROM SER_RO_MNG T1
+		        INNER JOIN SER_ADD_WRK_REQ T2 
+		          ON T1.DLR_CD = T2.DLR_CD
+		         AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD
+		         AND T1.BRCH_CD = T2.BRCH_CD
+		         AND T1.RO_NO = T2.RO_NO
+		        LEFT OUTER JOIN CMM_CODE T3
+		          ON T2.REQ_STAT_CD = T3.CMM_CD
+		         AND T3.CMM_GRP_CD = 'SER060' /*요청상태코드(SER060)*/
+		    WHERE 1=1
+		    AND T1.DLR_CD 		= #{sDlrCd}
+	        AND T1.BIZ_AREA_CD	= #{sBizAreaCd}
+			AND T1.BRCH_CD     = #{sBrchCd}
+		 ) T
+		 WHERE 1=1
+		ORDER BY T.ADD_WRK_DTIME DESC
+		<include refid="common.pagingSuf" />
+	</select>
+	
+	
+	<!--  추가작업 상세 조회 -->
+	<select id="selectAddWrk" parameterType="AddWrkSearchMobVO" resultType="AddWrkMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.selectAddWrk] */
+		SELECT
+		     T1.CAR_NO
+		    ,T2.DLR_CD
+		    ,T2.BIZ_AREA_CD
+		    ,T2.BRCH_CD
+		    ,T2.RO_NO
+		    ,T2.REQ_SEQ
+		    ,T2.REQ_STAT_CD
+		    ,T2.ADD_WRK_REMARK
+		    ,T2.ADD_WRK_USR_ID
+		    ,T2.ADD_WRK_DTIME
+		    ,T2.APRV_REQ_REMARK
+		    ,T2.APRV_REQ_USR_ID
+		    ,T2.APRV_REQ_DTIME
+		    ,T2.CUST_NO
+		    ,T2.CUST_APRV_DTIME
+		    ,T2.FILE_DOC_NO
+		    ,T2.REG_USR_ID
+		    ,T2.REG_DT
+		    ,T2.UPDT_USR_ID
+		    ,T2.UPDT_DT
+		    ,T3.CMM_CD_NM AS REQ_STAT_CD_NM     /*요청상태코드명(SER060)*/
+		    ,T1.CHRG_SA_ID
+			,T2.CUST_VIEW_DT
+			,T2.CUST_OPINION
+			,T2.CUST_STSF
+		FROM SER_RO_MNG T1
+		    INNER JOIN SER_ADD_WRK_REQ T2 
+		      ON T1.DLR_CD = T2.DLR_CD
+		     AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD
+		     AND T1.BRCH_CD = T2.BRCH_CD
+		     AND T1.RO_NO = T2.RO_NO
+		    LEFT OUTER JOIN CMM_CODE T3
+		      ON T2.REQ_STAT_CD = T3.CMM_CD
+		     AND T3.CMM_GRP_CD = 'SER060' /*요청상태코드(SER060)*/
+		WHERE 1=1
+		  AND T2.DLR_CD = #{sDlrCd} 
+		  AND T2.BIZ_AREA_CD = #{sBizAreaCd} 
+		  AND T2.BRCH_CD = #{sBrchCd} 
+		  AND T2.RO_NO = #{sRoNo} 
+		  AND T2.REQ_SEQ = #{sReqSeq}
+	</select>
+	
+    <!--  추가작업 병합 -->
+    <update id="mergeAddWrk" parameterType="AddWrkMobVO">
+    	/* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.mergeAddWrk] */
+    	<selectKey resultType="int" keyProperty="gReqSeq" order="BEFORE">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.mergeAddWrk] */
+    		(SELECT 
+    			NVL(MAX(REQ_SEQ),0)+1 
+			FROM SER_ADD_WRK_REQ 
+			WHERE 1=1
+            AND DLR_CD 		= #{dlrCd}
+            AND BIZ_AREA_CD	= #{bizAreaCd}
+            AND BRCH_CD     = #{brchCd}
+            AND RO_NO    	= #{roNo})
+		</selectKey>
+    
+    	MERGE INTO SER_ADD_WRK_REQ
+	    USING DUAL 
+	       ON (
+	            DLR_CD       = #{dlrCd}
+	        AND BIZ_AREA_CD  = #{bizAreaCd}
+	        AND BRCH_CD      = #{brchCd}
+	        AND RO_NO        = #{roNo}
+	        AND REQ_SEQ      = #{reqSeq}
+	    )
+	    WHEN MATCHED THEN
+	        UPDATE SET
+	              ADD_WRK_REMARK   = #{addWrkRemark}
+	             ,UPDT_USR_ID      = #{updtUsrId}
+	             ,UPDT_DT          = SYSDATE
+	    WHEN NOT MATCHED THEN
+	        INSERT(
+		         DLR_CD
+		        ,BIZ_AREA_CD
+		        ,BRCH_CD
+		        ,RO_NO
+		        ,REQ_SEQ
+		        ,REQ_STAT_CD
+		        ,ADD_WRK_REMARK
+		        ,ADD_WRK_USR_ID
+		        ,ADD_WRK_DTIME
+		        ,APRV_REQ_REMARK
+		        ,APRV_REQ_USR_ID
+		        ,APRV_REQ_DTIME
+		        ,CUST_NO
+		        ,CUST_APRV_DTIME
+		        ,FILE_DOC_NO
+		        ,REG_USR_ID
+		        ,REG_DT
+		        ,UPDT_USR_ID
+		        ,UPDT_DT
+	        )VALUES(
+	        	 #{dlrCd}
+	        	,#{bizAreaCd}
+	        	,#{brchCd}
+	        	,#{roNo}
+	        	,#{gReqSeq}
+	        	,'01'
+	        	,#{addWrkRemark}
+	        	,#{addWrkUsrId}
+	        	,SYSDATE
+	        	,#{aprvReqRemark}
+	        	,#{aprvReqUsrId}
+	        	,#{aprvReqDtime}
+	        	,(SELECT DRIVER_CUST_NO FROM SER_RO_MNG WHERE DLR_CD = #{dlrCd} AND BIZ_AREA_CD = #{bizAreaCd} AND BRCH_CD = #{brchCd} AND RO_NO = #{roNo})
+	        	,#{custAprvDtime}
+	        	,#{fileDocNo}
+	            ,#{regUsrId}
+	            ,SYSDATE
+	            ,#{updtUsrId}
+	            ,SYSDATE
+	        )
+    </update>
+    
+    <select id="selectAddWrkCustInfo" parameterType="AddWrkSearchMobVO" resultType="NextCrmCustomerVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.selectAddWrkCustInfo] */
+		SELECT 
+		    A.DLR_CD,
+		    A.RO_NO,
+		    B.CUST_TP,
+		    B.CUST_NM,
+		    B.HP_NO,
+		    NVL(B.EMAIL, C.EMAIL) EMAIL,
+		    C.BP_NM,
+		    C.CORP_REG_NO,
+		    C.REPRSNT_NM,
+		    C.TEL_NO,
+		    C.BIZ_TP,
+		    C.CHRGR_NM,
+		    C.CHRGR_TEL_NO
+		FROM SER_ADD_WRK_REQ A
+		LEFT OUTER JOIN CRM_CUST B
+		ON A.DLR_CD = B.DLR_CD
+		AND A.CUST_NO = B.CUST_NO
+		LEFT OUTER JOIN CRM_PARTNER C
+		ON B.DLR_CD = C.DLR_CD
+		AND B.BP_CD = C.BP_CD
+		WHERE A.DLR_CD = #{sDlrCd}
+		AND A.BIZ_AREA_CD = #{sBizAreaCd}
+		AND A.BRCH_CD = #{sBrchCd}
+		AND A.RO_NO = #{sRoNo}
+		AND A.REQ_SEQ = #{sReqSeq} 
+	</select>
+	
+	<select id="selectAddWrkVinInfo" parameterType="AddWrkSearchMobVO" resultType="RegInfoVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.selectAddWrkVinInfo] */
+		SELECT 
+			C.BRCH_NM
+			,B.BRAND_NM
+			,B.SERIES_CD AS SERIES1_NM
+			,B.MODEL_CD || ' - ' || B.MODEL_NM AS MODEL_NM
+			,B.MODEL_YEAR
+			,B.PKG_GRP_NM || ' (' || B.PKG_GRP_CD || ')' AS PKG_GRP_NM
+			,'('||B.EX_COLOR_CD||') '|| B.EX_COLOR_NM AS EX_COLOR_NM
+			,'('||B.INT_COLOR_CD||') '|| B.INT_COLOR_NM AS INT_COLOR_NM
+		  FROM SER_RO_MNG A
+		  LEFT OUTER JOIN SAL_V_VIN B
+		    ON A.VIN_NO = B.VIN_NO
+		  LEFT OUTER JOIN CMM_BRCH C
+		    ON A.DLR_CD = C.CORP_CD
+		   AND A.BRCH_CD = C.BRCH_CD
+		 WHERE A.DLR_CD = #{sDlrCd}
+		   AND A.BIZ_AREA_CD = #{sBizAreaCd}
+		   AND A.BRCH_CD = #{sBrchCd}
+		   AND A.RO_NO = #{sRoNo}
+	</select>
+	
+	<update id="updateReqStatCd" parameterType="AddWrkMobVO" >
+        /* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.updateReqStatCd] */
+        UPDATE SER_ADD_WRK_REQ
+           SET
+        	   REQ_STAT_CD   = #{reqStatCd}
+			 ,CUST_OPINION = #{custOpinion}
+			 ,CUST_STSF = #{custStsf}
+        	  ,UPDT_DT       = SYSDATE
+        	  ,UPDT_USR_ID   = 'Customer'
+			<if test='reqStatCd == "03"'>
+				,CUST_APRV_DTIME = SYSDATE
+			</if>
+		 WHERE DLR_CD = #{dlrCd}
+		   AND BIZ_AREA_CD = #{bizAreaCd}
+		   AND BRCH_CD = #{brchCd}
+		   AND RO_NO = #{roNo}
+		   AND REQ_SEQ = #{reqSeq}
+	</update>
+	
+	
+	<update id="updateCustViewYn" parameterType="AddWrkSearchMobVO" >
+        /* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.updateCustViewYn] */
+        UPDATE SER_ADD_WRK_REQ
+           SET
+        	   CUST_VIEW_YN = 'Y',
+				CUST_VIEW_DT = NVL(CUST_VIEW_DT, SYSDATE)
+		 WHERE DLR_CD = #{sDlrCd}
+		   AND BIZ_AREA_CD = #{sBizAreaCd}
+		   AND BRCH_CD = #{sBrchCd}
+		   AND RO_NO = #{sRoNo}
+		   AND REQ_SEQ = #{sReqSeq} 
+	</update>
+
+	<select id="selectBrchNm" parameterType="String" resultType="String">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.AddWrkMobDAO.selectBrchNm] */
+		SELECT
+			BRCH_NM /* 브랜치 명 */
+		FROM CMM_BRCH
+		WHERE 1=1
+		  	AND DEL_YN != 'Y'
+			AND BRCH_CD = #{brchCd}
+	</select>
+</mapper>

@@ -1,0 +1,271 @@
+<html lang="ko" class="k-webkit k-webkit128 k-mobile">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <title>WDMS STG</title>
+    
+    <!-- css -->
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css?ver=1.3">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/css/libs/slick.css">
+    <!-- js -->
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.fileDownload.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/crm/crm.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/sal/sal.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/slick.min.js"></script>
+
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+    
+    
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            var viewportMeta = document.querySelector('meta[name="viewport"]');
+
+            if (!viewportMeta) {
+                viewportMeta = document.createElement('meta');
+                viewportMeta.name = 'viewport';
+                document.head.appendChild(viewportMeta);
+            }
+
+            // 화면 너비가 768px 미만일 경우 (모바일)
+            if (window.innerWidth < 768) {
+                viewportMeta.content = 'user-scalable=no,width=375';
+            } else {
+                // 태블릿 및 그 이상일 경우
+                viewportMeta.content = 'user-scalable=no,width=768';
+            }
+        });
+    </script>
+    
+    </head>
+    <body>
+        <div id="wrap">
+            <header id="header" class="header">
+                <div class="header-left">
+                    <button class="btn btn-util back">
+                        <span class="sr-only">뒤로가기</span>
+                    </button>
+                </div>
+                <h1 class="header-title">Direct Reception</h1>
+                <div class="header-right">
+                    <button class="btn btn-util menu">
+                        <span class="sr-only">메뉴</span>
+                    </button>
+                </div>
+            </header>
+            <div id="content" class="bg scroll-hidden fab-contain">
+                <div class="cont-body mo-body">
+                    <div class="card-list">
+                        <!-- 22.01.11 수정 : list-header 검색 영역 수정 -->
+                        <div class="search-header">
+                            <div class="search-area">
+                                <input type="text" class="search-input" placeholder="차량번호 입력">
+                                <button class="search-input-btn">
+                                    <span class="sr-only">검색</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="search-list-wrap">
+                            <div class="list-header">
+                                <div class="list-header-left">
+                                    <p class="total-count-area">총 <span class="num">16</span>건</p>
+                                </div>
+                            </div>
+                            <ul id="listview" class="list-group" data-role="listview"></ul>
+                        </div>
+                        <!-- // 22.01.11 수정 : list-header 검색 영역 수정 -->
+                    </div>
+                </div>
+            </div>
+            <footer id="footer" class="footer">
+                <!-- quick menu -->
+                <label class="fab">
+                    <input type="checkbox">
+                    <div class="fab-menu">
+                      <div class="fab-btn"></div>
+                      <ul class="fab-sub-menu">
+                        <li class="fab-item">
+                            <a href="#">
+                                <span class="icon-btn icon-estimate"></span>
+                                <span class="icon-text">견적서</span>
+                            </a>
+                        </li>
+                        <li class="fab-item">
+                            <a href="#">
+                                <span class="icon-btn icon-user-register"></span>
+                                <span class="icon-text">고객</span>
+                            </a>
+                        </li>
+                        <li class="fab-item">
+                            <a href="#">
+                                <span class="icon-btn icon-sale"></span>
+                                <span class="icon-text">판매기회</span>
+                            </a>
+                        </li>
+                        <li class="fab-item">
+                            <a href="#">
+                                <span class="icon-btn icon-business"></span>
+                                <span class="icon-text">영업활동</span>
+                            </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="fab-blank"></div>
+                </label>
+                <!-- // quick menu -->
+            </footer>
+        </div>
+        <script id="tmp" type="text/x-kendo-template">
+            <div class="item-area vertical">
+                <div class="item-area-con item-flex">
+                    <div class="item-left">
+                        <!-- label 클래스 
+                            상담시작 : label-half color1
+                            검사완료 : label-half color2
+                        -->
+                        <div class="label-half horizontal #: label1.color #">
+                            <span class="label-con label-text1">#: label1.text1 #</span>
+                            <span class="label-con label-text1">#: label1.text2 #</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-area-con">
+                    <div class="item-text-group">
+                        <p class="item-text">#: roNum #</p>
+                        <p class="item-text">#: sa #</p>
+                    </div>
+                </div>
+                <div class="item-area-con text-group-flex item-flex flex-end">
+                    <div class="item-left">
+                        <div class="item-text-group">
+                            <p class="item-text">#: user #</p>
+                            <p class="item-text">#: carNum #</p>
+                        </div>
+                    </div>
+                    <div class="item-right item-flex">
+                        <p class="item-sub-text">2021</p>
+                        <p class="item-text">06.28</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- nodata 일 때 -->
+            <!-- <div class="item-area">
+                <p class="nodata">조회된 데이터가 없습니다.</p>
+            </div> -->
+            <!-- nodata 일 때 -->
+        </script>
+        
+        <script>
+            var groupedData = [
+                {
+                    label1: { text1: "상담시작", text2: "일반", color: "color1"},
+                    roNum: "RO0101-000000",
+                    sa: "SA 김웅진",
+                    user: "홍길동",
+                    carNum: "111로 0000"
+                },
+                {
+                    label1: { text1: "검사완료", text2: "사고", color: "color2"},
+                    roNum : "RO0101-000043",
+                    sa : "SA 이웅진",
+                    user: "홍길동",
+                    carNum: "111로 0293"
+                },
+                {
+                    label1: { text1: "상담시작", text2: "일반", color: "color1"},
+                    roNum: "RO0101-000000",
+                    sa: "SA 김웅진",
+                    user: "홍길동",
+                    carNum: "111로 0000"
+                },
+                {
+                    label1: { text1: "검사완료", text2: "사고", color: "color2"},
+                    roNum : "RO0101-000043",
+                    sa : "SA 이웅진",
+                    user: "홍길동",
+                    carNum: "111로 0293"
+                },
+                {
+                    label1: { text1: "상담시작", text2: "일반", color: "color1"},
+                    roNum: "RO0101-000000",
+                    sa: "SA 김웅진",
+                    user: "홍길동",
+                    carNum: "111로 0000"
+                },
+                {
+                    label1: { text1: "검사완료", text2: "사고", color: "color2"},
+                    roNum : "RO0101-000043",
+                    sa : "SA 이웅진",
+                    user: "홍길동",
+                    carNum: "111로 0293"
+                },
+                {
+                    label1: { text1: "상담시작", text2: "일반", color: "color1"},
+                    roNum: "RO0101-000000",
+                    sa: "SA 김웅진",
+                    user: "홍길동",
+                    carNum: "111로 0000"
+                },
+                {
+                    label1: { text1: "검사완료", text2: "사고", color: "color2"},
+                    roNum : "RO0101-000043",
+                    sa : "SA 이웅진",
+                    user: "홍길동",
+                    carNum: "111로 0293"
+                },
+                {
+                    label1: { text1: "상담시작", text2: "일반", color: "color1"},
+                    roNum: "RO0101-000000",
+                    sa: "SA 김웅진",
+                    user: "홍길동",
+                    carNum: "111로 0000"
+                },
+                {
+                    label1: { text1: "검사완료", text2: "사고", color: "color2"},
+                    roNum : "RO0101-000043",
+                    sa : "SA 이웅진",
+                    user: "홍길동",
+                    carNum: "111로 0293"
+                },
+                {
+                    label1: { text1: "상담시작", text2: "일반", color: "color1"},
+                    roNum: "RO0101-000000",
+                    sa: "SA 김웅진",
+                    user: "홍길동",
+                    carNum: "111로 0000"
+                },
+                {
+                    label1: { text1: "검사완료", text2: "사고", color: "color2"},
+                    roNum : "RO0101-000043",
+                    sa : "SA 이웅진",
+                    user: "홍길동",
+                    carNum: "111로 0293"
+                },
+            ];
+            $(document).ready(function () { 
+                // listview
+                $("#listview").kendoMobileListView({
+                    dataSource: kendo.data.DataSource.create({data: groupedData}),
+                    template: kendo.template($("#tmp").html()),
+                });
+    
+            });
+        </script>
+    </body>
+</html>

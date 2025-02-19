@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>My DMS DEVELOP</title>
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/kendo/kendo.rtl.min.css">
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/jquery.mCustomScrollbar.min.css">
+    <link href="../resources/css/style.css" rel="stylesheet">
+
+    <!-- 마우스 우클릭 방지 -->
+    <script type="text/javascript">document.oncontextmenu = function () { return false; }</script>
+
+
+    <script type="text/javascript">var _contextPath = "";</script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript"
+        src="https://bmwdmsd.co.kr/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/jquery.alphanum.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/dms.common-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/jquery.ext-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/stomp/stomp.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/dms.nms.client-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/sockjs/sockjs-1.1.1.min.js"></script>
+</head>
+
+<body>
+    <!-- kendo window content -->
+    <div class="window-content scroll-hidden2">
+        <div class="window-content-body">
+            <!-- grid type1 -->
+            <div class="layout-grid">
+                <div class="layout-grid-item col-center">
+                    <!-- item header -->
+                    <div class="item-header">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default k-primary">저장</button>
+                        </div>
+                    </div>
+                    <!-- item body -->
+                    <div class="item-body">
+                        <div class="item-body-box">
+                            <div class="panel line-none">
+                                <div class="panel-body">
+                                    <!--s: 그리드 신규-->
+                                    <div class="table-area-wrap">
+                                        <!-- pc-table 클래스 추가 -->
+                                        <div id="grid3" class="table-area pc-table accordion-type popup"></div>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            // Kendo Grid 설정
+                                            $("#grid3").kendoGrid({
+                                                dataSource: {
+                                                    group: [{ field: "column1" }],
+                                                    data: [
+                                                        {
+                                                            column1: "test1",
+                                                            items: [
+                                                                { column2: "Please select operation!", selectedOption: 0 }
+                                                            ]
+                                                        },
+                                                        {
+                                                            column1: "test2",
+                                                            items: [
+                                                                { column2: "dfdf", selectedOption: 3 },
+                                                                { column2: "aaaa", selectedOption: 1 }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    schema: {
+                                                        model: {
+                                                            fields: {
+                                                                column1: { type: "string" },
+                                                                column2: { type: "string" },
+                                                                selectedOption: { type: "number" }
+                                                            }
+                                                        }
+                                                    },
+                                                    pageSize: 10
+                                                },
+                                                columns: [
+                                                    {
+                                                        field: "column1",
+                                                        title: "선택",
+                                                        width: 0,
+                                                        hidden: true,
+                                                        groupHeaderTemplate: "#= value #"
+                                                    },
+                                                    {
+                                                        field: "items",
+                                                        title: "form",
+                                                        width: "100%",
+                                                        template: function (dataItem) {
+                                                            let itemsHtml = '';
+                                                            dataItem.items.forEach((item, index) => {
+                                                                const uniqueName = `radioGroup_${dataItem.column1}_${index}`;
+                                                                itemsHtml += `
+                                                                <div class="grid-group" data-index="${index}">
+                                                                    <div>
+                                                                        <ul class="radio-group">
+                                                                            <li>
+                                                                                <input type="radio" id="option1_${item.column2}" name="${uniqueName}" value="1" 
+                                                                                    ${item.selectedOption === 1 ? "checked" : ""}>
+                                                                                <label for="option1_${item.column2}">즉시조치</label>
+                                                                            </li>
+                                                                            <li>
+                                                                                <input type="radio" id="option2_${item.column2}" name="${uniqueName}" value="2" 
+                                                                                    ${item.selectedOption === 2 ? "checked" : ""}>
+                                                                                <label for="option2_${item.column2}">추후조치</label>
+                                                                            </li>
+                                                                            <li>
+                                                                                <input type="radio" id="option3_${item.column2}" name="${uniqueName}" value="3" 
+                                                                                    ${item.selectedOption === 3 ? "checked" : ""}>
+                                                                                <label for="option3_${item.column2}">이상없음</label>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <ul class="form-group">
+                                                                            <li>
+                                                                                <input type="text" value="${item.column2}">
+                                                                            </li>
+                                                                            <li>
+                                                                                <ul class="button">
+                                                                                    <li><button class="del">삭제</button></li>
+                                                                                    <li><button class="wrt">쓰기</button></li>
+                                                                                    <li><button class="file">file</button></li>
+                                                                                </ul>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="view">
+                                                                        <div style="display: none;">
+                                                                         <textarea class="textarea"></textarea>
+                                                                        </div>
+                                                                        <ul class="image-list"></ul>
+                                                                    </div>
+                                                                </div>
+                                                                `;
+                                                            });
+                                                            return itemsHtml;
+                                                        }
+                                                    }
+                                                ],
+                                                /*pageable: {
+                                                    alwaysVisible: false,
+                                                    buttonCount: 5,
+                                                    pageSize: 10,
+                                                    pageSizes: ["10 / page", "20 / page", "30 / page"]
+                                                }*/
+                                            });
+
+                                            // 헤더 숨기기
+                                            $(".k-grid-header").hide();
+
+                                            // 버튼 이벤트 핸들러
+                                            $(document).on("click", ".del", function () {
+                                                $(this).closest(".grid-group").remove();
+                                            });
+
+                                            $(document).on("click", ".wrt", function () {
+                                                const $view = $(this).closest(".grid-group").find(".view > div");
+                                                $view.show();
+
+
+                                            });
+
+                                            $(document).on("click", ".file", function () {
+                                                const $view = $(this).closest(".grid-group").find(".view");
+                                                $view.show();
+
+                                                const fileInput = $('<input type="file" style="display: none;" accept="image/*">');
+                                                const imageList = $view.find(".image-list");
+
+                                                fileInput.on("change", function () {
+                                                    const file = this.files[0];
+                                                    if (file) {
+                                                        const reader = new FileReader();
+                                                        reader.onload = function (e) {
+                                                            const img = `<li>
+                                                                <img src="${e.target.result}">
+                                                                <button class="icon close">상세보기</button>
+                                                                </li>`;
+                                                            imageList.append(img);
+                                                            if (imageList.children("li").length >= 5) {
+                                                                $view.addClass("break");
+                                                            }
+                                                        };
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                });
+                                                fileInput.click();
+                                            });
+                                            $(".accordion-type.popup .k-icon.k-i-collapse").hide();
+                                        });
+                                    </script>
+                                    <!--e :그리드 신규-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // grid type1 -->
+        </div>
+    </div>
+</body>
+
+</html>

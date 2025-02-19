@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wdms.dms.mob.ser.ro.service.dao.RoAsgnMngMobDAO">
+
+	<!-- 작업항목 조회 -->
+	<select id="selectRoOperItemList" parameterType="RoAsgnMngSearchMobVO" resultType="RoOperItemMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoAsgnMngMobDAO.selectRoOperItemList] */
+		SELECT
+		     T1.DLR_CD                    /*딜러코드*/
+		    ,T1.BIZ_AREA_CD               /*사업소코드*/
+		    ,T1.BRCH_CD                   /*대리점코드*/
+		    ,T1.RO_NO                     /*RO번호*/
+		    ,T1.LINE_NO                   /*라인번호*/
+		    ,T1.RELEASE_NO                /*발행번호*/
+		    ,T1.SORT_ORDER                /*정렬순서*/
+		    ,T1.CALC_TP_CD                /*정산유형코드 (SER004)*/
+		    ,FN_CMM_CD('SER004', T1.CALC_TP_CD, 'Y') AS CALC_TP_CD_NM	/*정산유형코드명*/
+		    ,T1.ITEM_GRP_CD               /*품목그룹코드*/
+		    ,T1.ITEM_TP_CD                /*품목유형코드 (SER038)*/
+    		,FN_CMM_CD('SER038', T1.ITEM_TP_CD, 'N') AS ITEM_TP_CD_NM	/*품목유형코드명*/
+		    ,T1.ITEM_CD                   /*품목코드*/
+		    ,T1.ITEM_NM                   /*품목명*/
+		    ,T1.QTY                       /*수량*/
+		    ,CASE WHEN T1.ITEM_TP_CD = '03' THEN T1.QTY	|| ' ' 
+		    											|| (SELECT FN_CMM_CD('PAR001', STOCK_UNIT, 'N') 
+    														 FROM PAR_ITEM_INFO 
+    														WHERE ITEM_CD = T1.ITEM_CD
+															  AND (DLR_CD = '99999' OR DLR_CD = #{sDlrCd})
+															  AND BRAND_CD = #{sItemBrandCd})
+		    											|| ' (' || T1.STAT || ')'	-- 부품 
+		   		  WHEN T1.ITEM_TP_CD = '04' THEN T1.QTY || ' FRU' 					-- 공임
+		    	  ELSE NULL
+		    	  END QTY_DETAIL		  /*수량,단위*/
+		    ,T1.USE_QTY                   /*실사용수량*/
+		    ,T1.UTPE                      /*단가*/
+		    ,T1.AMT                       /*금액*/
+		    ,REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(T1.AMT)), '([0-9]{3})','\1,')), '^,','') AS ITEM_AMT 	/*금액*/
+		    ,T1.STAT                      /*상태*/
+		    ,T1.REMARK                    /*비고*/
+		    ,T1.RCL_CAMPN_CD              /*리콜캠페인코드*/
+		    ,T1.MOV_PRC                   /*이동평균가*/
+		    ,T1.RTL_AMT                   /*소매가*/
+		    ,T1.WHS_AMT                   /*도매가*/
+		    ,T1.INS_AMT                   /*보험수가*/
+		    ,T1.RESV_NO                   /*예약번호*/
+		    ,T1.RESV_LINE_NO              /*예약라인번호*/
+		    ,T1.REG_USR_ID                /*등록자ID*/
+		    ,T1.REG_DT                    /*등록일자*/
+		    ,T1.UPDT_USR_ID               /*수정자ID*/
+		    ,T1.UPDT_DT                   /*수정일자*/
+		 FROM SER_RO_OPER_ITEM T1
+		WHERE 1=1
+		  AND T1.DLR_CD = #{sDlrCd} 
+		  AND T1.BIZ_AREA_CD = #{sBizAreaCd} 
+		  AND T1.BRCH_CD = #{sBrchCd} 
+		  AND T1.RO_NO = #{sRoNo} 
+		ORDER BY T1.SORT_ORDER ASC
+	</select>
+	
+	<!-- RO배정관리 수정(작업자 배정) -->
+    <update id="updateRoAsgnMng" parameterType="RoAsgnMngMobVO">
+    	/* [com.wdms.dms.mob.ser.ro.service.dao.RoAsgnMngMobDAO.updateRoAsgnMng] */
+    	UPDATE SER_RO_ASGN_MNG    --RO배정관리
+		   SET
+		       UPDT_USR_ID    = #{updtUsrId}            --수정자ID         
+		      ,UPDT_DT        = SYSDATE                 --수정일자         
+		      <if test='wrkUsrId != null and wrkUsrId != ""'>
+		      ,WRK_USR_ID    = #{wrkUsrId}        		--작업자ID
+		      </if> 
+		      <if test='firstAsgnYn != null and firstAsgnYn != "" and firstAsgnYn == "Y"'>
+		      ,EXPC_START_DT = TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI'),'YYYY-MM-DD HH24:MI')
+		      ,EXPC_END_DT = TO_DATE(TO_CHAR(SYSDATE + INTERVAL '20' MINUTE, 'YYYY-MM-DD HH24:MI'),'YYYY-MM-DD HH24:MI')
+		      </if> 
+		      <if test='wrkMsg != null and wrkMsg != ""'>
+		      ,WRK_MSG       = #{wrkMsg}            	--작업메세지
+		      </if>          
+		      <if test='asgnStatCd != null and asgnStatCd != ""'>       
+		      ,ASGN_STAT_CD   = #{asgnStatCd}       	--배정상태코드 (SER055)   
+		      </if>
+		 WHERE 1=1
+		   AND DLR_CD         = #{dlrCd}                --딜러코드          
+		   AND BIZ_AREA_CD    = #{bizAreaCd}            --사업소코드         
+		   AND BRCH_CD        = #{brchCd}               --대리점코드         
+		   AND RO_NO          = #{roNo}                 --RO번호     
+		   <if test='releaseNo != null and releaseNo != 0'>    
+		   AND RELEASE_NO     = #{releaseNo}            --발행번호     
+		   </if>
+    </update>
+	
+	<!-- RO배정관리 병합 -->
+	<update id="mergeRoAsgnMng" parameterType="RoAsgnMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoAsgnMngMobDAO.mergeRoAsgnMng] */
+    	MERGE INTO SER_RO_ASGN_MNG
+	    USING DUAL 
+	       ON (
+	            DLR_CD      = #{dlrCd}
+	        AND BIZ_AREA_CD = #{bizAreaCd}
+	        AND BRCH_CD     = #{brchCd}
+	        AND RO_NO       = #{roNo}
+	        AND RELEASE_NO  = #{releaseNo}
+	    )
+	    WHEN MATCHED THEN
+	        UPDATE SET
+	             ASGN_USR_ID    = #{asgnUsrId}
+	            ,ASGN_MSG       = #{asgnMsg}
+	            ,ASGN_STAT_CD   = #{asgnStatCd}
+	            ,WRK_USR_ID     = #{wrkUsrId}
+	            ,WRK_MSG        = #{wrkMsg}
+	            ,UPDT_USR_ID    = #{updtUsrId}
+	            ,UPDT_DT        = SYSDATE
+	    WHEN NOT MATCHED THEN
+	        INSERT(
+	        	 DLR_CD
+	            ,BIZ_AREA_CD
+	            ,BRCH_CD
+	            ,RO_NO
+	            ,RELEASE_NO
+	            ,ASGN_USR_ID
+	            ,ASGN_MSG
+	            ,ASGN_STAT_CD
+	            ,WRK_USR_ID
+	            ,WRK_MSG
+	            ,REG_USR_ID
+	            ,REG_DT
+	            ,UPDT_USR_ID
+	            ,UPDT_DT
+	        )VALUES(
+	        	 #{dlrCd}
+	            ,#{bizAreaCd}
+	            ,#{brchCd}
+	            ,#{roNo}
+	            ,(SELECT NVL(MAX(RELEASE_NO),0)+1 
+			     FROM SER_RO_ASGN_MNG 
+			     WHERE 1=1
+			       AND DLR_CD 		= #{dlrCd}
+			       AND BIZ_AREA_CD	= #{bizAreaCd}
+			       AND BRCH_CD 		= #{brchCd}
+			       AND RO_NO	    = #{roNo})
+	            ,#{asgnUsrId}
+	            ,#{asgnMsg}
+	            ,#{asgnStatCd}
+	            ,#{wrkUsrId}
+	            ,#{wrkMsg}
+	            ,#{regUsrId}
+	            ,SYSDATE
+	            ,#{updtUsrId}
+	            ,SYSDATE
+	        )
+    </update>
+   
+    <!-- 배정 삭제  -->
+	<update id="deleteRoAsgnMng" parameterType="RoAsgnMngMobVO">
+	 /* [com.wdms.dms.mob.ser.ro.service.dao.RoAsgnMngMobDAO.deleteRoAsgnMng] */
+		WHERE 1=1  
+		  AND DLR_CD = #{dlrCd}
+		  AND BIZ_AREA_CD = #{bizAreaCd}
+		  AND BRCH_CD = #{brchCd}
+		  AND RO_NO = #{roNo}
+	</update>
+    
+    <!-- 배정 수정(배정해제)  -->
+	<update id="updateRoAsgnByRemove" parameterType="RoAsgnMngMobVO">
+	 /* [com.wdms.dms.mob.ser.ro.service.dao.RoAsgnMngMobDAO.updateRoAsgnByRemove] */
+		UPDATE SER_RO_ASGN_MNG
+		   SET WRK_USR_ID = NULL
+		   	  ,WRK_MSG = NULL
+		      ,ASGN_STAT_CD = '01'
+		      ,UPDT_DT = SYSDATE
+		      ,UPDT_USR_ID = #{updtUsrId}
+		WHERE 1=1  
+		  AND DLR_CD = #{dlrCd}
+		  AND BIZ_AREA_CD = #{bizAreaCd}
+		  AND BRCH_CD = #{brchCd}
+		  AND RO_NO = #{roNo}
+	</update>
+    
+    <!--배정여부 조회 -->
+	<select id="selectRoAsgnCompleteCount" parameterType="RoAsgnMngMobVO" resultType="int">
+	 /* [com.wdms.dms.mob.ser.ro.service.dao.RoAsgnMngMobDAO.selectRoAsgnCompleteCount] */
+    	SELECT COUNT(*)
+    	FROM SER_RO_ASGN_MNG
+    	WHERE 1=1  
+		  AND DLR_CD = #{sDlrCd}
+		  AND BIZ_AREA_CD = #{sBizAreaCd}
+		  AND BRCH_CD = #{sBrchCd}
+		  AND RO_NO = #{sRoNo}
+		  AND ASGN_STAT_CD = '02'
+		  AND WRK_USR_ID = #{sWrkUsrId}
+    </select>
+    
+</mapper>

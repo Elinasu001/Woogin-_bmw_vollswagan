@@ -1,0 +1,1206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO">
+
+	<!-- DirectReception 카운트 조회 -->
+	<select id="selectDirectReceptionListCnt" parameterType="RoMngSearchMobVO" resultType="int">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectDirectReceptionListCnt] */
+		SELECT COUNT(*) AS VALUE
+		  FROM SER_RESV_ACPT T1
+		  LEFT JOIN SER_RO_MNG T2
+		    ON T1.DLR_CD         = T2.DLR_CD
+		   AND T1.BIZ_AREA_CD    = T2.BIZ_AREA_CD
+		   AND T1.BRCH_CD        = T2.BRCH_CD
+		   AND T1.RESV_NO        = T2.RESV_NO
+		  LEFT JOIN CRM_CUST T3
+		    ON T1.DRIVER_CUST_NO = T3.CUST_NO
+		   AND T1.DLR_CD         = T3.DLR_CD
+		 WHERE T1.DLR_CD         = #{sDlrCd}
+		   AND T1.BIZ_AREA_CD    = #{sBizAreaCd}
+		   AND T1.BRCH_CD        = #{sBrchCd}
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T1.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sChrgSaId != null and sChrgSaId != ""'>
+		   AND T1.CHRG_SA_ID = #{sChrgSaId}
+		 </if>
+	</select>
+
+	<!-- DirectReception 목록 조회 -->
+	<select id="selectDirectReceptionList" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectDirectReceptionList] */
+		<include refid="common.pagingPre" />
+		SELECT T1.CAR_NO
+		     , T1.DRIVER_CUST_NO
+		     , T3.CUST_NM
+		     , NVL(T2.RO_NO,T1.RESV_NO) AS RO_NO
+		     , T2.RO_NO AS REAL_RO_NO
+		     , T1.RESV_NO AS REAL_RESV_NO
+		     , T2.CHRG_SA_ID
+		     , CASE WHEN FN_GET_USR_NM(T2.DLR_CD, T2.CHRG_SA_ID) IS NULL THEN '(SA정보없음)'
+		            ELSE FN_GET_USR_NM(T2.DLR_CD, T2.CHRG_SA_ID)
+		        END CHRG_SA_NM
+		     , NVL(T2.RO_STAT,T1.RESV_STAT) AS RO_STAT
+		     , FN_CMM_CD('SER051', NVL(T2.RO_STAT,T1.RESV_STAT), 'N') AS RO_STAT_NM
+		     , NVL(T2.SVC_TYPE,T1.SVC_TYPE) AS SVC_TYPE
+		     , FN_CMM_CD('SER006', NVL(T2.SVC_TYPE,T1.SVC_TYPE), 'N') AS SVC_TYPE_NM
+		     , NVL(T2.RO_DTIME,T1.RESV_DTIME) AS RO_DTIME
+		     , NVL(T2.WH_MILG,0) AS WH_MILG
+		  FROM SER_RESV_ACPT T1
+		  LEFT JOIN SER_RO_MNG T2
+		    ON T1.DLR_CD         = T2.DLR_CD
+		   AND T1.BIZ_AREA_CD    = T2.BIZ_AREA_CD
+		   AND T1.BRCH_CD        = T2.BRCH_CD
+		   AND T1.RESV_NO        = T2.RESV_NO
+		  LEFT JOIN CRM_CUST T3
+		    ON T1.DRIVER_CUST_NO = T3.CUST_NO
+		   AND T1.DLR_CD         = T3.DLR_CD
+		 WHERE T1.DLR_CD         = #{sDlrCd}
+		   AND T1.BIZ_AREA_CD    = #{sBizAreaCd}
+		   AND T1.BRCH_CD        = #{sBrchCd}
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T1.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sChrgSaId != null and sChrgSaId != ""'>
+		   AND T1.CHRG_SA_ID = #{sChrgSaId}
+		 </if>
+		ORDER BY NVL(T2.RO_DTIME,T1.RESV_DTIME) DESC
+		<include refid="common.pagingSuf" />
+	</select>
+	
+	<!-- DirectReception 작업내용 목록 조회 -->
+	<select id="selectWorkContList" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectWorkContList] */
+		SELECT WRK_GRP_CD
+		     , WRK_CONTS
+		  FROM
+		  <choose>
+		      <when test="sRoNo == 'null' or sRoNo == '' or sRoNo == null">
+		       SER_RESV_OPER_ITEM_GRP
+		      </when>
+		      <otherwise>
+		       SER_RO_OPER_ITEM_GRP
+		      </otherwise>
+		  </choose>
+		 WHERE DLR_CD      = #{sDlrCd}
+		   AND BIZ_AREA_CD = #{sBizAreaCd}
+		   AND BRCH_CD     = #{sBrchCd}
+		   <choose>
+		      <when test="sRoNo == 'null' or sRoNo == '' or sRoNo == null">
+		   AND RESV_NO     = #{sResvNo}
+		      </when>
+		      <otherwise>
+		   AND RO_NO       = #{sRoNo}
+		      </otherwise>
+		   </choose>
+		 ORDER BY WRK_GRP_CD
+	</select>
+	
+	<!-- DirectReception 내부의견 목록 조회 -->
+	<select id="selectOpinionMtrList" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectOpinionMtrList] */
+		SELECT DLR_CD
+		     , BIZ_AREA_CD
+		     , BRCH_CD
+		     <choose>
+		         <when test="sRoNo == 'null' or sRoNo == '' or sRoNo == null">
+		     , RESV_NO
+		         </when>
+		         <otherwise>
+		     , RO_NO
+		         </otherwise>
+		     </choose>
+		     , LINE_NO
+		     , DLR_OPINION_MTR
+		  FROM
+		  <choose>
+		      <when test="sRoNo == 'null' or sRoNo == '' or sRoNo == null">
+		       SER_RESV_DLR_OPINION_MTR
+		      </when>
+		      <otherwise>
+		       SER_RO_DLR_OPINION_MTR
+		      </otherwise>
+		  </choose>
+		 WHERE DLR_CD         = #{sDlrCd}
+		   AND BIZ_AREA_CD    = #{sBizAreaCd}
+		   AND BRCH_CD        = #{sBrchCd}
+		   AND DLR_OPINION_TP = 'I'
+		   <choose>
+		      <when test="sRoNo == 'null' or sRoNo == '' or sRoNo == null">
+		   AND RESV_NO        = #{sResvNo}
+		      </when>
+		      <otherwise>
+		   AND RO_NO          = #{sRoNo}
+		      </otherwise>
+		   </choose>
+		 ORDER BY LINE_NO
+	</select>
+	
+	<!-- DirectReception 차량점검표시 조회 -->
+	<select id="selectCarChkInfo" parameterType="CarChkActSearchMobVO" resultType="CarChkActInfoMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectCarChkInfo] */
+		SELECT T1.RO_NO
+		     , T2.CAR_SVC_TP_CD
+		     , T2.CAR_CHK_INFO
+		     , T2.TAKE_PIC_DTIME_1
+		     , T2.TAKE_PIC_DTIME_2
+		     , T2.TAKE_PIC_DTIME_3
+		     , T2.TAKE_PIC_DTIME_4
+		     , T2.TAKE_PIC_DTIME_5
+		     , T2.TAKE_PIC_DTIME_6
+		     , T2.CHK_CUST_DTIME
+		     , NVL(T2.CHK_CUST_NM
+		           , (SELECT CUST_NM
+		                FROM CRM_CUST
+		               WHERE DLR_CD      = T1.DLR_CD
+		                 AND BIZ_AREA_CD = T1.BIZ_AREA_CD
+		                 AND BRCH_CD     = T1.BRCH_CD
+		                 AND CUST_NO     = T1.DRIVER_CUST_NO)
+		          ) AS CHK_CUST_NM
+		     , T2.CHK_CUST_SIGN
+		     , T2.CHK_SA_DTIME
+		     , T2.CHK_SA_ID
+		     , (SELECT USR_NM
+		          FROM CMM_USER
+		         WHERE USR_ID = T2.CHK_SA_ID
+		       ) AS CHK_SA_NM
+		     , T2.CHK_SA_SIGN
+		     , T1.DRIVER_CUST_NO
+		     , T1.CHRG_SA_ID
+		     , T1.WH_MILG
+		     , (SELECT RESV_END_DTIME
+		          FROM SER_RESV_ACPT
+		         WHERE DLR_CD      = T1.DLR_CD
+		           AND BIZ_AREA_CD = T1.BIZ_AREA_CD
+		           AND BRCH_CD     = T1.BRCH_CD
+		           AND RESV_NO     = T1.RESV_NO
+		        ) AS RESV_END_DTIME
+		     , T1.DLV_EXPT_DTIME
+		     , T2.CAR_DLV_TP_CD
+		     , T2.CHK_SKIP_RSN
+		     , T2.DOUBLE_CHK_SVC_TP
+		  FROM SER_CAR_CHK_INFO T2
+		  LEFT JOIN SER_RO_MNG T1
+		    ON T1.DLR_CD        = T2.DLR_CD
+		   AND T1.BIZ_AREA_CD   = T2.BIZ_AREA_CD
+		   AND T1.BRCH_CD       = T2.BRCH_CD
+		   AND T1.RESV_NO       = T2.REF_NO
+		 WHERE T2.DLR_CD        = #{sDlrCd}
+		   AND T2.BIZ_AREA_CD   = #{sBizAreaCd}
+		   AND T2.BRCH_CD       = #{sBrchCd}
+		   AND T2.REF_NO        = #{sResvNo}
+	</select>
+	
+	<!-- DirectReception 마일리지 등록 -->
+	<update id="updateSerRoMngMilg" parameterType="RoMngMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.updateSerRoMngMilg] */
+		UPDATE SER_RO_MNG
+		   SET WH_MILG     = #{whMilg}
+		 WHERE DLR_CD      = #{dlrCd}
+		   AND BIZ_AREA_CD = #{bizAreaCd}
+		   AND BRCH_CD     = #{brchCd}
+		   AND RO_NO       = #{roNo}
+	</update>
+	
+	<!-- DirectReception 차량점검항목결과 병합 -->
+	<delete id="deleteCarChkActRslt" parameterType="CarChkActRsltMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.deleteCarChkActRslt] */
+		DELETE SER_CAR_CHK_ACT_RSLT
+		 WHERE DLR_CD         = #{dlrCd}
+		   AND BIZ_AREA_CD    = #{bizAreaCd}
+		   AND BRCH_CD        = #{brchCd}
+		   AND REF_NO         = #{refNo}
+	</delete>
+	<insert id="insertCarChkActRslt" parameterType="CarChkActRsltMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.insertCarChkActRslt] */
+		INSERT
+		  INTO SER_CAR_CHK_ACT_RSLT
+		     ( DLR_CD
+		     , BIZ_AREA_CD
+		     , BRCH_CD
+		     , REF_NO
+		     , CAR_SVC_TP_CD
+		     , CAR_CHK_ATC_CD
+		     , CAR_CHK_ATC_DETL_CD
+		     , ATC_CIE_YN
+		     , NXT_SVC_DT
+		     , CHK_USR_ID
+		     , CHK_DT
+		     , CHK_CONTS
+		     , SORT_SN
+		     , REG_USR_ID
+		     , REG_DT
+		     , UPDT_USR_ID
+		     , UPDT_DT
+		     )
+		VALUES
+		     ( #{dlrCd}
+		     , #{bizAreaCd}
+		     , #{brchCd}
+		     , #{refNo}
+		     , #{carSvcTpCd}
+		     , #{carChkAtcCd}
+		     , #{carChkAtcDetlCd}
+		     , #{atcCieYn}
+		     , NULL
+		     , #{regUsrId}
+		     , SYSDATE
+		     , #{chkConts}
+		     , (SELECT NVL(MAX(SORT_SN),0)+1
+		          FROM SER_CAR_CHK_ACT_RSLT
+		         WHERE DLR_CD      = #{dlrCd}
+		           AND BIZ_AREA_CD = #{bizAreaCd}
+		           AND BRCH_CD     = #{brchCd}
+		           AND REF_NO      = #{refNo}
+		       )
+		     , #{regUsrId}
+		     , SYSDATE
+		     , #{regUsrId}
+		     , SYSDATE
+		     )
+	</insert>
+	
+	<!-- DirectReception 차량점검 정보 병합 -->
+	<update id="mergeCarChkInfo" parameterType="CarChkActInfoMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.mergeCarChkInfo] */
+		 MERGE INTO SER_CAR_CHK_INFO
+		 USING DUAL
+		    ON (     DLR_CD      = #{dlrCd}
+		         AND BIZ_AREA_CD = #{bizAreaCd}
+		         AND BRCH_CD     = #{brchCd}
+		         AND REF_NO      = #{resvNo}
+		       )
+		  WHEN MATCHED THEN
+		UPDATE SET
+		       CAR_SVC_TP_CD     = #{carSvcTpCd}
+		     , DOUBLE_CHK_SVC_TP = #{doubleChkSvcTp}
+		     , CAR_CHK_INFO      = #{carChkInfo}
+		     , CHK_SA_DTIME      = #{chkSaDtime}
+		     , CHK_SA_ID         = #{chkSaId}
+		     , CHK_SA_SIGN       = #{chkSaSign}
+		     , TAKE_PIC_DTIME_1  = #{takePicDtime1}
+		     , TAKE_PIC_DTIME_2  = #{takePicDtime2}
+		     , TAKE_PIC_DTIME_3  = #{takePicDtime3}
+		     , TAKE_PIC_DTIME_4  = #{takePicDtime4}
+		     , TAKE_PIC_DTIME_5  = #{takePicDtime5}
+		     , TAKE_PIC_DTIME_6  = #{takePicDtime6}
+		     , TAKE_PIC_DTIME_7  = #{takePicDtime7}
+		     , TAKE_PIC_DTIME_8  = #{takePicDtime8}
+		     , TAKE_PIC_DTIME_9  = #{takePicDtime9}
+		     , TAKE_PIC_DTIME_10 = #{takePicDtime10}
+		     , CAR_DLV_TP_CD     = #{carDlvTpCd}
+		     , CHK_SKIP_RSN      = #{chkSkipRsn}
+		     , UPDT_USR_ID       = #{regUsrId}
+		     , UPDT_DT           = SYSDATE
+		  WHEN NOT MATCHED THEN
+		INSERT (
+		       DLR_CD
+		     , BIZ_AREA_CD
+		     , BRCH_CD
+		     , REF_NO
+		     , CAR_SVC_TP_CD
+		     , DOUBLE_CHK_SVC_TP
+		     , CAR_CHK_INFO
+		     , CHK_SA_DTIME
+		     , CHK_SA_ID
+		     , CHK_SA_SIGN
+		     , TAKE_PIC_DTIME_1
+		     , TAKE_PIC_DTIME_2
+		     , TAKE_PIC_DTIME_3
+		     , TAKE_PIC_DTIME_4
+		     , TAKE_PIC_DTIME_5
+		     , TAKE_PIC_DTIME_6
+		     , TAKE_PIC_DTIME_7
+		     , TAKE_PIC_DTIME_8
+		     , TAKE_PIC_DTIME_9
+		     , TAKE_PIC_DTIME_10
+		     , CAR_DLV_TP_CD
+		     , CHK_SKIP_RSN
+		     , REG_USR_ID
+		     , REG_DT
+		     , UPDT_USR_ID
+		     , UPDT_DT
+		     )
+		VALUES
+		     (
+		       #{dlrCd}
+		     , #{bizAreaCd}
+		     , #{brchCd}
+		     , #{resvNo}
+		     , #{carSvcTpCd}
+		     , #{doubleChkSvcTp}
+		     , #{carChkInfo}
+		     , #{chkSaDtime}
+		     , #{chkSaId}
+		     , #{chkSaSign}
+		     , #{takePicDtime1}
+		     , #{takePicDtime2}
+		     , #{takePicDtime3}
+		     , #{takePicDtime4}
+		     , #{takePicDtime5}
+		     , #{takePicDtime6}
+		     , #{takePicDtime7}
+		     , #{takePicDtime8}
+		     , #{takePicDtime9}
+		     , #{takePicDtime10}
+		     , #{carDlvTpCd}
+		     , #{chkSkipRsn}
+		     , #{regUsrId}
+		     , SYSDATE
+		     , #{regUsrId}
+		     , SYSDATE
+		     )
+	</update>
+	<update id="updateCarChkInfoChkImg" parameterType="CarChkActInfoMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.updateCarChkInfoChkImg] */
+		UPDATE SER_CAR_CHK_INFO
+		   SET CHK_IMG     = #{chkImgByteArr}
+		 WHERE DLR_CD      = #{dlrCd}
+		   AND BIZ_AREA_CD = #{bizAreaCd}
+		   AND BRCH_CD     = #{brchCd}
+		   AND REF_NO      = #{resvNo}
+	</update>
+	
+	<!-- DirectReception 차량점검항목마스터 조회 vw -->
+	<select id="selectCarChkActMstListVw" parameterType="CarChkActSearchMobVO" resultType="CarChkActMstMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectCarChkActMstListVw] */
+		SELECT CAR_SVC_TP_CD
+		     , CAR_CHK_ATC_CD
+		     , CAR_CHK_ATC_NM
+		  FROM SER_CAR_CHK_ACT_MST
+		 WHERE CAR_SVC_TP_CD = #{sCarSvcTpCd}
+		   <if test='sChkPstnId != null and sChkPstnId != ""'>
+		   AND CHK_PSTN_ID   = #{sChkPstnId}
+		   </if>
+		 UNION 
+		SELECT CAR_SVC_TP_CD
+		     , CAR_CHK_ATC_CD
+		     , CAR_CHK_ATC_NM
+		  FROM SER_CAR_CHK_ACT_MST
+		 WHERE CAR_SVC_TP_CD = '01'
+		 ORDER BY CAR_SVC_TP_CD DESC, CAR_CHK_ATC_CD ASC
+	</select>
+	
+	<!-- DirectReception 차량점검항목마스터 조회 -->
+	<select id="selectCarChkActMstList" parameterType="CarChkActSearchMobVO" resultType="CarChkActMstMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectCarChkActMstList] */
+		SELECT CAR_SVC_TP_CD
+		     , CAR_CHK_ATC_CD
+		     , CAR_CHK_ATC_NM
+		  FROM SER_CAR_CHK_ACT_MST
+		 WHERE CAR_SVC_TP_CD = #{sCarSvcTpCd}
+		   <if test='sChkPstnId != null and sChkPstnId != ""'>
+		   AND CHK_PSTN_ID   = #{sChkPstnId}
+		   </if>
+		 ORDER BY SORT_SN
+	</select>
+	
+	<!-- DirectReception 차량점검항목상세 조회 -->
+	<select id="selectCarChkActDetlList" parameterType="CarChkActSearchMobVO" resultType="CarChkActMstMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectCarChkActDetlList] */
+		SELECT T1.CAR_SVC_TP_CD
+		     , T1.CAR_CHK_ATC_CD
+		     , T1.CAR_CHK_ATC_DETL_CD
+		     , T1.CAR_CHK_ATC_DETL_NM
+		     , T1.REMARK
+		     , T3.ATC_CIE_YN
+		     , T3.CHK_CONTS
+		  FROM SER_CAR_CHK_ACT_DETL T1
+		 INNER JOIN SER_CAR_CHK_ACT_MST T2
+		    ON T1.CAR_SVC_TP_CD       = T2.CAR_SVC_TP_CD 
+		   AND T1.CAR_CHK_ATC_CD      = T2.CAR_CHK_ATC_CD
+		  LEFT OUTER JOIN SER_CAR_CHK_ACT_RSLT T3
+		    ON T1.CAR_SVC_TP_CD       = T3.CAR_SVC_TP_CD 
+		   AND T1.CAR_CHK_ATC_CD      = T3.CAR_CHK_ATC_CD
+		   AND T1.CAR_CHK_ATC_DETL_CD = T3.CAR_CHK_ATC_DETL_CD
+		   AND T3.REF_NO              = #{sResvNo}
+		 WHERE 1 = 1
+		   <if test='sCarSvcTpCd != null and sCarSvcTpCd != ""'>
+		   AND T1.CAR_SVC_TP_CD  = #{sCarSvcTpCd}
+		   </if>
+		   <if test='sCarChkAtcCd != null and sCarChkAtcCd != ""'>
+		   AND T2.CAR_CHK_ATC_CD = #{sCarChkAtcCd}
+		   </if>
+		   <if test='sChkPstnId != null and sChkPstnId != ""'>
+		   AND T2.CHK_PSTN_ID    = #{sChkPstnId}
+		   </if>
+		 ORDER BY T1.SORT_SN
+	</select>
+	
+	<!-- DirectReception관리 내부의견 삭제 -->
+	<delete id="deleteDlrOpinionMtr" parameterType="RoMngMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.deleteDlrOpinionMtr] */
+		<choose>
+		      <when test="roNo == 'null' or roNo == '' or roNo == null">
+		DELETE SER_RESV_DLR_OPINION_MTR
+		 WHERE DLR_CD         = #{dlrCd}
+		   AND BIZ_AREA_CD    = #{bizAreaCd}
+		   AND BRCH_CD        = #{brchCd}
+		   AND DLR_OPINION_TP = 'I'
+		   AND RESV_NO          = #{resvNo}
+		      </when>
+		      <otherwise>
+		DELETE SER_RO_DLR_OPINION_MTR
+		 WHERE DLR_CD         = #{dlrCd}
+		   AND BIZ_AREA_CD    = #{bizAreaCd}
+		   AND BRCH_CD        = #{brchCd}
+		   AND DLR_OPINION_TP = 'I'
+		   AND RO_NO          = #{roNo}
+		      </otherwise>
+		  </choose>
+	</delete>
+	
+	
+	<!-- DirectReception관리 내부의견 등록 -->
+	<insert id="insertDlrOpinionMtr" parameterType="RoMngMobVO">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.insertDlrOpinionMtr] */
+		<choose>
+		      <when test="roNo == 'null' or roNo == '' or roNo == null">
+		INSERT
+		  INTO SER_RESV_DLR_OPINION_MTR
+		     ( DLR_CD
+		     , BIZ_AREA_CD
+		     , BRCH_CD
+		     , DLR_OPINION_MTR
+		     , RESV_NO
+		     , LINE_NO
+		     , DLR_OPINION_TP
+		     , DLR_ID
+		     , REG_USR_ID
+		     , REG_DT
+		     , UPDT_USR_ID
+		     , UPDT_DT
+		     )
+		VALUES
+		     ( #{dlrCd}
+		     , #{bizAreaCd}
+		     , #{brchCd}
+		     , #{dlrOpinionMtr}
+		     , #{resvNo}
+		     , #{lineNo}
+		     , 'I'
+		     , NULL
+		     , #{regUsrId}
+		     , SYSDATE
+		     , #{regUsrId}
+		     , SYSDATE
+		     )
+		      </when>
+		      <otherwise>
+		INSERT
+		  INTO SER_RO_DLR_OPINION_MTR
+		     ( DLR_CD
+		     , BIZ_AREA_CD
+		     , BRCH_CD
+		     , DLR_OPINION_MTR
+		     , RO_NO
+		     , LINE_NO
+		     , DLR_OPINION_TP
+		     , DLR_ID
+		     , REG_USR_ID
+		     , REG_DT
+		     , UPDT_USR_ID
+		     , UPDT_DT
+		     )
+		VALUES
+		     ( #{dlrCd}
+		     , #{bizAreaCd}
+		     , #{brchCd}
+		     , #{dlrOpinionMtr}
+		     , #{roNo}
+		     , #{lineNo}
+		     , 'I'
+		     , NULL
+		     , #{regUsrId}
+		     , SYSDATE
+		     , #{regUsrId}
+		     , SYSDATE
+		     )
+		      </otherwise>
+		  </choose>
+	</insert>
+	
+	<!-- DirectReception관리 내부의견 등록 -->
+	<update id="updateDlvExptDtime">
+	/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.insertDlrOpinionMtr] */
+		UPDATE SER_RO_MNG
+		   SET DLV_EXPT_DTIME = #{dlvExptDtime}
+		 WHERE RO_NO          = #{roNo}
+	</update>
+	
+	<!-- Active RAC 등록 대상 카운트 조회 -->
+	<select id="selectActiveRacListCnt" parameterType="RoMngSearchMobVO" resultType="int">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectActiveRacListCnt] */
+		SELECT COUNT(*) AS VALUE
+		  FROM (
+			SELECT
+				 T1.DLR_CD                 /*딜러코드*/
+				,T1.BIZ_AREA_CD            /*사업소코드*/
+				,T1.BRCH_CD                /*대리점코드*/
+				,T1.RO_NO                  /*RO번호*/
+				,T1.CAR_NO                 /*차량번호*/
+				,T1.CHRG_SA_ID		       /*SA ID*/
+			  FROM SER_RO_MNG T1
+			 WHERE T1.DLR_CD = #{sDlrCd} -- 세션값의 딜러코드
+			   AND T1.BRCH_CD = #{sBrchCd} -- 세션값의 대리점코드
+			   AND T1.RO_STAT IN ('01','02') -- 상담시작, 상담완료
+		  ) T
+		 WHERE 1=1
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sChrgSaId != null and sChrgSaId != ""'>
+		   AND T.CHRG_SA_ID = #{sChrgSaId}
+		 </if>
+		 
+	</select>
+	
+	<!-- Active RAC 등록 대상 목록 조회 -->
+	<select id="selectActiveRacList" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectActiveRacList] */
+		<include refid="common.pagingPre" />
+		SELECT *
+		  FROM (
+			SELECT 
+			     T1.DLR_CD                 /*딜러코드*/
+			    ,T1.BIZ_AREA_CD            /*사업소코드*/
+			    ,T1.BRCH_CD                /*대리점코드*/
+			    ,T1.RO_NO                  /*RO번호*/
+			    ,T1.RESV_NO                /*예약번호*/
+			    ,T1.RO_DTIME               /*RO발행일시*/
+			    ,T1.RO_STAT                /*RO상태 (SER051)*/
+			    ,FN_CMM_CD('SER051', T1.RO_STAT, 'N') AS RO_STAT_NM		/*RO상태명*/
+			    ,T1.RELEASE_NO             /*발행번호*/
+			    ,T1.CHRG_SA_ID             /*담당SA ID*/
+			    ,CASE WHEN FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID) IS NULL THEN '(SA정보없음)'
+			          ELSE FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID)
+			           END CHRG_SA_NM      /*담당SA 명*/
+			    ,T1.SVC_TYPE               /*서비스타입 (SER006)*/
+			    ,T1.WH_MILG                /*입고마일리지*/ 
+			    ,T1.DLV_EXPT_DTIME         /*출고예정일시*/
+			    ,T1.CUST_CAR_YN            /*고객차량여부*/
+			    ,T1.DQ_RCR_RPT_YN          /*하자재발통보여부*/
+			    ,T1.VIN_NO                 /*차대번호*/
+			    ,NVL(T1.CAR_NO,' ') AS CAR_NO                 /*차량번호*/
+			    ,T1.CAR_OWNER_CUST_NO      /*소유자고객번호*/
+			    ,T1.DRIVER_CUST_NO         /*운전자고객번호*/
+			    ,T1.CNCL_RSN               /*취소사유*/
+			    ,T1.WRK_STAT_CD            /*작업상태코드*/
+			    ,T1.CAL_STAT_CD            /*정산상태코드(SER056)*/
+			    ,T1.REG_USR_ID             /*등록자ID*/
+			    ,T1.REG_DT                 /*등록일자*/ 
+			    ,T1.UPDT_USR_ID            /*수정자ID*/
+			    ,T1.UPDT_DT                /*수정일자*/
+			    ,T1.AUDA_TASK_ID           /*아우다택스태스크ID*/
+			    ,CASE WHEN T1.DRIVER_CUST_NO = 'PDI' THEN 'PDI'
+			          WHEN FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO) IS NULL THEN '(고객정보없음)'
+			          ELSE FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO)
+			           END DRIVER_CUST_NM  /*고객명*/
+			    ,T3.REMARK1 AS CAR_SVC_TP_CD          /*차량점검항목코드 (SER016)*/
+			    ,T4.CMM_CD_NM AS CAR_SVC_TP_CD_NM     /*차량점검항목코드명*/
+			  FROM SER_RO_MNG T1
+			  LEFT OUTER JOIN CMM_CODE T3
+			    ON T1.SVC_TYPE = T3.CMM_CD
+			   AND T3.CMM_GRP_CD = 'SER006' /*서비스타입 (SER006)*/
+			  LEFT OUTER JOIN CMM_CODE T4
+			    ON T3.REMARK1 = T4.CMM_CD
+			   AND T4.CMM_GRP_CD = 'SER016' /*차량점검항목코드 (SER016)*/
+			 WHERE T1.DLR_CD = #{sDlrCd} -- 세션값의 딜러코드
+			   AND T1.BRCH_CD = #{sBrchCd} -- 세션값의 대리점코드
+			   AND T1.RO_STAT IN ('01','02') -- 상담시작, 상담완료
+		  ) T
+		 WHERE 1=1
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sChrgSaId != null and sChrgSaId != ""'>
+		   AND T.CHRG_SA_ID = #{sChrgSaId}
+		 </if>
+		ORDER BY T.RO_DTIME DESC
+		<include refid="common.pagingSuf" />
+	</select>
+	
+	<!-- RO배정관리 목록 카운트 조회 -->
+	<select id="selectRoMngListCnt" parameterType="RoMngSearchMobVO" resultType="int">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectRoMngListCnt] */
+		SELECT COUNT(*)
+		  FROM (
+			SELECT 
+			     T1.DLR_CD                 /*딜러코드*/
+			    ,T1.BIZ_AREA_CD            /*사업소코드*/
+			    ,T1.BRCH_CD                /*대리점코드*/
+			    ,T1.RO_NO                  /*RO번호*/
+			    ,T1.RESV_NO                /*예약번호*/
+			    ,T1.RO_DTIME               /*RO발행일시*/
+			    ,T1.RO_STAT                /*RO상태 (SER051)*/
+			    ,FN_CMM_CD('SER051', T1.RO_STAT, 'N') AS RO_STAT_NM		/*RO상태명*/
+			    ,T1.RELEASE_NO             /*발행번호*/
+			    ,T1.CHRG_SA_ID             /*담당SA ID*/
+			    ,T1.SVC_TYPE               /*서비스타입 (SER006)*/
+			    ,T1.WH_MILG                /*입고마일리지*/ 
+			    ,T1.DLV_EXPT_DTIME         /*출고예정일시*/
+			    ,T1.CUST_CAR_YN            /*고객차량여부*/
+			    ,T1.DQ_RCR_RPT_YN          /*하자재발통보여부*/
+			    ,T1.VIN_NO                 /*차대번호*/
+			    ,T1.CAR_NO                 /*차량번호*/
+			    ,T1.CAR_OWNER_CUST_NO      /*소유자고객번호*/
+			    ,T1.DRIVER_CUST_NO         /*운전자고객번호*/
+			    ,T1.CNCL_RSN               /*취소사유*/
+			    ,T1.WRK_STAT_CD            /*작업상태코드*/
+			    ,T1.CAL_STAT_CD            /*정산상태코드(SER056)*/
+			    ,T1.REG_USR_ID             /*등록자ID*/
+			    ,T1.REG_DT                 /*등록일자*/ 
+			    ,T1.UPDT_USR_ID            /*수정자ID*/
+			    ,T1.UPDT_DT                /*수정일자*/
+			    ,T1.AUDA_TASK_ID           /*아우다택스태스크ID*/
+			    ,FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO) AS DRIVER_CUST_NM  /*고객명*/
+			    ,FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID) AS CHRG_SA_NM   /*담당SA 명*/
+			    ,T2.ASGN_USR_ID 
+			    ,T3.REMARK1 AS CAR_SVC_TP_CD        /*차량점검항목코드 (SER016)*/
+			    ,T4.CMM_CD_NM AS CAR_SVC_TP_CD_NM     /*차량점검항목코드명*/
+			  FROM SER_RO_MNG T1
+		     INNER JOIN SER_RO_ASGN_MNG T2
+			  	ON T1.DLR_CD = T2.DLR_CD 
+			   AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD 
+			   AND T1.BRCH_CD = T2.BRCH_CD 
+			   AND T1.RO_NO = T2.RO_NO 
+			   AND T1.RELEASE_NO = T2.RELEASE_NO 
+		      LEFT OUTER JOIN CMM_CODE T3
+		        ON T1.SVC_TYPE = T3.CMM_CD
+		       AND T3.CMM_GRP_CD = 'SER006' /*서비스타입 (SER006)*/
+		      LEFT OUTER JOIN CMM_CODE T4
+		        ON T3.REMARK1 = T4.CMM_CD
+		       AND T4.CMM_GRP_CD = 'SER016' /*차량점검항목코드 (SER016)*/
+			 WHERE T1.DLR_CD = #{sDlrCd} 	-- 세션값의 딜러코드
+			   AND T1.BRCH_CD = #{sBrchCd} 	-- 세션값의 대리점코드
+			   AND T1.RO_STAT = '02' 		-- 상담완료
+			   AND T2.ASGN_STAT_CD != '02' 	-- 배정완료
+		  ) T
+		 WHERE 1=1
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sAsgnUsrId != null and sAsgnUsrId != ""'>
+		   AND T.ASGN_USR_ID = #{sAsgnUsrId}
+		 </if>
+	</select>
+
+	<!-- RO배정관리 목록 데이터 조회 -->
+	<select id="selectRoMngList" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectRoMngList] */
+		<include refid="common.pagingPre" />
+		SELECT *
+		  FROM (
+			SELECT 
+			     T1.DLR_CD                 /*딜러코드*/
+			    ,T1.BIZ_AREA_CD            /*사업소코드*/
+			    ,T1.BRCH_CD                /*대리점코드*/
+			    ,T1.RO_NO                  /*RO번호*/
+			    ,T1.RESV_NO                /*예약번호*/
+			    ,T1.RO_DTIME               /*RO발행일시*/
+			    ,T1.RO_STAT                /*RO상태 (SER051)*/
+			    ,FN_CMM_CD('SER051', T1.RO_STAT, 'N') AS RO_STAT_NM		/*RO상태명*/
+			    ,T1.RELEASE_NO             /*발행번호*/
+			    ,T1.CHRG_SA_ID             /*담당SA ID*/
+			    ,T1.SVC_TYPE               /*서비스타입 (SER006)*/
+			    ,T1.WH_MILG                /*입고마일리지*/ 
+			    ,T1.DLV_EXPT_DTIME         /*출고예정일시*/
+			    ,T1.CUST_CAR_YN            /*고객차량여부*/
+			    ,T1.DQ_RCR_RPT_YN          /*하자재발통보여부*/
+			    ,T1.VIN_NO                 /*차대번호*/
+			    ,NVL(T1.CAR_NO,' ') AS CAR_NO			                /*차량번호*/
+			    ,T1.CAR_OWNER_CUST_NO      /*소유자고객번호*/
+			    ,T1.DRIVER_CUST_NO         /*운전자고객번호*/
+			    ,T1.CNCL_RSN               /*취소사유*/
+			    ,T1.WRK_STAT_CD            /*작업상태코드*/
+			    ,T1.CAL_STAT_CD            /*정산상태코드(SER056)*/
+			    ,T1.REG_USR_ID             /*등록자ID*/
+			    ,T1.REG_DT                 /*등록일자*/ 
+			    ,T1.UPDT_USR_ID            /*수정자ID*/
+			    ,T1.UPDT_DT                /*수정일자*/
+			    ,T1.AUDA_TASK_ID           /*아우다택스태스크ID*/
+			    ,CASE WHEN T1.DRIVER_CUST_NO = 'PDI' THEN 'PDI'
+			          WHEN FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO) IS NULL THEN '(고객정보없음)'
+			          ELSE FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO)
+			           END DRIVER_CUST_NM  /*고객명*/
+			    ,FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID) AS CHRG_SA_NM   /*담당SA 명*/
+			    ,T2.ASGN_USR_ID 
+			    ,T3.REMARK1 AS CAR_SVC_TP_CD        /*차량점검항목코드 (SER016)*/
+			    ,T4.CMM_CD_NM AS CAR_SVC_TP_CD_NM     /*차량점검항목코드명*/
+			  FROM SER_RO_MNG T1
+		     INNER JOIN SER_RO_ASGN_MNG T2
+			  	ON T1.DLR_CD = T2.DLR_CD 
+			   AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD 
+			   AND T1.BRCH_CD = T2.BRCH_CD 
+			   AND T1.RO_NO = T2.RO_NO 
+			   AND T1.RELEASE_NO = T2.RELEASE_NO 
+		      LEFT OUTER JOIN CMM_CODE T3
+		        ON T1.SVC_TYPE = T3.CMM_CD
+		       AND T3.CMM_GRP_CD = 'SER006' /*서비스타입 (SER006)*/
+		      LEFT OUTER JOIN CMM_CODE T4
+		        ON T3.REMARK1 = T4.CMM_CD
+		       AND T4.CMM_GRP_CD = 'SER016' /*차량점검항목코드 (SER016)*/
+			 WHERE T1.DLR_CD = #{sDlrCd} 	-- 세션값의 딜러코드
+			   AND T1.BRCH_CD = #{sBrchCd} 	-- 세션값의 대리점코드
+			   AND T1.RO_STAT = '02' 		-- 상담완료
+			   AND T2.ASGN_STAT_CD != '02' 	-- 배정완료
+		  ) T
+		 WHERE 1=1
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sAsgnUsrId != null and sAsgnUsrId != ""'>
+		   AND T.ASGN_USR_ID = #{sAsgnUsrId}
+		 </if>
+		ORDER BY T.RO_DTIME DESC
+		<include refid="common.pagingSuf" />
+	</select>
+
+	<!-- 작업그룹 목록 조회 -->
+	<select id="selectRoOperItemGroupListByCondition" parameterType="RoMngSearchMobVO" resultType="RoMngOperItemGroupMobVO">
+		/* [com.wdms.dms.ser.ro.service.dao.RoMngDAO.selectRoOperItemGroupListByCondition] */
+		SELECT
+			T1.DLR_CD 													--딜러코드
+			,T1.BIZ_AREA_CD 											--사업소코드
+			,T1.BRCH_CD 												--대리점(지점)코드
+			,T1.RO_NO 													--RO번호
+			,T1.LINE_NO 												--라인번호
+			,T1.WRK_GRP_CD 												--작업그룹(코드)
+			,T1.CALC_TP_CD                                              --정산유형코드
+			,FN_CMM_CD('SER004', T1.CALC_TP_CD, 'N') AS CALC_TP_CD_NM	--정산유형코드명
+			,T1.CALC_DETL_TP_CD 										--정산상세유형코드
+			,T1.WRK_CONTS 												--작업내용
+			,T1.WRK_DETL_CONTS 											--작업상세내용
+			,T1.WRK_USR_ID 												--작업자ID
+			,FN_GET_ALL_USR_NM(T1.DLR_CD, T1.WRK_USR_ID ) AS WRK_USR_NM --작업자명
+			,NVL(T1.WRK_END_YN, 'N') AS WRK_END_YN 						--작업그룹 작업종료여부
+			,T1.WORK_ID                                                 --작업항목코드
+		  FROM SER_RO_OPER_ITEM_GRP T1
+		 WHERE 1=1
+		   AND T1.DLR_CD 		= #{sDlrCd}
+		   AND T1.BIZ_AREA_CD	= #{sBizAreaCd}
+		   AND T1.BRCH_CD 		= #{sBrchCd}
+		   AND T1.RO_NO        = #{sRoNo}
+		ORDER BY
+		CASE WHEN SUBSTR(T1.WRK_GRP_CD, 1, 1) BETWEEN '0' AND '9' THEN 1
+		WHEN SUBSTR(T1.WRK_GRP_CD, 1, 1) = 'E' THEN 2
+		WHEN SUBSTR(T1.WRK_GRP_CD, 1, 1) = 'R' THEN 3
+		ELSE 4
+		END ,LENGTH(T1.WRK_GRP_CD), T1.WRK_GRP_CD
+	</select>
+
+	<!-- wrkUsrNm -->
+	<!-- RO 작업그룹 주작업자 지정(수정) -->
+	<update id="updateRoOperGroupWorker" parameterType="java.util.List">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.updateRoOperGroupWorker] */
+		<foreach collection="list" item="item" index="index"  separator=";" open="DECLARE BEGIN" close="; END;">
+		UPDATE SER_RO_OPER_ITEM_GRP
+			   SET WRK_USR_ID = #{item.wrkUsrId}  -- 작업자ID
+				, UPDT_DT = SYSDATE
+				, UPDT_USR_ID = #{item.updtUsrId}
+			 WHERE 1=1
+			   AND DLR_CD = #{item.dlrCd}
+			   AND BIZ_AREA_CD = #{item.bizAreaCd}
+			   AND BRCH_CD = #{item.brchCd}
+			   AND RO_NO = #{item.roNo}         -- RO번호
+			   AND WRK_GRP_CD = #{item.wrkGrpCd}  -- 작업그룹코드
+		</foreach>
+	</update>
+
+	<!-- Plus Double Check(Order Extension) 등록 대상 카운트 조회 -->
+	<select id="selectPlusDoubleCheckListCnt" parameterType="RoMngSearchMobVO" resultType="int">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectPlusDoubleCheckListCnt] */
+		SELECT COUNT(*) AS VALUE
+		  FROM (
+			SELECT
+				 T1.DLR_CD                 --딜러코드
+				,T1.BIZ_AREA_CD            --사업소코드
+				,T1.BRCH_CD                --대리점코드
+				,T1.RO_NO                  --RO번호
+				,T1.CAR_NO                 --차량번호
+				,T1.CHRG_SA_ID		       --담당SA(ID)
+			  FROM SER_RO_MNG T1  --RO관리
+			 WHERE 1=1
+		       AND T1.DLR_CD = #{sDlrCd}          -- 세션값의 딜러코드
+			   AND T1.BIZ_AREA_CD = #{sBizAreaCd} --세션값의 사업소코드
+			   AND T1.BRCH_CD = #{sBrchCd}        -- 세션값의 대리점코드
+			   AND T1.RO_STAT IN ('01','02')      -- 상담시작, 상담완료
+		  ) T
+	     WHERE 1=1
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sChrgSaId != null and sChrgSaId != ""'>
+		   AND T.CHRG_SA_ID = #{sChrgSaId}
+		 </if>
+	</select>
+
+	<!-- Plus Double Check(Order Extension) 등록 대상 목록 조회 -->
+	<select id="selectPlusDoubleCheckList" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectPlusDoubleCheckList] */
+		<include refid="common.pagingPre" />
+		SELECT *
+		  FROM (
+			SELECT
+				 T1.DLR_CD  									--딜러코드
+				,T1.BIZ_AREA_CD 								--사업소코드
+				,T1.BRCH_CD 									--대리점코드
+				,NVL(T1.RO_NO, T2.RESV_NO) AS RO_NO 			--RO번호
+				,NVL(T1.RO_DTIME, T2.RESV_DTIME) AS RO_DTIME 	--RO발행일시
+				,NVL(T1.SVC_TYPE, T2.SVC_TYPE) AS SVC_TYPE 		--서비스타입
+				,FN_CMM_CD('SER006', NVL(T1.SVC_TYPE, T2.SVC_TYPE), 'N') AS SVC_TYPE_NM    --서비스타입(명)
+				,NVL(T1.RO_STAT, T2.RESV_STAT) AS RO_STAT  		--RO상태
+				,FN_CMM_CD('SER051', NVL(T1.RO_STAT, T2.RESV_STAT), 'N') AS RO_STAT_NM 		--RO상태(명)
+				,T1.CHRG_SA_ID 									--담당SA(ID)
+				,CASE WHEN FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID) IS NULL THEN '(SA정보없음)'
+				      ELSE FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID)
+				       END CHRG_SA_NM  							--담당SA(명)
+				,T1.DRIVER_CUST_NO 								--운전자고객번호
+				,CASE WHEN T1.DRIVER_CUST_NO = 'PDI' THEN 'PDI'
+				      WHEN FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO) IS NULL THEN '(고객정보없음)'
+					  ELSE FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO)
+			           END DRIVER_CUST_NM  						--고객명
+				,T1.VIN_NO 										--차대번호
+				,NVL(T1.CAR_NO,' ') AS CAR_NO 					--차량번호
+			  FROM SER_RO_MNG T1 	--RO관리
+			  LEFT OUTER JOIN SER_RESV_ACPT T2  --예약접수
+			    ON T1.DLR_CD = T2.DLR_CD
+			   AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD
+			   AND T1.BRCH_CD = T2.BRCH_CD
+			   AND T1.RESV_NO = T2.RESV_NO
+			 WHERE 1=1
+		       AND T1.DLR_CD = #{sDlrCd}          			-- 세션값의 딜러코드
+		       AND T1.BIZ_AREA_CD = #{sBizAreaCd} 			--세션값의 사업소코드
+			   AND T1.BRCH_CD = #{sBrchCd}        			-- 세션값의 대리점코드
+			   AND NVL(T1.RO_STAT, T2.RESV_STAT) <![CDATA[<]]> '04'     -- '공정마감(04)' 전 RO
+		  ) T
+		 WHERE 1=1
+		 <if test='sCarNo != null and sCarNo != ""'>
+	       AND T.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sChrgSaId != null and sChrgSaId != ""'>
+		   AND T.CHRG_SA_ID = #{sChrgSaId}
+		 </if>
+		 ORDER BY T.RO_DTIME DESC
+		<include refid="common.pagingSuf" />
+	</select>
+
+	<!-- Direct Reception에서 선택한 차량점검항목코드(SER016) 조회 -->
+	<select id="selectDoubleCheckSvcTpCode" parameterType="RoMngSearchMobVO" resultType="String">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectDoubleCheckSvcTpCode] */
+		SELECT
+			T1.DOUBLE_CHK_SVC_TP  			-- 차량점검항목코드(SER016)
+	 	  FROM SER_CAR_CHK_INFO T1
+		 INNER JOIN SER_RO_MNG T2 	--RO관리
+		    ON T1.REF_NO = T2.RESV_NO
+		 WHERE 1=1
+		   AND T1.DLR_CD = #{sDlrCd}
+		   AND T1.BIZ_AREA_CD = #{sBizAreaCd}
+		   AND T1.BRCH_CD = #{sBrchCd}
+		   AND T2.RO_NO = #{sRoNo}
+	</select>
+
+	<!-- RO EndControl 목록 카운트 조회 -->
+	<select id="selectRoMngEndControlListCnt" parameterType="RoMngSearchMobVO" resultType="int">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectRoMngEndControlListCnt] */
+		SELECT COUNT(*)
+		  FROM (
+			SELECT
+			     T1.DLR_CD                 /*딜러코드*/
+			    ,T1.BIZ_AREA_CD            /*사업소코드*/
+			    ,T1.BRCH_CD                /*대리점코드*/
+			    ,T1.RO_NO                  /*RO번호*/
+			    ,T1.RESV_NO                /*예약번호*/
+			    ,T1.RO_DTIME               /*RO발행일시*/
+			    ,T1.RO_STAT                /*RO상태 (SER051)*/
+			    ,FN_CMM_CD('SER051', T1.RO_STAT, 'N') AS RO_STAT_NM		/*RO상태명*/
+			    ,T1.RELEASE_NO             /*발행번호*/
+			    ,T1.CHRG_SA_ID             /*담당SA ID*/
+			    ,T1.SVC_TYPE               /*서비스타입 (SER006)*/
+			    ,T1.WH_MILG                /*입고마일리지*/ 
+			    ,T1.DLV_EXPT_DTIME         /*출고예정일시*/
+			    ,T1.CUST_CAR_YN            /*고객차량여부*/
+			    ,T1.DQ_RCR_RPT_YN          /*하자재발통보여부*/
+			    ,T1.VIN_NO                 /*차대번호*/
+			    ,T1.CAR_NO                 /*차량번호*/
+			    ,T1.CAR_OWNER_CUST_NO      /*소유자고객번호*/
+			    ,T1.DRIVER_CUST_NO         /*운전자고객번호*/
+			    ,T1.CNCL_RSN               /*취소사유*/
+			    ,T1.WRK_STAT_CD            /*작업상태코드*/
+			    ,T1.CAL_STAT_CD            /*정산상태코드(SER056)*/
+			    ,T1.REG_USR_ID             /*등록자ID*/
+			    ,T1.REG_DT                 /*등록일자*/ 
+			    ,T1.UPDT_USR_ID            /*수정자ID*/
+			    ,T1.UPDT_DT                /*수정일자*/
+			    ,T1.AUDA_TASK_ID           /*아우다택스태스크ID*/
+			    ,FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO) AS DRIVER_CUST_NM  /*고객명*/
+			    ,FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID) AS CHRG_SA_NM   /*담당SA 명*/
+			    ,T2.ASGN_USR_ID
+			    ,T3.REMARK1 AS CAR_SVC_TP_CD        /*차량점검항목코드 (SER016)*/
+			    ,T4.CMM_CD_NM AS CAR_SVC_TP_CD_NM     /*차량점검항목코드명*/
+			  FROM SER_RO_MNG T1
+		      LEFT OUTER JOIN SER_RO_ASGN_MNG T2
+			  	ON T1.DLR_CD = T2.DLR_CD 
+			   AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD 
+			   AND T1.BRCH_CD = T2.BRCH_CD 
+			   AND T1.RO_NO = T2.RO_NO 
+			   AND T1.RELEASE_NO = T2.RELEASE_NO 
+		      LEFT OUTER JOIN CMM_CODE T3
+		        ON T1.SVC_TYPE = T3.CMM_CD
+		       AND T3.CMM_GRP_CD = 'SER006' /*서비스타입 (SER006)*/
+		      LEFT OUTER JOIN CMM_CODE T4
+		        ON T3.REMARK1 = T4.CMM_CD
+		       AND T4.CMM_GRP_CD = 'SER016' /*차량점검항목코드 (SER016)*/
+			 WHERE T1.DLR_CD = #{sDlrCd} 	-- 세션값의 딜러코드
+			   AND T1.BRCH_CD = #{sBrchCd} 	-- 세션값의 대리점코드
+			   AND T1.RO_STAT = '08' 		-- End Control 요청
+			 
+		  ) T
+		 WHERE 1=1
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sAsgnUsrId != null and sAsgnUsrId != ""'>
+		   AND T.ASGN_USR_ID = #{sAsgnUsrId}
+		 </if>
+	</select>
+
+	<!-- RO EndControl 목록 데이터 조회 -->
+	<select id="selectRoMngEndControlList" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectRoMngEndControlList] */
+		<include refid="common.pagingPre" />
+		SELECT *
+		  FROM (
+			SELECT 
+			     T1.DLR_CD                 /*딜러코드*/
+			    ,T1.BIZ_AREA_CD            /*사업소코드*/
+			    ,T1.BRCH_CD                /*대리점코드*/
+			    ,T1.RO_NO                  /*RO번호*/
+			    ,T1.RESV_NO                /*예약번호*/
+			    ,T1.RO_DTIME               /*RO발행일시*/
+			    ,T1.RO_STAT                /*RO상태 (SER051)*/
+			    ,FN_CMM_CD('SER051', T1.RO_STAT, 'N') AS RO_STAT_NM		/*RO상태명*/
+			    ,T1.RELEASE_NO             /*발행번호*/
+			    ,T1.CHRG_SA_ID             /*담당SA ID*/
+			    ,T1.SVC_TYPE               /*서비스타입 (SER006)*/
+			    ,T1.WH_MILG                /*입고마일리지*/ 
+			    ,T1.DLV_EXPT_DTIME         /*출고예정일시*/
+			    ,T1.CUST_CAR_YN            /*고객차량여부*/
+			    ,T1.DQ_RCR_RPT_YN          /*하자재발통보여부*/
+			    ,T1.VIN_NO                 /*차대번호*/
+			    ,NVL(T1.CAR_NO,' ') AS CAR_NO                 /*차량번호*/
+			    ,T1.CAR_OWNER_CUST_NO      /*소유자고객번호*/
+			    ,T1.DRIVER_CUST_NO         /*운전자고객번호*/
+			    ,T1.CNCL_RSN               /*취소사유*/
+			    ,T1.WRK_STAT_CD            /*작업상태코드*/
+			    ,T1.CAL_STAT_CD            /*정산상태코드(SER056)*/
+			    ,T1.REG_USR_ID             /*등록자ID*/
+			    ,T1.REG_DT                 /*등록일자*/ 
+			    ,T1.UPDT_USR_ID            /*수정자ID*/
+			    ,T1.UPDT_DT                /*수정일자*/
+			    ,T1.AUDA_TASK_ID           /*아우다택스태스크ID*/
+			    ,CASE WHEN T1.DRIVER_CUST_NO = 'PDI' THEN 'PDI'
+			          WHEN FN_GET_CUST_NM(T2.DLR_CD, T1.DRIVER_CUST_NO) IS NULL THEN '(고객정보없음)'
+			          ELSE FN_GET_CUST_NM(T2.DLR_CD, T1.DRIVER_CUST_NO)
+			           END DRIVER_CUST_NM  /*고객명*/
+			    ,CASE WHEN FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID) IS NULL THEN '(SA정보없음)'
+			          ELSE FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID)
+			           END CHRG_SA_NM      /*담당SA 명*/
+			    ,T2.ASGN_USR_ID
+			    ,T3.REMARK1 AS CAR_SVC_TP_CD         /*차량점검항목코드 (SER016)*/
+			    ,T4.CMM_CD_NM AS CAR_SVC_TP_CD_NM    /*차량점검항목코드명*/
+			    ,T5.CORP_SHOT_CD AS DLR_SHOT_CD		 /*딜러영문코드*/
+			  FROM SER_RO_MNG T1
+		      LEFT OUTER JOIN SER_RO_ASGN_MNG T2
+			  	ON T1.DLR_CD = T2.DLR_CD 
+			   AND T1.BIZ_AREA_CD = T2.BIZ_AREA_CD 
+			   AND T1.BRCH_CD = T2.BRCH_CD 
+			   AND T1.RO_NO = T2.RO_NO 
+			   AND T1.RELEASE_NO = T2.RELEASE_NO 
+		      LEFT OUTER JOIN CMM_CODE T3
+		        ON T1.SVC_TYPE = T3.CMM_CD
+		       AND T3.CMM_GRP_CD = 'SER006' /*서비스타입 (SER006)*/
+		      LEFT OUTER JOIN CMM_CODE T4
+		        ON T3.REMARK1 = T4.CMM_CD
+		       AND T4.CMM_GRP_CD = 'SER016' /*차량점검항목코드 (SER016)*/
+		      LEFT JOIN CMM_CORP T5
+		        ON T1.DLR_CD = T5.CORP_CD
+			 WHERE T1.DLR_CD = #{sDlrCd} 	-- 세션값의 딜러코드
+			   AND T1.BRCH_CD = #{sBrchCd} 	-- 세션값의 대리점코드
+			   AND T1.RO_STAT = '08' 		-- End Control 요청
+		  ) T
+		 WHERE 1=1
+		 <if test='sCarNo != null and sCarNo != ""'>
+		   AND T.CAR_NO LIKE '%' || #{sCarNo} || '%'
+		 </if>
+		 <if test='sAsgnUsrId != null and sAsgnUsrId != ""'>
+		   AND T.ASGN_USR_ID = #{sAsgnUsrId}
+		 </if>
+		ORDER BY T.RO_DTIME DESC
+		<include refid="common.pagingSuf" />
+	</select>
+	
+	<!-- RO 상세 조회 -->
+	<select id="selectRoMng" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectRoMng] */
+		SELECT
+		     T1.DLR_CD             /*딜러코드*/
+		    ,T1.BIZ_AREA_CD        /*사업소코드*/
+		    ,T1.BRCH_CD            /*대리점코드*/
+		    ,T1.RO_NO              /*RO번호*/
+		    ,T1.RESV_NO            /*예약번호*/
+		    ,TO_CHAR(T1.RO_DTIME, 'YYYY-MM-DD HH24:MI') AS RO_DTIME           	/*RO발행일시*/
+		    ,T1.RO_STAT            /*RO상태 (SER051)*/
+		    ,T1.RELEASE_NO         /*발행번호*/
+		    ,T1.CHRG_SA_ID         /*담당SA ID*/
+		    ,T1.SVC_TYPE           /*서비스타입 (SER006)*/
+			,FN_CMM_CD('SER006', T1.SVC_TYPE, 'N') AS SVC_TYPE_NM
+		    ,T1.WH_MILG            /*입고마일리지*/
+		    ,TO_CHAR(T1.DLV_EXPT_DTIME, 'YYYY-MM-DD HH24:MI') AS DLV_EXPT_DTIME /*출고예정일시*/
+		    ,T1.CUST_CAR_YN        /*고객차량여부*/
+		    ,T1.DQ_RCR_RPT_YN      /*하자재발통보여부*/
+		    ,T1.VIN_NO             /*차대번호*/
+		    ,T1.CAR_NO             /*차량번호*/
+		    ,T1.CAR_OWNER_CUST_NO  /*소유자고객번호*/
+		    ,T1.DRIVER_CUST_NO     /*운전자고객번호*/
+		    ,T1.CNCL_RSN           /*취소사유*/
+		    ,T1.WRK_STAT_CD        /*작업상태코드*/
+		    ,T1.CAL_STAT_CD        /*정산상태코드(SER056)*/
+		    ,T1.REG_USR_ID         /*등록자ID*/
+		    ,T1.REG_DT             /*등록일자*/
+		    ,T1.UPDT_USR_ID        /*수정자ID*/
+		    ,T1.UPDT_DT            /*수정일자*/
+		    ,T1.AUDA_TASK_ID       /*아우다택스태스크ID*/
+		    ,FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO) AS DRIVER_CUST_NM  	/*고객명*/
+		    ,FN_GET_ALL_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID) AS CHRG_SA_NM   		/*담당SA 명*/
+		    ,REGEXP_REPLACE(T2.HP_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS HP_NO
+		    ,T3.MODEL_NM
+		    ,FN_CMM_CD('CRM038', T2.CUST_TP, 'N') AS CUST_TP_NM					/*고객유형*/
+			,T4.DLR_OPINION_MTR   /*내부의견*/
+			,T5.USR_NM            /*사용자이름*/
+		  FROM SER_RO_MNG T1
+	      LEFT OUTER JOIN CRM_CUST T2
+	        ON T1.DLR_CD = T2.DLR_CD
+	       AND T1.DRIVER_CUST_NO = T2.CUST_NO
+	      LEFT OUTER JOIN SAL_V_VIN T3
+	        ON T1.VIN_NO = T3.VIN_NO
+		  LEFT OUTER JOIN SER_RO_DLR_OPINION_MTR T4
+			ON T1.RO_NO = T4.RO_NO
+		  LEFT OUTER JOIN CMM_USER T5
+			ON T1.REG_USR_ID = T5.USR_ID
+		 WHERE 1=1
+		   AND T1.DLR_CD = #{sDlrCd}
+		   AND T1.BIZ_AREA_CD = #{sBizAreaCd}
+		   AND T1.BRCH_CD = #{sBrchCd}
+		   AND T1.RO_NO = #{sRoNo}
+	</select>
+
+	<!-- RO 상세 조회 -->
+	<select id="selectRoMngByKey" parameterType="RoMngSearchMobVO" resultType="RoMngMobVO">
+ 		/* [com.wdms.dms.mob.ser.ro.service.dao.RoMngMobDAO.selectRoMngByKey] */
+   		SELECT
+				T1.DLR_CD                								--딜러코드
+			   ,T6.CORP_SHOT_CD AS DLR_SHOT_CD 							--딜러영문코드
+			   ,T1.BIZ_AREA_CD           								--사업소코드
+			   ,T1.BRCH_CD               								--대리점코드
+			   ,T1.RO_NO                 								--RO번호
+			   ,T1.RESV_NO               								--예약번호
+			   ,TO_CHAR(T1.RO_DTIME, 'YYYY-MM-DD HH24:MI') AS RO_DTIME	--RO발행일시
+			   ,T1.RO_STAT               								--RO상태 (SER051)
+			   ,FN_CMM_CD('SER051', T1.RO_STAT, 'N') AS RO_STAT_NM		--RO상태 명
+			   ,T1.RELEASE_NO            								--발행번호
+			   ,T1.CHRG_SA_ID            								--담당SA ID
+			   ,FN_GET_USR_NM(T1.DLR_CD, T1.CHRG_SA_ID) AS CHRG_SA_NM	--담당SA 명
+			   ,(SELECT CE.CELL_NO 
+				 FROM CMM_USER CU
+				 INNER JOIN CMM_EMPL CE 
+				  			ON CU.EMPL_NO = CE.EMPL_NO 
+				  			AND CU.CORP_CD = CE.CORP_CD 
+				 WHERE  CU.CORP_CD = T1.DLR_CD 
+				 AND CU.USR_ID = T1.CHRG_SA_ID) AS CHRG_SA_HP_NO			--담당SA 연락처
+			   ,T1.SVC_TYPE              								--서비스타입 (SER006)
+			   ,FN_CMM_CD('SER006', T1.SVC_TYPE, 'N') AS SVC_TYPE_NM	--서비스타입 명
+			   ,T1.WH_MILG               								--입고마일리지
+			   ,T1.DLV_EXPT_DTIME        								--출고예정일시
+			   ,TO_CHAR(T1.DLV_EXPT_DTIME, 'YYYY-MM-DD HH24:MI') AS DLV_EXPT_DT   --출고예정일시
+			   ,T1.CUST_CAR_YN           								--고객차량여부
+			   ,T1.DQ_RCR_RPT_YN         								--하자재발통보여부
+			   ,T1.VIN_NO                								--차대번호
+			   ,T1.CAR_NO                								--차량번호
+			   ,T1.CAR_OWNER_CUST_NO     								--소유자고객번호
+			   ,T1.DRIVER_CUST_NO AS CUST_NO        					--운전자고객번호
+			   ,FN_GET_CUST_NM(T1.DLR_CD, T1.DRIVER_CUST_NO) AS CUST_NM --고객명
+			   ,T1.CNCL_RSN              								--취소사유
+			   ,T1.WRK_STAT_CD           								--작업상태코드
+			   ,T1.CAL_STAT_CD           								--정산상태코드
+			   ,T2.ASGN_USR_ID											--배정자ID
+			   ,T2.ASGN_MSG												--작업배정요청 메세지
+			   ,CASE WHEN FN_GET_CUST_HP_NO(T1.DLR_CD, T1.DRIVER_CUST_NO) IS NOT NULL THEN REGEXP_REPLACE(FN_GET_CUST_HP_NO(T1.DLR_CD, T1.DRIVER_CUST_NO), '(02|.{3})(.+)(.{4})', '\1-\2-\3')
+			   	 	 ELSE FN_GET_CUST_HP_NO(T1.DLR_CD, T1.DRIVER_CUST_NO)
+			   	 	  END AS CUST_HP_NO	  								--고객 휴대폰번호
+			   ,FN_CMM_CD('CRM058',T3.CAR_REL_TP,'N') AS CAR_REL_TP_NM 	--관계
+			   ,(SELECT LAST_CAR_MILG FROM SAL_V_VIN WHERE VIN_NO = T1.VIN_NO) AS LAST_CAR_MILG	--최종주행거리
+			   ,T1.AUDA_TASK_ID 										--AudaTex TaskId
+			   ,T1.AUDA_ACNT_ID											--AudaTex 계정ID
+			   ,NVL(T4.UNTACT_CNSTN_YN, 'N') AS UNTACT_CNSTN_YN  		--비대면상담여부
+		       ,T4.CNSTN_LINK            								--상담링크
+		       ,NVL(T4.CNSTN_CMPT_YN, 'N') AS CNSTN_CMPT_YN      		--상담완료여부
+		       ,T1.RO_NOTE												--RO노트
+		       ,FN_GET_USR_NM(T1.DLR_CD, T1.UPDT_USR_ID) AS UPDT_USR_NM --수정자
+		       ,T5.CUST_TP 												--(SBO I/F) 고객유형 (CRM038)
+			   ,CASE WHEN T5.CUST_TP != '01' THEN NVL(T7.BIZ_TP, T5.BIZ_TP)
+			   		 ELSE ''
+			   		 END AS BIZ_TP										--(SBO I/F) 업종
+			   ,CASE WHEN T5.CUST_TP != '01' THEN NVL(T7.BIZ_COND, T5.BIZ_COND)
+			   		 ELSE ''
+			   		 END AS BIZ_COND		 							--(SBO I/F) 업태
+			   ,CASE WHEN T5.CUST_TP = '01' THEN ''
+				  	 WHEN T5.CUST_TP != '01' AND LENGTH(T7.BSNM_REG_NO) != '10' OR T7.BSNM_REG_NO IS NULL THEN ''
+				  	 ELSE SUBSTR(T7.BSNM_REG_NO,1,3) || '-' || SUBSTR(T7.BSNM_REG_NO ,4,2) || '-' || SUBSTR(T7.BSNM_REG_NO ,6,5)
+				  	  END AS BSNM_REG_NO								--(SBO I/F) 사업자등록번호
+			   ,NVL(T5.TEL_NO, T7.TEL_NO) AS TEL_NO						--(SBO I/F) 전화번호
+			   ,T5.HP_NO AS HP_NO
+			   ,NVL(T8.ZIP_NO,T7.ZIP_NO) AS ZIP_NO 						--(SBO I/F) 우편번호
+			   ,CASE WHEN T5.CUST_TP = '01' THEN T8.ADDR 
+			   		 ELSE T7.ADDR 
+			   		 END AS ADDR 										--(SBO I/F) 주소
+			   ,CASE WHEN T5.CUST_TP = '01' THEN T8.DETL_ADDR 
+			   		 ELSE T7.DETL_ADDR 
+				     END AS ADDR_DETL									--(SBO I/F) 상세주소
+			   ,NVL(T5.EMAIL,T7.EMAIL) AS EMAIL	 		 				--(SBO I/F) 이메일
+		  FROM SER_RO_MNG T1    		  		 --RO관리
+		  LEFT JOIN SER_RO_ASGN_MNG T2	  		 --RO배정관리
+		    ON T1.DLR_CD 		 = T2.DLR_CD
+		   AND T1.BIZ_AREA_CD 	 = T2.BIZ_AREA_CD
+		   AND T1.BRCH_CD 		 = T2.BRCH_CD
+		   AND T1.RO_NO 		 = T2.RO_NO
+		   AND T1.RELEASE_NO 	 = T2.RELEASE_NO
+		  LEFT JOIN CRM_DRIVER T3 		  		 --CRM 차량고객운전자
+		    ON T1.DLR_CD 		 = T3.DLR_CD
+		   AND T1.CAR_OWNER_CUST_NO = T3.CUST_NO
+		   AND T1.DRIVER_CUST_NO = T3.DRIVER_CUST_NO
+		   AND T1.VIN_NO 		 = T3.VIN_NO
+		  LEFT JOIN SER_UNTACT_CNSTN_INFO T4	 --비대면상담정보
+		    ON T1.DLR_CD 		 = T4.DLR_CD
+		   AND T1.BIZ_AREA_CD 	 = T4.BIZ_AREA_CD
+		   AND T1.BRCH_CD  		 = T4.BRCH_CD
+		   AND T1.RESV_NO 		 = T4.RESV_NO
+		  LEFT JOIN CRM_CUST T5 				 --(SBO I/F) CRM 고객마스터 
+		    ON T1.DLR_CD = T5.DLR_CD 
+		   AND T1.DRIVER_CUST_NO = T5.CUST_NO 
+		  LEFT JOIN CMM_CORP T6					 --(SBO I/F) 법인마스터
+			ON T1.DLR_CD = T6.CORP_CD
+		  LEFT JOIN CRM_PARTNER T7				 --(SBO I/F) CRM 거래처정보
+			ON T7.DLR_CD = T1.DLR_CD
+		   AND T7.BP_CD  = T5.BP_CD
+		  LEFT JOIN CRM_CUST_ADDR T8
+		    ON T5.DLR_CD = T8.DLR_CD
+		   AND T5.CUST_NO = T8.CUST_NO 
+		   AND T8.ADDR_DSTIN_CD = 'H'			 --(SBO I/F) 자택주소
+         WHERE 1=1
+		   AND T1.DLR_CD         = #{sDlrCd}     --딜러코드
+		   AND T1.BIZ_AREA_CD    = #{sBizAreaCd} --사업소코드
+		   AND T1.BRCH_CD        = #{sBrchCd}    --대리점코드
+		   AND T1.RO_NO          = #{sRoNo}      --RO번호
+	</select>
+</mapper>

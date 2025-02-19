@@ -1,0 +1,529 @@
+<html lang="ko" class="k-webkit k-webkit128 k-mobile">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <title>WDMS STG</title>
+    
+    <!-- css -->
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/kendo/kendo.mobile.all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/mob/css/libs/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/mob/css/style.css?ver=1.3">
+    <link rel="stylesheet" type="text/css" href="https://m.stg-vwgkwdms.co.kr/resources/css/libs/slick.css">
+    <!-- js -->
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/jquery.fileDownload.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/dms.common-1.0.js?ver=1.3"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/dms/jquery.ext-1.0.js"></script>
+    
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/mob/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/crm/crm.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/sal/sal.common.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/slick.min.js"></script>
+    <script type="text/javascript" src="https://m.stg-vwgkwdms.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+
+    
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+        let viewportMeta = document.querySelector('meta[name="viewport"]');
+        
+        if (!viewportMeta) {
+            viewportMeta = document.createElement('meta');
+            viewportMeta.name = 'viewport';
+            document.head.appendChild(viewportMeta);
+        }
+
+        // 화면 너비가 768px 미만일 경우 (모바일)
+        if (window.innerWidth < 768) {
+            viewportMeta.content = 'user-scalable=no,width=375';
+        } else {
+            // 태블릿 및 그 이상일 경우
+            viewportMeta.content = 'width=device-width,initial-scale=1,user-scalable=no';
+        }
+    });
+
+    </script>
+    </head>
+<body>
+    <!-- modal -->
+    <div class="modal show">
+        <div class="modal-content bg scroll-hidden" id="vwBody">
+            <div class="modal-header">
+                <h1 class="header-title">Plus Double Check 상세</h1><!-- Direct Reception -->
+                <div class="header-left">
+                    <button class="btn btn-util close btn-close-modal km-widget km-button" onclick="btnCancel()"
+                        data-role="button">
+                        <span class="sr-only km-text"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body mo-body type2">
+                <div class="info-wrap">
+                    <div class="user-info-area">
+
+                        <div class="info-sec">
+
+                            <!--N : 공통필요 - DirectReception 기준 체크박스를 버튼 형식으로 작업 필요 -->
+                            <div class="content-btn" id="svcTpCdBtn">
+                                <button id="06" type="button" class="btn-Selected">더블 체크</button>
+                                <button id="07" type="button" class="btn-disabled">플러스 더블 체크</button>
+                                <button id="08" type="button" class="btn-disabled">ID 더블 체크</button>
+                                <button id="99" type="button" class="btn-disabled">점검생략</button>
+                            </div>
+                        </div>
+
+                        <!--아코디언-->
+                        <div class="info-sec">
+                             <!--N : 타이틀 추가 -->
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">점검항목</p>
+                                </div>
+                            </div>
+                            <!-- 아코디언1 -->
+                            <ul class="accordion" id="accordion1">
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title title-flex">
+                                            <div class="title-left">
+                                                <p class="title">접수점검</p>
+                                            </div>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                        <!-- N : inspection-title-area 부분 공통 작업으로 인한 태그 변경 필요-->
+                                        <div class="item-text-group chk-list-tit">
+                                            <div class="tit">점검 리스트</div>
+                                            <div>
+                                                <p class="item-text">OK</p>
+                                                <p class="item-text">N.OK</p>
+                                            </div>
+                                        </div>
+                                        <div class="agreement-area-wrap">
+                                            <ul id="listview01_01" class="list-group" data-role="listview"></ul>
+                                            <script id="tmp01_01" type="text/x-kendo-template">
+                                                <div class="item-area">
+                                                    <div class="item-left item-flex">
+                                                        <div class="item-left">
+                                                            # if (title) { #
+                                                            <p class="item-text tit">#: title #</p>
+                                                            # } #
+                                                            # if (txt) { #
+                                                            <p class="item-text">#: txt #</p>
+                                                            # } #
+                                                            # if (stxt) { #
+                                                            <p class="item-text stxt">#: stxt #</p>
+                                                            # } #
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-right">
+                                                        <ul class="form-checkbox-group">
+                                                            <li>
+                                                                <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                                                                <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                                                                <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-item">
+                                                        <div class="form-item-inner">
+                                                            <textarea class="form-textarea" placeholder="상세내역 및 권장사항(fix)"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </script>
+                                            <script>
+                                                var groupedData01_01 = [
+                                                    {
+                                                        title: "외장 손상 (전면유리, 차체손상 및 도장 손상 포함)", 
+                                                        txt: "",
+                                                        stxt: "※ 손상 부위는 문진표에서 확인하실 수 있습니다.",
+                                                        carChkAtcCd: "01_001",
+                                                        carChkAtcDetlCd: "1",
+                                                        atcCieYn: "Y"
+
+                                                    },
+                                                    {
+                                                        title: "오일류 교체시기 - 엔진오일", 
+                                                        txt: "",
+                                                        stxt: "",
+                                                        carChkAtcCd: "01_002",
+                                                        carChkAtcDetlCd: "2",
+                                                        atcCieYn: "N"
+
+                                                    },
+                                                    {
+                                                        title: "오일류 교체시기 - 미션오일 교체 타입이 아닐 경우 생략", 
+                                                        txt: "",
+                                                        stxt: "",
+                                                        carChkAtcCd: "01_003",
+                                                        carChkAtcDetlCd: "3",
+                                                        atcCieYn: "N"
+                                                    },
+                                                    {
+                                                        title: "필터류 교체시기  - 에어크리너", 
+                                                        txt: "",
+                                                        stxt: "",
+                                                        carChkAtcCd: "01_004",
+                                                        carChkAtcDetlCd: "4",
+                                                        atcCieYn: "N"
+                                                    },
+                                                ];
+                                                $(document).ready(function () { 
+                                                    $("#listview01_01").kendoMobileListView({
+                                                        dataSource: kendo.data.DataSource.create({data: groupedData01_01}),
+                                                        template: kendo.template($("#tmp01_01").html()),
+                                                    });
+                                        
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title title-flex">
+                                            <div class="title-left">
+                                                <p class="title">등화장치점검</p>
+                                            </div>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                        <!-- N : inspection-title-area 부분 공통 작업으로 인한 태그 변경 필요-->
+                                        <div class="item-text-group chk-list-tit">
+                                            <div class="tit">점검 리스트</div>
+                                            <div>
+                                                <p class="item-text">OK</p>
+                                                <p class="item-text">N.OK</p>
+                                            </div>
+                                        </div>
+                                        <div class="agreement-area-wrap">
+                                            <ul id="listview01_02" class="list-group" data-role="listview"></ul>
+                                            <script id="tmp01_02" type="text/x-kendo-template">
+                                                <div class="item-area">
+                                                    <div class="item-left item-flex">
+                                                        <div class="item-left">
+                                                            # if (title) { #
+                                                            <p class="item-text tit">#: title #</p>
+                                                            # } #
+                                                            # if (txt) { #
+                                                            <p class="item-text">#: txt #</p>
+                                                            # } #
+                                                            # if (stxt) { #
+                                                            <p class="item-text stxt">#: stxt #</p>
+                                                            # } #
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-right">
+                                                        <ul class="form-checkbox-group">
+                                                            <li>
+                                                                <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                                                                <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                                                                <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-item">
+                                                        <div class="form-item-inner">
+                                                            <textarea class="form-textarea" placeholder="상세내역 및 권장사항(fix)"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </script>
+                                            <script>
+                                                var groupedData01_02 = [
+                                                    {
+                                                        title: "실내등", 
+                                                        txt: "(글로브박스, 1열/2열 천장등, 선바이져등, 도어등 포함)",
+                                                        stxt: "",
+                                                        carChkAtcCd: "01_001",
+                                                        carChkAtcDetlCd: "1",
+                                                        atcCieYn: "Y"
+
+                                                    },
+                                                    {
+                                                        title: "전조등", 
+                                                        txt: "(미등, 안개등, 코너링등, 하향등, 상향등, 주간 주행등 포함)",
+                                                        stxt: "",
+                                                        carChkAtcCd: "01_002",
+                                                        carChkAtcDetlCd: "2",
+                                                        atcCieYn: "N"
+
+                                                    },
+                                                    {
+                                                        title: "후미등", 
+                                                        txt: "(미등, 제동등, 안개등, 번호판등, 트렁크등 포함",
+                                                        stxt: "",
+                                                        carChkAtcCd: "01_003",
+                                                        carChkAtcDetlCd: "3",
+                                                        atcCieYn: "N"
+                                                    },
+                                                    {
+                                                        title: "방향 지시등", 
+                                                        txt: "(전방, 후방, 사이드 리피터, 비상등 포함)",
+                                                        stxt: "",
+                                                        carChkAtcCd: "01_004",
+                                                        carChkAtcDetlCd: "4",
+                                                        atcCieYn: "N"
+                                                    },
+                                                ];
+                                                $(document).ready(function () { 
+                                                    $("#listview01_02").kendoMobileListView({
+                                                        dataSource: kendo.data.DataSource.create({data: groupedData01_02}),
+                                                        template: kendo.template($("#tmp01_02").html()),
+                                                    });
+                                        
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title title-flex">
+                                            <div class="title-left">
+                                                <p class="title">와이퍼 점검</p>
+                                            </div>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                        <!-- N : inspection-title-area 부분 공통 작업으로 인한 태그 변경 필요-->
+                                        <div class="item-text-group chk-list-tit">
+                                            <div class="tit">점검 리스트</div>
+                                            <div>
+                                                <p class="item-text">OK</p>
+                                                <p class="item-text">N.OK</p>
+                                            </div>
+                                        </div>
+                                        <div class="agreement-area-wrap">
+                                            <ul id="listview01_03" class="list-group" data-role="listview"></ul>
+                                            <script id="tmp01_03" type="text/x-kendo-template">
+                                                <div class="item-area">
+                                                    <div class="item-left item-flex">
+                                                        <div class="item-left">
+                                                            # if (title) { #
+                                                            <p class="item-text tit">#: title #</p>
+                                                            # } #
+                                                            # if (txt) { #
+                                                            <p class="item-text">#: txt #</p>
+                                                            # } #
+                                                            # if (stxt) { #
+                                                            <p class="item-text stxt">#: stxt #</p>
+                                                            # } #
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-right">
+                                                        <ul class="form-checkbox-group">
+                                                            <li>
+                                                                <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                                                                <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                                                                <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-item">
+                                                        <div class="form-item-inner">
+                                                            <textarea class="form-textarea" placeholder="상세내역 및 권장사항(fix)"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </script>
+                                            <script>
+                                                var groupedData01_03 = [
+                                                    {
+                                                        title: "앞/뒤 와이퍼 기능", 
+                                                        txt: "(고무마모 및 손상, 워셔액 분사기능, 암 작동각도)",
+                                                        stxt: "",
+                                                        carChkAtcCd: "03_001",
+                                                        carChkAtcDetlCd: "1",
+                                                        atcCieYn: "Y"
+
+                                                    },
+                                                ];
+                                                $(document).ready(function () { 
+                                                    $("#listview01_03").kendoMobileListView({
+                                                        dataSource: kendo.data.DataSource.create({data: groupedData01_03}),
+                                                        template: kendo.template($("#tmp01_03").html()),
+                                                    });
+                                        
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="accordion-item">
+                                    <div class="accordion-header">
+                                        <div class="accordion-title title-flex">
+                                            <div class="title-left">
+                                                <p class="title">에어컨 점검</p>
+                                            </div>
+                                        </div>
+                                        <button class="accordion-btn">
+                                            <span class="sr-only">펼침</span>
+                                        </button>
+                                    </div>
+                                    <div class="accordion-panel">
+                                        <!-- N : inspection-title-area 부분 공통 작업으로 인한 태그 변경 필요-->
+                                        <div class="item-text-group chk-list-tit">
+                                            <div class="tit">점검 리스트</div>
+                                            <div>
+                                                <p class="item-text">OK</p>
+                                                <p class="item-text">N.OK</p>
+                                            </div>
+                                        </div>
+                                        <div class="agreement-area-wrap">
+                                            <ul id="listview01_04" class="list-group" data-role="listview"></ul>
+                                            <script id="tmp01_04" type="text/x-kendo-template">
+                                                <div class="item-area">
+                                                    <div class="item-left item-flex">
+                                                        <div class="item-left">
+                                                            # if (title) { #
+                                                            <p class="item-text tit">#: title #</p>
+                                                            # } #
+                                                            # if (txt) { #
+                                                            <p class="item-text">#: txt #</p>
+                                                            # } #
+                                                            # if (stxt) { #
+                                                            <p class="item-text stxt">#: stxt #</p>
+                                                            # } #
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-right">
+                                                        <ul class="form-checkbox-group">
+                                                            <li>
+                                                                <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y" value="Y" # if (atcCieYn === 'Y') { # checked="checked" # } #>
+                                                                <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_Y"></label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" class="form-radio" name="#= carChkAtcCd #_#= carChkAtcDetlCd #" id="#= carChkAtcCd #_#= carChkAtcDetlCd #_N" value="N" # if (atcCieYn === 'N') { # checked="checked" # } #>
+                                                                <label class="form-radio-label" for="#= carChkAtcCd #_#= carChkAtcDetlCd #_N"></label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-item">
+                                                        <div class="form-item-inner">
+                                                            <textarea class="form-textarea" placeholder="상세내역 및 권장사항(fix)"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </script>
+                                            <script>
+                                                var groupedData01_04 = [
+                                                    {
+                                                        title: "에어컨/히터 작동 상태, 혼 경적 작동", 
+                                                        txt: "",
+                                                        stxt: "",
+                                                        carChkAtcCd: "03_001",
+                                                        carChkAtcDetlCd: "1",
+                                                        atcCieYn: "Y"
+
+                                                    },
+                                                ];
+                                                $(document).ready(function () { 
+                                                    $("#listview01_04").kendoMobileListView({
+                                                        dataSource: kendo.data.DataSource.create({data: groupedData01_04}),
+                                                        template: kendo.template($("#tmp01_04").html()),
+                                                    });
+                                        
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                         <!--기타 특이사항-->
+                         <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">비고</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-item">
+                                    <textarea class="form-textarea" rows="4" placeholder="텍스트를 입력해주세요."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!--점검자 성명 및 서명-->
+                        <div class="info-sec">
+                            <div class="title-area">
+                                <div class="title-left">
+                                    <p class="title">점검자 서명</p>
+                                </div>
+                            </div>
+                            <div class="agreement-area-wrap">
+                                <div class="agreement-area">
+                                    <div class="agreement-body">
+                                        <div class="customer-sign">
+                                            <a href="javascript:;" class="sign-area">
+                                                <!-- 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <!-- <div class="sign-img-con"></div> -->
+                                                <!-- // 이미지 없을 때 '서명하기' 디폴트 문구 출력 -->
+                                                <div class="sign-img-con">
+                                                    <img src="../../../images/temp/@signature_img.png" alt="">
+                                                </div>
+                                                <div class="sign-info-group">
+                                                    <p class="sign-info-date">2021년 12월 20일</p>
+                                                    <p class="sign-info-name">
+                                                        <span class="sign-title">이름</span>
+                                                        <span class="sign-name">홍길동</span>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--하단버튼 영역-->
+            <div class="modal-footer">
+    
+            </div>
+        </div>
+        <script>
+            // 아코디언
+            var acc1 = document.querySelector("#accordion1");
+
+            accordionEvent(acc1);
+
+        </script>
+</body>
+</html>

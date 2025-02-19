@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wdms.dms.ser.rcpt.service.dao.RcptDAO">
+    
+    <select id="selectRcptDetlInfo" parameterType="map" resultType="rcptDetlVO">
+        /* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.selectRcptDetlInfo] */
+        SELECT A.DLR_CD	                                        --딜러코드
+             , A.BIZ_AREA_CD	                                --사업소코드
+             , A.BRCH_CD	                                    --대리점코드
+             , A.RCPT_NO	                                    --수납번호
+             , A.LINE_NO	                                    --라인번호
+             , A.RCPT_DSTIN	                                    --수납구분(SERxxx)
+             , A.RCPT_DETL_STAT_CD                              --수납상태코드
+             , A.RCPT_DT	                                    --수납일자
+             , A.RCPT_PMNT_TP	                                --수납지불유형(SER033)
+             , A.RCPT_AMT	                                    --수납금액
+             , A.DC_AMAT	                                    --에누리
+             , A.CASH_RCPT_NO	                                --현금영수증번호
+             , A.ON_LINE_PMNT_YN	                            --온라인결재여부
+             , A.CARD_BP_CD	                                    --카드거래처코드
+             , A.CARD_APRV_NO	                                --카드승인번호
+             , A.CMS_CD	                                        --CMS코드
+             , A.REMARK	                                        --비고
+             , A.CUST_NO	                                    --고객번호
+             , B.CUST_NM                                        --고객명
+             , B.HP_NO                                          --핸드폰번호
+             , A.BP_CD	                                        --거래처코드
+             , A.REFD_YN	                                    --환불여부
+             , A.REFD_DT	                                    --환불일자
+             , A.ON_LINE_PMNT_URL	                            --온라인결제URL
+             , A.REG_USR_ID
+          FROM SER_RCPT_DETL A
+          LEFT JOIN CRM_CUST B
+            ON A.DLR_CD = B.DLR_CD
+           AND A.CUST_NO = B.CUST_NO
+         WHERE ON_LINE_PMNT_URL = #{quid}
+         AND A.RCPT_DSTIN = '01'
+    </select>
+
+    <insert id="insertRcptAprvRslt" parameterType="rcptAprvRsltVO">
+        /* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.insertRcptAprvRslt] */
+		<selectKey resultType="String" keyProperty="aprvRsltSeq" order="BEFORE">
+		/* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.insertRcptAprvRslt] */
+            SELECT NVL(MAX(APRV_RSLT_SEQ), 0) + 1
+              FROM SER_KCP_APRV_RSLT
+		</selectKey>       
+
+        INSERT INTO SER_KCP_APRV_RSLT(
+             APRV_RSLT_SEQ	      --승인결과순번
+            ,RES_CD	              --결과코드
+            ,RES_MSG	          --결과메세지
+            ,RES_EN_MSG	          --결과메세지(영문)
+            ,TNO	              --거래고유번호
+            ,AMOUNT	              --금액
+            ,CARD_CD	          --카드사코드(COM293)
+            ,CARD_NAME	          --카드사명
+            ,CARD_NO	          --카드번호
+            ,APP_NO	              --승인번호
+            ,APP_TIME	          --승인시간
+            ,NOINF	              --무이자여부
+            ,NOINF_TYPE	          --새 컬럼
+            ,QUOTA	              --할부기간
+            ,CARD_MNY	          --신용카드결제금액
+            ,COUPON_MNY	          --쿠폰사용금액(포인트)
+            ,PARTCANC_YN	      --부분취소가능여부
+            ,CARD_BIN_TYPE_01	  --카드구분정보(0:개인,1:법인)
+            ,CARD_BIN_TYPE_02	  --카드구분정보2(0:일반,1:체크)
+            ,ISP_ISSUER_CD	      --ISP카드사코드
+            ,ISP_ISSUER_NM	      --ISP카드사명
+            ,PAYCO_POINT_MNY	  --페이코포인트사용금액
+            ,PROC_STAT	          --진행상태
+            ,DLR_CD	              --딜러코드
+            ,BIZ_AREA_CD	      --사업소코드
+            ,BRCH_CD	          --대리점코드
+            ,RCPT_PAYM_ID
+            ,RCPT_NO	          --수납번호
+            ,LINE_NO	          --라인번호
+            ,REG_DT	              --등록일자
+            ,REG_USR_ID           --등록자ID
+            ,UPDT_DT	          --수정일자
+            ,UPDT_USR_ID          --수정자ID
+        )VALUES(
+             #{aprvRsltSeq}	      
+            ,#{resCd}	          
+            ,#{resMsg}
+            ,#{resEnMsg}	      
+            ,#{tno}	              
+            ,#{amount}	          
+            ,#{cardCd}	          
+            ,#{cardName}	      
+            ,#{cardNo}	          
+            ,#{appNo}	          
+            ,#{appTime}	          
+            ,#{noinf}	          
+            ,#{noinfType}	      
+            ,#{quota}	          
+            ,#{cardMny}	          
+            ,#{couponMny}	      
+            ,#{partcancYn}	      
+            ,#{cardBinType01}	  
+            ,#{cardBinType02}	  
+            ,#{ispIssuerCd}	      
+            ,#{ispIssuerNm}	      
+            ,#{paycoPointMny}	  
+            ,#{procStat}	      
+            ,#{dlrCd}	          
+            ,#{bizAreaCd}	      
+            ,#{brchCd}	          
+            ,#{rcptPaymId}	          
+            ,#{rcptNo}	          
+            ,#{lineNo}	          
+            ,SYSDATE
+            ,#{regUsrId}
+            ,SYSDATE
+            ,#{updtUsrId}
+        )        
+    </insert>
+    
+    <insert id="insertRcptAprvCnclRslt" parameterType="rcptAprvCnclRsltVO">
+        /* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.insertRcptAprvCnclRslt] */
+		<selectKey resultType="String" keyProperty="cnclRsltSeq" order="BEFORE">
+		/* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.insertRcptAprvCnclRslt] */
+            SELECT NVL(MAX(CNCL_RSLT_SEQ), 0) + 1
+              FROM SER_KCP_CNCL_RSLT
+		</selectKey>       
+		
+        INSERT INTO SER_KCP_CNCL_RSLT(
+             CNCL_RSLT_SEQ	      --취소결과순번
+            ,RES_CD	              --결과코드
+            ,RES_MSG	          --결과메세지
+            ,TNO	              --거래고유번호
+            ,CANC_TIME	          --취소시각
+            ,MOD_MNY	          --부분취소금액
+            ,REM_MNY	          --남은원거래금액
+            ,MOD_PACN_SEQ_NO	  --취소시각2
+            ,CANC_MOD_MNY	      --카드취소금액
+            ,COUPON_MOD_MNY	      --쿠폰취소금액
+            ,DLR_CD	              --딜러코드
+            ,BIZ_AREA_CD	      --사업소코드
+            ,BRCH_CD	          --대리점코드
+            ,RCPT_PAYM_ID	      
+            ,RCPT_NO	          --수납번호
+            ,LINE_NO	          --라인번호
+            ,REG_DT	              --등록일자
+            ,UPDT_DT	          --수정일자
+        )VALUES(
+             #{cnclRsltSeq}	      
+            ,#{resCd}	          
+            ,#{resMsg}	          
+            ,#{tno}	              
+            ,#{cancTime}	      
+            ,#{modMny}	          
+            ,#{remMny}	          
+            ,#{modPacnSeqNo}	  
+            ,#{cancModMny}	      
+            ,#{couponModMny}	  
+            ,#{dlrCd}	          
+            ,#{bizAreaCd}	      
+            ,#{brchCd}	          
+            ,#{rcptPaymId}	          
+            ,#{rcptNo}	          
+            ,#{lineNo}	          
+            ,SYSDATE
+            ,SYSDATE
+        )   
+    </insert>
+    
+    <update id="updateRcptDetlInfo" parameterType="rcptDetlVO">
+        /* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.updateRcptDetlInfo] */
+		UPDATE SER_RCPT_DETL SET
+		     ON_LINE_PMNT_YN = #{onLinePmntYn}
+		WHERE ON_LINE_PMNT_URL = #{onLinePmntUrl} 
+    </update>
+    
+    <select id="selectChkValidRcptAmt" parameterType="map" resultType="int">
+        /* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.selectChkValidRcptAmt] */
+        SELECT COUNT(1)
+          FROM SER_RCPT_DETL
+         WHERE ON_LINE_PMNT_URL = #{quid}
+           AND RCPT_AMT = #{rcptAmt}
+    </select>
+    
+    <select id="selectRcptAprvTnoByQuid" parameterType="map" resultType="string">
+        /* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.selectRcptAprvTnoByQuid] */
+        SELECT TNO
+          FROM SER_KCP_APRV_RSLT
+         WHERE RCPT_PAYM_ID = #{quid}
+    </select>
+    
+    <select id="selectChkValidApprStat" parameterType="string" resultType="int">
+        /* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.selectChkValidApprStat] */
+        SELECT COUNT(1)
+          FROM SER_KCP_APRV_RSLT
+         WHERE RCPT_PAYM_ID = #{rcptPaymId}
+    </select>
+    
+    <select id="selectChkValidApprCnclStat" parameterType="string" resultType="int">
+        /* [com.wdms.dms.ser.rcpt.service.dao.RcptDAO.selectChkValidApprCnclStat] */
+        SELECT COUNT(1)
+          FROM SER_KCP_CNCL_RSLT
+         WHERE RCPT_PAYM_ID = #{rcptPaymId}
+    </select>     
+    
+</mapper>

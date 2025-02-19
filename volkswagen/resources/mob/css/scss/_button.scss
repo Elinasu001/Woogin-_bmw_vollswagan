@@ -1,0 +1,317 @@
+/* button */
+.btn {
+    padding: 0;
+    margin: 0;
+
+    &-primary {
+        color: $white;
+        background-color : $btn-primary;
+        box-sizing: border-box;
+        &:disabled, &.km-state-disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        &:active {
+            background-color: $black;
+        }
+    }
+    &-secondary {
+        color: $btn-secondary;
+        background-color: $white;
+        border: 0.1rem solid $btn-secondary;
+        box-sizing: border-box;
+        &:disabled, &.km-state-disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        &:active {
+            color: $black;
+            border-color: $black;
+        }
+    }
+    &-sm {
+        height: 4rem;
+        padding: 0 1.75rem;
+        border-radius: .3rem;
+        font-weight: $font-bold;
+        font-size: 1.4rem;
+        .km-text {
+            font-family:'BMWTypeNext','Noto Sans Korean', sans-serif;
+            font-weight: $font-bold;
+            font-size: 1.4rem;
+        }
+    }
+    &-sub {
+        height: 3.2rem;
+        padding: 0 0.8rem;
+        border-radius: 0.3rem;
+        border: solid 0.1rem rgba(33, 39, 65, 0.2);
+        background-color: $white;
+        color: $primary2;
+        font-size: 1.4rem;
+        &:disabled, &.km-state-disabled {
+            opacity: 0.3;
+            color: $black;
+            border: solid 0.1rem rgba(33, 39, 65, 0.6);
+            cursor: default;
+        }
+        &:active {
+            color: $black;
+            border: solid 0.1rem rgba(33, 39, 65, 0.6);
+        }
+        .km-text {
+            font-family:'BMWTypeNext','Noto Sans Korean', sans-serif;
+            font-size: 1.4rem;
+        }
+        &.text-star {
+            width: 3.2rem;
+            .km-text {
+                display: block;
+                margin-top: 0.6rem;
+                font-size: 1.8rem;
+            }
+        }
+
+        &.small {
+            height: 2.4rem;
+            font-size: 1.2rem;
+            color: $text-gray1;
+            .km-text {
+                font-size: 1.2rem;
+            }
+        }
+    }
+    &-icon {
+        height: 3.2rem;
+        width: 3.2rem;
+        border-radius: 0.3rem;
+        border: solid 0.1rem rgba(33, 39, 65, 0.2);
+        background-color: $white;
+        color: $primary2;
+        font-size: 1.4rem;
+        &:disabled, &.km-state-disabled {
+            opacity: 0.3;
+            color: $black;
+            border: solid 0.1rem rgba(33, 39, 65, 0.6);
+            cursor: default;
+        }
+        &:active {
+            color: $black;
+            border: solid 0.1rem rgba(33, 39, 65, 0.6);
+        }
+        &.icon{
+            // icon 이미지 
+            &-excel {
+                background: url('#{$img-path}/common/icon/icon_16_excel.png') no-repeat center / 1.6rem auto;  
+            }
+            &-excel2 {
+                background: url('#{$img-path}/common/icon/icon_16_excel2.png') no-repeat center / 1.6rem auto;  
+            }
+            &-sms {
+                background: url('#{$img-path}/common/icon/icon_16_sms.png') no-repeat center / 1.6rem auto;  
+            }
+            &-email {
+                background: url('#{$img-path}/common/icon/icon_16_email.png') no-repeat center / 1.6rem auto;  
+            }
+            &-modify {
+                background: url('#{$img-path}/common/icon/icon_16_modify.png') no-repeat center / 1.6rem auto;  
+            }
+            &-regist {
+                background: url('#{$img-path}/common/icon/icon_16_regist.png') no-repeat center / 1.6rem auto;  
+            }
+            &-detail {
+                background: url('#{$img-path}/common/icon/icon_16_detail.png') no-repeat center / 1.6rem auto;  
+            }
+            &-add {
+                background: url('#{$img-path}/common/icon/icon_16_add.png') no-repeat center / 1.6rem auto;  
+            }
+            &-search {
+                background: url('#{$img-path}/common/icon/icon_16_search.png') no-repeat center / 1.6rem auto;  
+            }
+            &-assign {
+                background: url('#{$img-path}/common/icon/icon_16_assign.png') no-repeat center / 1.6rem auto;  
+            }
+            &-contract {
+                background: url('#{$img-path}/common/icon/icon_16_contract.png') no-repeat center / 1.6rem auto;  
+            }
+            &-car {
+                background: url('#{$img-path}/common/icon/icon_16_car.png') no-repeat center / 1.6rem auto;  
+            }
+            &-car-regist {
+                background: url('#{$img-path}/common/icon/icon_16_car_regist.png') no-repeat center / 1.6rem auto;  
+            }
+            &-bill {
+                background: url('#{$img-path}/common/icon/icon_16_bill.png') no-repeat center / 1.6rem auto;  
+            }
+            &-save {
+                background: url('#{$img-path}/common/icon/icon_16_save.png') no-repeat center / 1.6rem auto;  
+            }
+            &-del {
+                background: url('#{$img-path}/common/icon/icon_16_del.png') no-repeat center / 1.6rem auto;  
+            }
+            &-download {
+                background: url('#{$img-path}/common/icon/icon_16_download.png') no-repeat center / 1.6rem auto;  
+            }
+            &-upload {
+                background: url('#{$img-path}/common/icon/icon_16_upload.png') no-repeat center / 1.6rem auto;  
+            }
+            &-calendar {
+                background: url('#{$img-path}/common/icon/icon_16_calendar.png') no-repeat center / 1.6rem auto;  
+            }
+            &-more {
+                background: url('#{$img-path}/common/icon/icon_16_more.png') no-repeat center / 1.2rem auto;  
+            }
+
+            &:only-child {
+                margin: 0 -0.3rem;
+            }
+            +.btn-icon-text {
+                padding-left: 0.4rem;
+            }
+        }
+    }
+
+    // header button
+    &-util {
+        width: 2.4rem;
+        height: 2.4rem;
+        &.back {
+            background: url('#{$img-path}/common/icon/icon_24_back.png') no-repeat center / 2.4rem auto;
+            &.white {
+                background: url('#{$img-path}/common/icon/icon_24_back_white.png') no-repeat center / 2.4rem auto;  
+            }
+        }
+        &.close {
+            background: url('#{$img-path}/common/icon/icon_24_close.png') no-repeat center / 2.4rem auto;  
+            &.white {
+                background: url('#{$img-path}/common/icon/icon_24_close_white.png') no-repeat center / 2.4rem auto;  
+            }
+        }
+        &.search {
+            background: url('#{$img-path}/common/icon/icon_24_search.png') no-repeat center / 2.4rem auto;  
+        }
+        &.home {
+            background: url('#{$img-path}/common/icon/icon_24_home.png') no-repeat center / 2.4rem auto;  
+            &.white {
+                background: url('#{$img-path}/common/icon/icon_24_home_white.png') no-repeat center / 2.4rem auto;  
+            }
+        }
+        &.menu {
+            background: url('#{$img-path}/common/icon/icon_24_menu.png') no-repeat center / 2.4rem auto;  
+        }
+        &.set {
+            background: url('#{$img-path}/common/icon/icon_24_set.png') no-repeat center / 2.4rem auto;  
+            &.white {
+                background: url('#{$img-path}/common/icon/icon_24_set_white.png') no-repeat center / 2.4rem auto;  
+            }
+        }
+
+        &.photo {
+            background: url('#{$img-path}/common/icon/icon_24_photo.png') no-repeat center / 2.4rem auto;
+        }
+
+    }
+    // &-line {
+    //     color: #fff;
+    //     border: 1px solid #fff;
+    //     background-color: transparent;
+    //     &:disabled {
+    //         opacity: 0.3;
+    //     }
+    // }
+    // &-link {
+    //     font-size: 1.5rem;
+    //     text-decoration: underline;
+    // }
+    // &-txt {
+    //     position: absolute;
+    //     right: 1.6rem;
+    //     top: 50%;
+    //     transform: translateY(-50%);
+    //     color: $primary1;
+    // }
+    // &-ico-arr {
+    //     display: inline-flex;
+    //     padding-right: 2.4rem;
+    //     font-weight: 350;
+    //     background-image: url(#{$img-path}/common/arr_bk.png);
+    //     background-repeat: no-repeat;
+    //     background-position: right 0 top 50%;
+    //     background-size: 2.4rem auto;
+    //     +.btn-ico-arr {
+    //         margin-left: 1.6rem;
+    //     }
+    //     &.white {
+    //         color: $text-white;
+    //         background-image: url(#{$img-path}/common/arr_wh.png);
+    //     }
+    // }
+    // &-ico-filter {
+    //     width: 10rem;
+    //     height: 4.4rem;
+    //     border-radius: 3.3rem;
+    //     background-color: #fff;
+    //     box-shadow: 0 .6rem 1.2rem rgba(0,0,0,.11);
+    //     span {
+    //         padding-right: 2.8rem;
+    //         background: url('#{$img-path}/common/btn_filter.png') no-repeat right 0 top 50% / 2.8rem auto;
+    //     }
+    // }
+    // &-ico-sch {
+    //     position: absolute;
+    //     right: 1.6rem;
+    //     top: 50%;
+    //     transform: translateY(-50%);
+    // }
+    // &-arr {
+    //     display: inline-block;
+    //     width: 2.4rem;
+    //     height: 2.4rem;
+    //     border-radius: 0;
+    //     background: url('#{$img-path}/common/arr_bk.png') no-repeat right 0 top 50% / 2.4rem auto;
+    //     span {
+    //         @extend .sr-only;
+    //     }
+    // }
+}
+// .btn-area {
+//     display: flex;
+//     justify-content: center;
+//     flex: 1 0 100%;
+//     +.footer-btn {
+//         margin-top: 2.2rem;
+//     }
+//     &-more {
+//         @extend .btn-area;
+//         max-height: 2.4rem;
+//         margin-bottom: 10.2rem;
+//     }
+// }
+.footer-btn {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 1.6rem;
+    .btn-primary, .btn-secondary, .btn-line {
+        height: 5.2rem;
+        font-weight: $font-bold;
+        font-size: 1.6rem;
+        border-radius: .3rem;
+    }
+    .btn-primary {
+        flex: 1;
+    }
+    .btn-secondary {
+        width: 37.805%;
+        + .btn-primary {
+            margin-left: .8rem;
+        }
+    } 
+    &.half {
+        .btn-primary, .btn-secondary {
+            width: calc(50% - 0.4rem);
+            +.btn-primary, +.btn-secondary {
+                margin-left: .8rem;
+            }
+        }
+    }
+}

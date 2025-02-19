@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>My DMS DEVELOP</title>
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/kendo/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/kendo/kendo.rtl.min.css">
+    <link rel="stylesheet" type="text/css" href="https://bmwdmsd.co.kr/resources/css/jquery.mCustomScrollbar.min.css">
+    <link href="../resources/css/style.css" rel="stylesheet">
+
+    <!-- 마우스 우클릭 방지 -->
+    <script type="text/javascript">document.oncontextmenu = function () { return false; }</script>
+
+
+    <script type="text/javascript">var _contextPath = "";</script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/jquery-3.7.1.js"></script>
+    <script type="text/javascript"
+        src="https://bmwdmsd.co.kr/resources/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/pub-ui.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/kendo/kendo.all.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/jquery.alphanum.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/dms.common-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/cmm/sci/js/selectCultureSettings.do"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/kendo.ui.ext-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/jquery.ext-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/stomp/stomp.min.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/dms/dms.nms.client-1.0.js"></script>
+    <script type="text/javascript" src="https://bmwdmsd.co.kr/resources/js/sockjs/sockjs-1.1.1.min.js"></script>
+</head>
+
+<body>
+    <script>
+        $(document).ready(function () {
+            popupWindowComponent = dms.window.popup({
+                windowId: "popupWindowComponent",
+                title: "eVHC 목록",
+                content: {
+                    url: "./eVHC_popup01_con.html"
+                },
+                // width 옵션 추가
+                width: "1300px", // pc 1050px, tablet 960px
+                height: "500px",
+                open: function (e) {
+                    if (e.sender.options.iframe) {
+                        var iframeLoader = $("<div/>");
+                        iframeLoader.css({
+                            position: "absolute"
+                            , top: 0
+                            , left: 0
+                            , width: e.sender.options.width
+                            , height: e.sender.options.height
+                        });
+                        var iframe = $("iframe", e.sender.element);
+                        //iframe.hide();
+                        iframe.on("load", function () {
+                            iframeLoader.remove();
+                            //iframe.show();
+                        });
+                        iframeLoader.appendTo(e.sender.element);
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

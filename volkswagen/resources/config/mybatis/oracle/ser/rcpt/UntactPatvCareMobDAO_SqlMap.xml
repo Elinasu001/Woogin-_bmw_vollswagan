@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wdms.dms.mob.untact.ser.patvCare.service.dao.UntactPatvCareMobDAO">
+
+	<!-- 사전에방동의관리 단건을 조회한다. -->
+	<select id="selectPatvCareMngByKey" parameterType="UntactPatvCareMngMobSearchVO" resultType="UntactPatvCareMngMobVO">
+	/* [com.wdms.dms.ser.rcpt.service.dao.UntactPatvCareMobDAO.selectPatvCareMngByKey] */
+		SELECT
+			   T1.DLR_CD			      		                            /* 딜러코드 */
+			  ,FN_GET_DLR_NM(T1.DLR_CD) AS DLR_NM                           /* 딜러명 */
+              ,T1.AGRE_SN			                                        /* 동의순번 */
+              ,T1.CUST_NO			                                        /* 고객번호 */
+              ,T2.CUST_TP						                            /* 고객구분 */
+              ,FN_CMM_CD('CRM038', T2.CUST_TP, 'N') AS CUST_TP_NM		    /* 고객구분명 */
+              ,T2.CUST_NM						                            /* 고객명 */
+              ,T2.CUST_NM AS ENCRYPT_CUST_NM	                            /* 암호화된 고객명 */
+              ,T1.HP_NO				                                        /* 휴대폰번호 */
+              ,T1.HP_NO AS ENCRYPT_HP_NO		                            /* 암호화된 휴대폰번호 */
+              ,T1.VIN_NO			                                        /* 차대번호 */
+              ,T3.CAR_REG_NO					                            /* 차량번호 */
+              ,T1.AGRE_DSTIN		                                        /* 동의구분 (SER124) */
+              ,FN_CMM_CD('SER124', T1.AGRE_DSTIN, 'N') AS AGRE_DSTIN_NM 	/* 동의구분명 */
+              ,T1.AGRE_REG_DT		                                        /* 동의등록일자 */
+              ,T1.REQ_STAT_CD		                                        /* 요청상태코드 (SER125) */
+              ,FN_CMM_CD('SER125', T1.REQ_STAT_CD, 'N') AS REQ_STAT_CD_NM   /* 요청상태코드명 */
+              ,T1.REQ_USR_ID		                                        /* 요청자ID */
+              ,T1.REQ_DT			                                        /* 요청일자 */
+              ,T1.CUST_CNFM_DT		                                        /* 고객확인일자 */
+              ,T1.CUST_AGRE_DT		                                        /* 고객동의일자 */
+              ,T1.CUST_SIGN			                                        /* 고객서명 */
+              ,T1.BIZ_AREA_CD		                                        /* 사업소코드 */
+              ,T1.BRCH_CD			                                        /* 대리점코드 */
+              ,T1.RESV_NO			                                        /* 예약번호 */
+              ,T1.DEL_YN			                                        /* 삭제여부 */
+              ,T1.REG_USR_ID		                                        /* 등록자ID */
+              ,T1.REG_DT			                                        /* 등록일자 */
+              ,T1.UPDT_USR_ID		                                        /* 수정자ID */
+              ,T1.UPDT_DT			      		                            /* 수정일자 */
+		  FROM SER_PATV_CARE_AGRE_MNG T1
+   		  LEFT JOIN CRM_CUST T2
+		    ON T1.DLR_CD = T2.DLR_CD
+		   AND T1.CUST_NO = T2.CUST_NO
+		  LEFT JOIN SAL_VIN T3
+		    ON T1.VIN_NO = T3.VIN_NO
+		 WHERE 1=1
+		   AND T1.DEL_YN = 'N'
+		   AND T1.DLR_CD = #{sDlrCd}
+		   AND T1.AGRE_SN = #{sAgreSn}
+	</select>
+	
+	<!-- 고객확인일자를 수정한다. (동의서 링크 첫 방문 시) -->
+	<update id="updatePatvCareMngCntfmDt" parameterType="UntactPatvCareMngMobVO">
+	/* [com.wdms.dms.ser.rcpt.service.dao.UntactPatvCareMobDAO.updatePatvCareMngCntfmDt] */
+		UPDATE SER_PATV_CARE_AGRE_MNG
+		   SET 
+		         REQ_STAT_CD    = #{reqStatCd}
+		   	   , CUST_CNFM_DT	= #{custCnfmDt}
+		   	   , UPDT_USR_ID	= #{updtUsrId}
+		   	   , UPDT_DT 		= SYSDATE
+		 WHERE 1=1
+		   AND DLR_CD = #{dlrCd}
+		   AND AGRE_SN = #{agreSn}
+	</update>
+	
+	<!-- 고객 서명정보를 저장한다. -->
+	<update id="updateSignInfoPatvCareAgre" parameterType="UntactPatvCareMngMobVO">
+	/* [com.wdms.dms.ser.rcpt.service.dao.UntactPatvCareMobDAO.updateSignInfoPatvCareAgre] */
+		UPDATE SER_PATV_CARE_AGRE_MNG
+		   SET 
+		         REQ_STAT_CD    = #{reqStatCd}
+		   	   , CUST_SIGN      = #{custSign}	
+		   	   , CUST_AGRE_DT	= #{custAgreDt}
+		   	   , UPDT_USR_ID	= #{updtUsrId}
+		   	   , UPDT_DT 		= SYSDATE
+		 WHERE 1=1
+		   AND DLR_CD = #{dlrCd}
+		   AND AGRE_SN = #{agreSn}
+	</update>
+
+</mapper>

@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+        <link rel="stylesheet" href="../../../css/libs/kendo.common.min.css">
+        <link rel="stylesheet" href="../../../css/libs/kendo.mobile.all.min.css">
+        <link rel="stylesheet" href="../../../css/libs/jquery-ui.min.css">
+        <link href="../../../css/style.css" rel="stylesheet">
+    
+        <script type="text/javascript" src="../../../scripts/libs/jquery-2.1.4.min.js"></script>
+        <script src="../../../scripts/libs/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../../../scripts/libs/kendo/mobile/kendo.all.min.js"></script>
+        <script type="text/javascript" src="../../../scripts/pub-ui.js"></script>
+        <title>알림 | 전체메뉴</title>
+    </head>
+<body>
+     <!-- modal -->
+    <div class="modal show">
+        <div class="modal-content bg">
+            <!-- modal-header -->
+            <div class="modal-header">
+                <h1 class="header-title">알림</h1>
+                <div class="header-right">
+                    <button class="btn btn-util close btn-close-modal">
+                        <span class="sr-only">닫기</span>
+                    </button>
+                </div>
+            </div>
+            <!-- modal-header// -->
+            <!-- modal-body -->
+            <div class="modal-body">
+                <div class="card-list">
+                    <div class="list-header">
+                        <div class="list-header-left">
+                            <p class="total-count-area">총 <span class="num">16</span>건</p>
+                        </div>
+                    </div>
+                    <ul id="listview" class="list-group no-point-line" data-role="listview"></ul>
+                </div>
+            </div>
+            <!-- modal-body// -->
+        </div>
+    </div>
+    <!-- modal// -->
+
+    <script id="tmp" type="text/x-kendo-template">
+        <div class="item-area vertical">
+            <div class="item-area-con">
+                <div class="item-text-group small">
+                    <p class="item-text">#: category.depth1 #</p>
+                    <!-- <p class="item-text">#: category.depth2 #</p> -->
+                </div>
+            </div>
+            <div class="item-area-con">
+                <div class="item-noti-text type2">
+                    <span class="icon-noti" style="display: #: title.icon #"><span class="sr-only">공지</span></span>
+                    <span class="item-text">#: title.text #</span>
+                </div>
+            </div>
+            <div class="item-area-con item-flex flex-end">
+                <div class="item-right item-flex">
+                    <p class="item-sub-text">2021</p>
+                    <p class="item-text">06.28</p>
+                </div>
+            </div>
+        </div>
+        <!-- nodata 일 때 -->
+        <!-- <div class="item-area">
+            <p class="nodata">조회된 데이터가 없습니다.</p>
+        </div> -->
+        <!-- nodata 일 때 -->
+    </script>
+    
+    <script>
+        var groupedData = [
+            {
+                category: { depth1: "분류", depth2: "분류2"},
+                title: {icon: "block", text: "[공지] 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다."},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "none", text: "알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다."},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "block", text: "[공지] 2022년 해피콜 신규 매뉴얼 업데이트"},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "none", text: "알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. 알림 내용이 모두 출력됩니다. "},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "block", text: "[공지] 2022년 해피콜 신규 매뉴얼 업데이트"},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "none", text: "2022년 해피콜 신규 매뉴얼 업데이트"},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "block", text: "[공지] 2022년 해피콜 신규 매뉴얼 업데이트"},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "none", text: "2022년 해피콜 신규 매뉴얼 업데이트"},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "block", text: "[공지] 2022년 해피콜 신규 매뉴얼 업데이트"},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "none", text: "2022년 해피콜 신규 매뉴얼 업데이트"},
+            },
+            {
+                category: { depth1: "CS메뉴얼", depth2: "해피콜"},
+                title: {icon: "block", text: "[공지] 2022년 해피콜 신규 매뉴얼 업데이트"},
+            },
+        ];
+        $(document).ready(function () { 
+            // listview
+            $("#listview").kendoMobileListView({
+                dataSource: kendo.data.DataSource.create({data: groupedData}),
+                template: kendo.template($("#tmp").html()),
+            });
+
+            // filter
+            if($(".icon-more-group")) {
+                $(".icon-more-group").click(function(){
+                    var $sub = $(this).find(".icon-more-sub");
+                    $sub.addClass("active"); 
+                });
+                $(document).click(function(e) {
+                    var container = $(".icon-more-group");
+                    if (!container.is(e.target) &&            // 클릭의 타겟이 원하는 div 또는 섹션이 아닌 경우
+                        container.has(e.target).length === 0) // ... 컨테이너의 자손도 아님
+                    {
+                        container.find(".icon-more-sub").removeClass("active");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
